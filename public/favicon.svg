@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Cube Chill">
+  <rect width="64" height="64" rx="14" fill="hsl(35, 25%, 96%)"/>
+  <g stroke="hsl(25, 20%, 15%)" stroke-width="2.4" stroke-linejoin="round">
+    <!-- Isometrischer Mini-Würfel: top, left, right -->
+    <path d="M32 12 L52 23 L32 34 L12 23 Z" fill="hsl(38, 65%, 52%)"/>
+    <path d="M12 23 L32 34 L32 54 L12 43 Z" fill="hsl(12, 60%, 52%)"/>
+    <path d="M52 23 L32 34 L32 54 L52 43 Z" fill="hsl(205, 45%, 45%)"/>
+  </g>
+</svg>
