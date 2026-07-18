@@ -1,5 +1,9 @@
-// Zentrale Definition der drei Lernpfade. Eine Quelle der Wahrheit für
-// Startseite, Übersicht und Router.
+// Zentrale Definition der Lernpfade. Eine Quelle der Wahrheit für
+// Startseite, Übersicht und Router. Die Reihenfolge hier bestimmt die
+// Reihenfolge der Karten auf der Startseite.
+//
+// Gruppierung: zuerst die zwei Einstiegspfade (3x3-Beginner und 2x2),
+// darunter die zwei weiterführenden Pfade, die den Beginner voraussetzen.
 
 export const PATHS = [
   {
@@ -13,14 +17,24 @@ export const PATHS = [
     ready: true,
   },
   {
+    id: '2x2',
+    route: '#/2x2',
+    accent: '2x2',
+    name: '2x2',
+    tagline: 'Acht Ecken, kein Drama.',
+    blurb: 'Die entspannte Tour: keine Kanten, keine Mittelebene. Drei Schritte, zwei kleine Zugfolgen – und ganz nebenbei das Fundament fürs große Geschwister.',
+    lessonCount: 4,
+    ready: true,
+  },
+  {
     id: 'cfop-light',
     route: '#/cfop-light',
     accent: 'cfop',
     name: 'CFOP light',
     tagline: 'Dieselbe Idee, ein paar Umwege weniger.',
-    blurb: 'Intuitives F2L statt getrennter Ebenen. Die Methode der meisten Speedcuber – radikal für Gelegenheits-Cuber entschlackt.',
-    lessonCount: null,
-    ready: false,
+    blurb: 'Intuitives F2L statt getrennter Ebenen – aus deiner Recycling-Tonne gebaut, mit genau einem neuen Algorithmus. Setzt den Beginner-Pfad voraus.',
+    lessonCount: 5,
+    ready: true,
   },
   {
     id: 'roux',
@@ -28,9 +42,9 @@ export const PATHS = [
     accent: 'roux',
     name: 'Roux',
     tagline: 'Der Weg der Ruhe: zwei Blöcke, dann der Rest.',
-    blurb: 'Wenig auswendig lernen, viel verstehen. Fühlt sich anders an – und genau das ist das Schöne.',
-    lessonCount: null,
-    ready: false,
+    blurb: 'Quer gelöst statt Ebene für Ebene. Wenig auswendig lernen, viel verstehen. Setzt den Beginner-Pfad voraus.',
+    lessonCount: 5,
+    ready: true,
   },
 ];
 

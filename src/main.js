@@ -1,6 +1,7 @@
 import './styles.css';
 import { initRouter, navigate } from './router.js';
-import { loadBeginnerLessons } from './content-loader.js';
+import { loadLessons } from './content-loader.js';
+import { getPath } from './paths.js';
 import { renderHome } from './views/home.js';
 import { renderPathOverview } from './views/path-overview.js';
 import { renderLesson } from './views/lesson.js';
@@ -9,11 +10,10 @@ import { renderComingSoon } from './views/coming-soon.js';
 const app = document.getElementById('app');
 
 // Routen-Tabelle (hash-basiert):
-//   #/                       -> Startseite
-//   #/beginner               -> Beginner-Übersicht
-//   #/beginner/1 .. /8       -> einzelne Lektion
-//   #/cfop-light, #/roux     -> "Bald verfügbar"
-//   alles andere             -> sanft zurück zu #/
+//   #/                        -> Startseite
+//   #/<pfad>                  -> Pfad-Übersicht (bei ready:false "Bald verfügbar")
+//   #/<pfad>/1 .. /N          -> einzelne Lektion
+//   alles andere              -> sanft zurück zu #/
 async function route(segments) {
   try {
     if (segments.length === 0) {
@@ -22,30 +22,33 @@ async function route(segments) {
     }
 
     const [head, second] = segments;
+    const path = getPath(head);
 
-    if (head === 'beginner') {
-      const lessons = await loadBeginnerLessons();
-      if (segments.length === 1) {
-        renderPathOverview(app, { path: 'beginner', lessons });
-        return;
-      }
-      const number = parseInt(second, 10);
-      const lesson = lessons.find((l) => l.number === number);
-      if (!lesson) {
-        navigate('/beginner');
-        return;
-      }
-      renderLesson(app, { path: 'beginner', lessons, lesson });
+    if (!path) {
+      // Unbekannte Route: sanft zur Startseite.
+      navigate('/');
       return;
     }
 
-    if (head === 'cfop-light' || head === 'roux') {
-      renderComingSoon(app, head);
+    if (!path.ready) {
+      renderComingSoon(app, path.id);
       return;
     }
 
-    // Unbekannte Route: sanft zur Startseite.
-    navigate('/');
+    const lessons = await loadLessons(path.id);
+
+    if (segments.length === 1) {
+      renderPathOverview(app, { path: path.id, lessons });
+      return;
+    }
+
+    const number = parseInt(second, 10);
+    const lesson = lessons.find((l) => l.number === number);
+    if (!lesson) {
+      navigate('/' + path.id);
+      return;
+    }
+    renderLesson(app, { path: path.id, lessons, lesson });
   } catch (err) {
     renderError(err);
   }

@@ -5,8 +5,9 @@ den Würfel als Puzzle und Fidget-Toy lieben und ihn mit möglichst wenigen
 Algorithmen flüssig lösen wollen. Kein eSport, kein Sub-X-Elitismus. Ein
 Puzzle-Abend im Wohnzimmer.
 
-Diese Repo ist **Phase 1**: das komplette Grundgerüst und der fertige
-Beginner-Pfad. CFOP light und Roux sind sichtbar, aber noch Platzhalter.
+Stand: **Phase 2**. Vier fertige Lernpfade – **Beginner** (3x3) und **2x2** als
+Einstieg, **CFOP light** und **Roux** als weiterführende Pfade (setzen den
+Beginner voraus). Alle vier werden aus dem gleichen Content-Format gerendert.
 
 ## Start
 
@@ -33,23 +34,36 @@ Template-Strings. `marked` parst den Content, CSS-Variablen tragen das Theming.
 
 ```
 index.html                 App-Shell mit #app-Container
-content/beginner.md        Quelltext der 8 Lektionen (Arbeitskopie)
-public/content/beginner.md ausgeliefert & zur Runtime gefetcht
+content/<pfad>.md          Quelltexte der Lektionen (Arbeitskopien)
+public/content/<pfad>.md   ausgeliefert & zur Runtime gefetcht
+                           (beginner.md, 2x2.md, cfop-light.md, roux.md)
 public/favicon.svg
 src/
   main.js                  Einstieg: Router-Dispatch auf die Views
-  router.js                Hash-Router (#/, #/beginner, #/beginner/1 …)
-  content-loader.js        lädt & parst beginner.md, Notations-Post-Processing
-  storage.js               localStorage-Wrapper für den Fortschritt
-  paths.js                 Metadaten der drei Lernpfade (eine Quelle der Wahrheit)
+  router.js                Hash-Router (#/, #/<pfad>, #/<pfad>/1 …)
+  content-loader.js        lädt & parst <pfad>.md, Notations-Post-Processing
+  storage.js               localStorage-Wrapper für den Fortschritt (pro Pfad)
+  paths.js                 Metadaten der Lernpfade (eine Quelle der Wahrheit)
   styles.css               Design-Tokens + globale Styles
   views/
     layout.js              gemeinsame Bausteine (App-Bar, mount, escape)
-    home.js                Startseite mit drei Pfad-Karten
+    home.js                Startseite mit den Pfad-Karten
     path-overview.js       Lektionsliste + Fortschritt eines Pfades
     lesson.js              einzelne Lektion + Fixed-Nav
-    coming-soon.js         Platzhalter für CFOP light & Roux
+    coming-soon.js         Platzhalter für Pfade mit ready:false
 ```
+
+### Einen Pfad hinzufügen
+
+1. `content/<id>.md` und `public/content/<id>.md` anlegen (gleiches Format wie
+   `beginner.md`: `## Lektion N: Titel`, `**Ziel-Bild:** … Bildunterschrift: „…"`,
+   `### Übung`, `**Abhaken, wenn:** …`).
+2. In `src/paths.js` einen Eintrag mit `id`/`route`/`accent`/Texten/`lessonCount`
+   und `ready: true` ergänzen.
+3. Für eine neue Leitfarbe die vier `--accent-<key>`-Stellen in `styles.css`
+   spiegeln (Light/Dark + `body[data-accent]` + `.path-card[data-accent]`).
+
+Router, Loader und Views sind pfad-agnostisch – mehr braucht es nicht.
 
 ### Routing
 
@@ -57,22 +71,22 @@ Hash-basiert (kein History-API), damit GitHub-Pages-Hosting ohne
 Server-Rewrites funktioniert:
 
 - `#/` – Startseite
-- `#/beginner` – Übersicht Beginner-Pfad
-- `#/beginner/1` … `#/beginner/8` – einzelne Lektionen
-- `#/cfop-light`, `#/roux` – „Bald verfügbar"
+- `#/<pfad>` – Übersicht eines Pfades (`beginner`, `2x2`, `cfop-light`, `roux`)
+- `#/<pfad>/1` … `#/<pfad>/N` – einzelne Lektionen
+- Pfade mit `ready:false` → „Bald verfügbar"
 - unbekannte Routen → sanft zurück zu `#/`
 
 ### Content-Pipeline
 
-`content-loader.js` lädt `beginner.md` per `fetch` (portabel über
-`import.meta.env.BASE_URL`), splittet an den `## Lektion N:`-Überschriften und
-extrahiert je Lektion `number`, `title`, `goalImageCaption`, `content` (als HTML
-via `marked`) und `abhakenWenn`.
+`content-loader.js` lädt `<pfad>.md` per `fetch` (portabel über
+`import.meta.env.BASE_URL`, Ergebnis pro Pfad gecacht), splittet an den
+`## Lektion N:`-Überschriften und extrahiert je Lektion `number`, `title`,
+`goalImageCaption`, `content` (als HTML via `marked`) und `abhakenWenn`.
 
 Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
 
 1. **Algorithmus-Kasten** – jede Zeile/jeder Absatz, der *nur* aus Notation
-   besteht (`R L U D F B` mit optional `'`/`2`), wird zum großen
+   besteht (`R L U D F B M` mit optional `'`/`2`; `M` für Roux), wird zum großen
    Algorithmus-Kasten mit farbigem Leitfarben-Balken und Deko-Play-Icon
    (in Phase 3 aktiv).
 2. **Inline-Notation** – Notationssequenzen mitten im Fließtext werden in

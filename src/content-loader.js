@@ -1,20 +1,22 @@
 import { marked } from 'marked';
 
-// Lädt content/beginner.md zur Runtime, splittet sie an den H2-Überschriften
+// Lädt eine Content-Datei zur Runtime, splittet sie an den H2-Überschriften
 // in Lektions-Objekte und bereitet den Inhalt als HTML auf. Die Notation
 // (R U R' U' …) und der wiederkehrende Name ROAR werden dabei ausgezeichnet.
+// Ein pathId entspricht 1:1 einer Datei content/<pathId>.md.
 
-let cache = null;
+const cache = new Map();
 
-export async function loadBeginnerLessons() {
-  if (cache) return cache;
+export async function loadLessons(pathId) {
+  if (cache.has(pathId)) return cache.get(pathId);
   // BASE_URL macht den Pfad portabel (Dev-Server wie GitHub-Pages-Unterpfad).
-  const url = `${import.meta.env.BASE_URL}content/beginner.md`;
+  const url = `${import.meta.env.BASE_URL}content/${pathId}.md`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`beginner.md konnte nicht geladen werden (HTTP ${res.status})`);
+  if (!res.ok) throw new Error(`${pathId}.md konnte nicht geladen werden (HTTP ${res.status})`);
   const raw = await res.text();
-  cache = parseLessons(raw);
-  return cache;
+  const lessons = parseLessons(raw);
+  cache.set(pathId, lessons);
+  return lessons;
 }
 
 // ---------------------------------------------------------------------------
@@ -96,13 +98,16 @@ function renderLessonHtml(md) {
   return annotateNotation(html);
 }
 
-// Ein Zug ist ein Face-Buchstabe (R L U D F B) mit optionalem ' oder 2.
-const MOVE = /[RLUDFB](?:['’2])?/;
-const MOVE_G = /[RLUDFB](?:['’2])?/g;
+// Ein Zug ist ein Face-Buchstabe (R L U D F B) oder die mittlere Scheibe M
+// (Roux), mit optionalem ' oder 2. Kleingeschriebene Wide-Moves wie r bleiben
+// bewusst draußen: Sie tauchen nie in Mehr-Zug-Sequenzen auf, würden aber im
+// deutschen Fließtext Fehltreffer erzeugen.
+const MOVE = /[RLUDFBM](?:['’2])?/;
+const MOVE_G = /[RLUDFBM](?:['’2])?/g;
 // Eine Notations-Sequenz: mindestens zwei durch Leerraum getrennte Züge.
 const SEQUENCE_G = new RegExp(`${MOVE.source}(?:\\s+${MOVE.source})+`, 'g');
 // Eine "reine" Notations-Zeile besteht ausschließlich aus Zügen/Trennern.
-const PURE_LINE = /^[RLUDFB2'’\s–—-]+$/;
+const PURE_LINE = /^[RLUDFBM2'’\s–—-]+$/;
 
 // Läuft nach dem Markdown-Parsing über das erzeugte DOM:
 //  1. Absätze, die NUR aus Notation bestehen, werden zum großen Algorithmus-Kasten.
