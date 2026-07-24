@@ -15,6 +15,7 @@
   --accent-beginner: hsl(38, 65%, 52%);  /* warmes Ocker/Honig */
   --accent-cfop:     hsl(12, 60%, 52%);  /* gedämpftes Terracotta */
   --accent-roux:     hsl(205, 45%, 45%); /* ruhiges Petrolblau */
+  --accent-2x2:      hsl(96, 30%, 40%);  /* gedämpftes Salbeigrün */
 
   /* Aktive Leitfarbe (per data-accent am body überschrieben) */
   --accent: var(--accent-beginner);
@@ -39,6 +40,7 @@
 body[data-accent="beginner"] { --accent: var(--accent-beginner); --accent-soft: hsl(38 65% 52% / 0.13); }
 body[data-accent="cfop"]     { --accent: var(--accent-cfop);     --accent-soft: hsl(12 60% 52% / 0.13); }
 body[data-accent="roux"]     { --accent: var(--accent-roux);     --accent-soft: hsl(205 45% 45% / 0.13); }
+body[data-accent="2x2"]      { --accent: var(--accent-2x2);      --accent-soft: hsl(96 30% 40% / 0.14); }
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -52,6 +54,7 @@ body[data-accent="roux"]     { --accent: var(--accent-roux);     --accent-soft: 
     --accent-beginner: hsl(38, 55%, 62%);
     --accent-cfop:     hsl(12, 55%, 62%);
     --accent-roux:     hsl(205, 40%, 62%);
+    --accent-2x2:      hsl(96, 32%, 60%);
 
     --accent: var(--accent-beginner);
     --accent-soft: hsl(38 55% 62% / 0.15);
@@ -62,6 +65,7 @@ body[data-accent="roux"]     { --accent: var(--accent-roux);     --accent-soft: 
   body[data-accent="beginner"] { --accent-soft: hsl(38 55% 62% / 0.16); }
   body[data-accent="cfop"]     { --accent-soft: hsl(12 55% 62% / 0.16); }
   body[data-accent="roux"]     { --accent-soft: hsl(205 40% 62% / 0.16); }
+  body[data-accent="2x2"]      { --accent-soft: hsl(96 32% 60% / 0.17); }
 }
 
 /* --------------------------------------------------------------------------
@@ -194,6 +198,7 @@ h1, h2, h3 { line-height: 1.2; font-weight: 650; }
 .path-card[data-accent="beginner"] { --accent: var(--accent-beginner); }
 .path-card[data-accent="cfop"]     { --accent: var(--accent-cfop); }
 .path-card[data-accent="roux"]     { --accent: var(--accent-roux); }
+.path-card[data-accent="2x2"]      { --accent: var(--accent-2x2); }
 
 @media (hover: hover) {
   .path-card:hover {
