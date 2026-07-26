@@ -8,11 +8,30 @@
 
 **Ziel-Bild:** Explosionsgrafik des Würfels – die sechs Center bilden ein festes Kreuz in der Mitte, außenrum schweben Kanten und Ecken. Bildunterschrift: „Nur 20 Teile bewegen sich wirklich."
 
+```cube-net
+...
+.y.
+...
+... ... ... ...
+.o. .g. .r. .b.
+... ... ... ...
+...
+.w.
+...
+:Nur die sechs Center stehen fest – alles andere darf wandern
+```
+
 ### Der Würfel lügt dich an
 
 Auf den ersten Blick besteht der Würfel aus 54 kleinen Farbflächen, die wild durcheinanderfliegen. Das ist eine optische Täuschung – und sie ist der Grund, warum sich der Würfel unlösbar anfühlt.
 
 In Wahrheit besteht der Würfel aus nur **26 Teilen**, und die spielen drei völlig verschiedene Rollen. Wenn du die einmal gesehen hast, kannst du sie nie wieder nicht sehen. Nimm deinen Würfel in die Hand, wir gehen sie durch.
+
+### So liest du die Bilder hier
+
+Zwei Sorten Diagramme begleiten dich durch alle Lektionen. Die erste ist der **aufgeklappte Würfel** – so wie oben: In der Mitte liegen die vier Seiten nebeneinander, darüber die Oberseite, darunter die Unterseite. Die zweite ist die **Draufsicht** von oben auf die Oberseite, mit einem schmalen Rand ringsum für das, was man von den Seiten mitsieht. Die kommt ab Lektion 3 dazu.
+
+Wichtig in beiden: **Graue Felder heißen „egal"**. Sie sagen dir nicht, dass da nichts ist – sie sagen, dass dieser Sticker für den gerade besprochenen Schritt keine Rolle spielt.
 
 ### Die Center: Sie bewegen sich nie
 
@@ -34,6 +53,21 @@ Such die weiß-rote Kante an deinem Würfel. Egal wo sie gerade steckt: Du weiß
 
 In den acht Ecken des Würfels sitzen – Überraschung – die **Ecken**: Teile mit genau **drei Farben**. Auch hier gilt: Die drei Farben gehören fest zusammen, und jede Ecke hat genau einen richtigen Platz. Die weiß-rot-blaue Ecke gehört dorthin, wo das weiße, das rote und das blaue Center aufeinandertreffen.
 
+So sieht „Zuhause" aus – hier für die weiß-rote Kante und die weiß-rot-blaue Ecke:
+
+```cube-net
+...
+...
+...
+... ... ... ...
+... ... ... ...
+... ... .rr b..
+...
+..w
+..w
+:Beide Teile liegen genau dort, wo ihre Farben auf Center treffen
+```
+
 ### Der Aha-Moment
 
 Du löst den Würfel nicht, indem du „Farben sortierst". Du löst ihn, indem du **Teile nach Hause bringst** – 12 Kanten und 8 Ecken, eins nach dem anderen. Die Center zeigen dir dabei jederzeit an, wo „Zuhause" ist.
@@ -53,6 +87,20 @@ Ab jetzt schaust du nicht mehr auf Sticker. Du schaust auf Teile.
 ## Lektion 2: Notation – sechs Buchstaben, fertig
 
 **Ziel-Bild:** Würfel von schräg vorn, jede sichtbare Seite mit ihrem Buchstaben beschriftet (F, R, U), die verdeckten Seiten (B, L, D) als durchscheinende Beschriftung. Bildunterschrift: „Mehr Vokabeln brauchst du nie."
+
+```cube-net
+...
+...
+...
+... ... ... ...
+... ... ... ...
+... ... ... ...
+...
+...
+...
+!letters
+:Sechs Seiten, sechs Buchstaben – und alle grau, weil es hier um Positionen geht, nicht um Farben
+```
 
 ### Warum überhaupt Notation?
 
@@ -83,6 +131,32 @@ Dazu kommen zwei Zusätze:
 - Eine **2** heißt halbe Drehung: **R2** dreht die rechte Seite um 180 Grad – da ist die Richtung dann egal.
 
 Das war die komplette Grammatik. Sechs Buchstaben, ein Strich, eine Zwei.
+
+Und so sieht ein einzelner Zug aus. Links der gelöste Würfel, rechts derselbe Würfel nach genau einem **R** – die rechte Spalte ist einmal rundherum gewandert:
+
+```cube-net
+yyy
+yyy
+yyy
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+www
+www
+www
+:Vorher: gelöst
+
+yyg
+yyg
+yyg
+ooo ggw rrr ybb
+ooo ggw rrr ybb
+ooo ggw rrr ybb
+wwb
+wwb
+wwb
+:Nachher: ein einziges R
+```
 
 ### Der Zaubertrick zum Einüben
 
@@ -115,6 +189,19 @@ Die Buchstaben sind wörtlich die Notation, das Apostroph fällt beim Rufen unte
 ## Lektion 3: Die weiße Blume – dein erster Schritt
 
 **Ziel-Bild:** Zwei Würfel nebeneinander. Links: Oberseite mit gelbem Center und vier weißen Kanten drumherum („die Blume"). Rechts: weiße Seite unten mit fertigem weißen Kreuz, die Seitenfarben der Kanten passen zu den Centern. Bildunterschrift: „Erst pflücken, dann pflanzen."
+
+```cube-net
+...
+...
+...
+... ... ... ...
+.o. .g. .r. .b.
+.o. .g. .r. .b.
+.w.
+www
+.w.
+:Das Ziel: weißes Kreuz unten, und über jeder Kante steht ihr eigenes Center
+```
 
 ### Ab hier wird gelöst
 
@@ -174,6 +261,19 @@ Wenn ja: sauber gelöst. Wenn irgendwo Rot unter Grün hängt, war die Kante üb
 
 **Ziel-Bild:** Würfel mit weißer Seite nach unten gekippt, weiße Ebene komplett, und ringsum stimmt die unterste Farbreihe. Bildunterschrift: „Ein Drittel geschafft – und du kennst die Züge schon."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+.o. .g. .r. .b.
+ooo ggg rrr bbb
+www
+www
+www
+:Erste Ebene komplett: Weiß unten, ringsum eine geschlossene Farbreihe
+```
+
 ### Dein erster Algorithmus (den du längst kannst)
 
 Jetzt kommen die vier weißen Ecken nach Hause. Dafür brauchst du deinen ersten echten Algorithmus – und hier die Pointe: Es ist **ROAR** (R U R' U'), unser alter Bekannter aus Lektion 2.
@@ -232,6 +332,19 @@ Das Schöne daran: Solange du die vier Züge immer **komplett** ausführst, fass
 
 **Ziel-Bild:** Würfel zu zwei Dritteln gelöst, nur die oberste Ebene noch bunt. Bildunterschrift: „Zwei Drittel. Ab hier riecht es nach gelöst."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+www
+www
+www
+:Untere und mittlere Ebene stehen – nur die Oberseite ist noch bunt
+```
+
 ### Vier Kanten fehlen
 
 Zwischen deiner fertigen weißen Ebene und dem gelben Deckel liegen noch vier Kanten: die der mittleren Ebene. Das Praktische: Keine davon enthält Gelb oder Weiß – du suchst also oben nach Kanten **ohne gelben Sticker**.
@@ -241,6 +354,15 @@ Zwischen deiner fertigen weißen Ebene und dem gelben Deckel liegen noch vier Ka
 Nimm dir eine gelbfreie Kante aus der oberen Ebene. Ihre **vordere Farbe** (die zur Seite zeigt, nicht nach oben) sagt dir, wo es losgeht: Dreh die Oberseite (U), bis diese Farbe über dem **Center derselben Farbe** steht. Grün über Grün – von vorn sieht das aus wie ein kleines **T**.
 
 Jetzt schau auf die Farbe **oben** auf der Kante: Zeigt sie zur Seite, wo ihr Center **rechts** wartet, muss die Kante nach rechts. Wartet ihr Center links, geht's nach links.
+
+```cube
+. . .
+. . . . .
+. . . . .
+. . r . .
+. g .
+:Das kleine T von oben: vorn Grün über dem grünen Center, oben Rot – Rot wartet rechts, also nach rechts
+```
 
 ### Schritt 2: Einsetzen – zweimal ROAR, leicht frisiert
 
@@ -273,6 +395,15 @@ Eine Kante steckt schon in der mittleren Ebene, aber am falschen Platz oder verd
 ## Lektion 6: Das gelbe Kreuz – ROAR bekommt einen Rahmen
 
 **Ziel-Bild:** Blick von oben auf den Würfel: ein gelbes Kreuz (Center plus vier Kanten). Die vier Ecken der Oberseite sind bewusst noch bunt gezeichnet. Bildunterschrift: „Ecken? Ignorieren. Nur das Kreuz zählt jetzt."
+
+```cube
+. . .
+. . y . .
+. y y y .
+. . y . .
+. . .
+:Gelbes Kreuz von oben – die vier Ecken sind hier bewusst grau
+```
 
 ### Ein Trick, mehrere Anläufe
 
@@ -359,6 +490,15 @@ Kleine Merkhilfe: „L wie Links" – die eine gelbe Kante zeigt nach links, die
 
 **Ziel-Bild:** Blick von oben: komplett gelbe Oberseite. Die Farben an den Seiten der Ecken passen noch nicht zu den Centern – das ist Absicht. Bildunterschrift: „Oben stimmt alles. Was seitlich passiert, ist Lektion 8."
 
+```cube
+b g b
+o y y y r
+o y y y b
+o y y y r
+g r g
+:Oberseite komplett gelb – der bunte Rand ringsum wird erst in Lektion 8 sortiert
+```
+
 ### Ein Zug, ein Name, ein Fisch
 
 Nach dem gelben Kreuz sind vier gelbe Sticker oben. Uns fehlen noch die Ecken – die zeigen ihre gelbe Fläche irgendwohin, nur nicht nach oben. Das ändern wir jetzt.
@@ -439,6 +579,22 @@ Nach der letzten Anwendung sollte die Oberseite komplett gelb sein. Die vier gel
 ## Lektion 8: Das Finale – zwei Züge, ein gelöster Würfel
 
 **Ziel-Bild:** Zwei Würfel nebeneinander. Links: gelbe Fläche oben, Seitenfarben noch chaotisch. Rechts: komplett gelöst. Bildunterschrift: „Von hier nach da, in zwei Sequenzen."
+
+```cube
+b g b
+o y y y r
+o y y y b
+o y y y r
+g r g
+:Vorher: oben gelb, der Rand ringsum springt
+
+b b b
+o y y y r
+o y y y r
+o y y y r
+g g g
+:Nachher: jede Seite einfarbig
+```
 
 ### Was noch fehlt
 

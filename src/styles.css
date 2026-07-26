@@ -433,7 +433,11 @@ code.alg {
   color: var(--text);
   padding: 0.08em 0.42em;
   border-radius: 6px;
-  white-space: nowrap;
+  /* Umbruch nur an den Leerzeichen zwischen den Zügen: Ein einzelner Zug (R2,
+     U') enthält keins und bleibt darum immer zusammen. Mit `nowrap` schob ein
+     langer Algorithmus im Fließtext dagegen die ganze Seite in die Breite. */
+  white-space: normal;
+  overflow-wrap: normal;
   border: 1px solid var(--border);
 }
 
@@ -501,7 +505,14 @@ code.alg {
   align-items: center;
   gap: 0.45rem;
 }
-.cube-item svg { width: 96px; height: auto; display: block; }
+/* `height: auto` braucht ein intrinsisches Seitenverhältnis. Das ziehen die
+   SVGs aus ihren width/height-Attributen (siehe createSvg) – aus der viewBox
+   allein leitet es nicht jede mobile Engine zuverlässig ab, und das Diagramm
+   fällt dann auf Höhe 0 zusammen. */
+.cube-item svg { display: block; width: 96px; height: auto; max-width: 100%; }
+.cube-item--net svg { width: 200px; }
+.cube-row--many { gap: 1rem; }
+.cube-row--many .cube-item--net svg { width: 150px; }
 .cube-label {
   font-family: var(--font-ui);
   font-size: 0.78rem;
@@ -510,7 +521,16 @@ code.alg {
   text-align: center;
   max-width: 9.5rem;
 }
+/* Netze sind breiter als die Draufsicht – die Beschriftung darf mitwachsen. */
+.cube-item--net .cube-label { max-width: 14rem; }
+.cube-row--many .cube-item--net .cube-label { max-width: 10rem; }
 .cd { stroke: hsl(25 20% 15% / 0.18); stroke-width: 1; }
+.cd-letter {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  fill: hsl(25 20% 20% / 0.75);
+}
 .cd-y { fill: hsl(46, 92%, 56%); }
 .cd-r { fill: hsl(4, 66%, 55%); }
 .cd-g { fill: hsl(135, 42%, 45%); }
@@ -522,6 +542,7 @@ code.alg {
   .cd { stroke: hsl(0 0% 0% / 0.4); }
   .cd-w { fill: hsl(35, 15%, 86%); }
   .cd-n { fill: hsl(25, 8%, 27%); }
+  .cd-letter { fill: hsl(35 15% 82% / 0.8); }
 }
 
 /* --------------------------------------------------------------------------
@@ -555,6 +576,19 @@ code.alg {
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
 }
+/* Ziel-Bild mit echtem Diagramm: gleicher Rahmen wie der Platzhalter, aber
+   ohne feste 16:9-Höhe – das Diagramm gibt die Höhe vor. */
+.goal-image--diagram .cube-figure {
+  margin: 0;
+  padding: 1.1rem 0.9rem;
+  border-radius: var(--radius);
+  background: var(--surface-sunk);
+  border: 1px solid var(--border);
+}
+.goal-image--diagram .cube-item svg { width: 118px; }
+.goal-image--diagram .cube-item--net svg { width: 240px; }
+.goal-image--diagram .cube-row--many .cube-item--net svg { width: 150px; }
+
 .goal-image figcaption {
   margin-top: 0.6rem;
   font-family: var(--font-read);
