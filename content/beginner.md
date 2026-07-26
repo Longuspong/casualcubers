@@ -128,6 +128,15 @@ Der direkte Weg zum Kreuz ist am Anfang fummelig, weil man sich fertige Kanten s
 
 **Schritt 1 – Blume pflücken:** Halte das **gelbe** Center nach oben. Sammle jetzt alle vier weißen Kanten oben um das gelbe Center herum – weißer Sticker nach oben. Fertig sieht das aus wie ein Gänseblümchen: gelbe Mitte, weiße Blütenblätter.
 
+```cube
+. b .
+. . w . .
+o w y w r
+. . w . .
+. g .
+:Die Blume von oben – die Seitenfarben der Blütenblätter sind noch bunt gemischt
+```
+
 Wie du die Kanten nach oben bekommst? Ausprobieren. Ernsthaft – das ist die Aufgabe. Zwei Hinweise, falls du feststeckst: Eine weiße Kante in der mittleren Ebene kommt mit einem Zug der Seite nach oben, in der sie steckt. Und wenn dieser Zug ein schon gepflücktes Blütenblatt wegschubsen würde: Dreh vorher die Oberseite (U), damit ein freier Platz über der Kante liegt.
 
 **Schritt 2 – Blütenblätter pflanzen:** Jetzt kommt der befriedigende Teil. Schau dir ein weißes Blütenblatt an – seine **Seitenfarbe** verrät sein Zuhause. Dreh die Oberseite (U), bis diese Seitenfarbe direkt über dem Center derselben Farbe steht. Rot über Rot, Grün über Grün.
@@ -138,7 +147,18 @@ Das machst du viermal, und unten ist das weiße Kreuz fertig – mit passenden F
 
 ### Der Kontrollblick
 
-Dreh den Würfel einmal um: Unten ein weißes Kreuz. Und jetzt der wichtige Blick auf die **Seiten**: An jeder Seitenfläche muss das mittlere Feld der untersten Reihe zum Center passen. Wenn ja: sauber gelöst. Wenn irgendwo Rot unter Grün hängt, war die Kante überm falschen Center – kein Drama, hoch damit (Seite zweimal drehen) und richtig neu gepflanzt.
+Dreh den Würfel einmal um: Unten ein weißes Kreuz. Und jetzt der wichtige Blick auf die **Seiten**: An jeder Seitenfläche muss das mittlere Feld der untersten Reihe zum Center passen.
+
+```cube
+. b .
+. . w . .
+r w w w o
+. . w . .
+. g .
+:Zum Kontrollieren umgedreht – weißes Kreuz, jede Seitenfarbe passt zu ihrem Center
+```
+
+Wenn ja: sauber gelöst. Wenn irgendwo Rot unter Grün hängt, war die Kante überm falschen Center – kein Drama, hoch damit (Seite zweimal drehen) und richtig neu gepflanzt.
 
 ### Übung
 
@@ -166,6 +186,15 @@ Halte den Würfel mit dem weißen Kreuz **nach unten** – so bleibt er jetzt bi
 
 Dreh nur die Oberseite (U), bis die Ecke **genau über ihrem Zuhause** schwebt. Sie steht jetzt sozusagen im obersten Stockwerk und wartet auf den Aufzug.
 
+```cube
+. . .
+. . . . .
+. . . . .
+. . . r w
+. . g
+:Geparkt: die weiß-rot-grüne Ecke wartet vorne rechts oben auf den Aufzug
+```
+
 ### Schritt 2: Aufzug fahren
 
 Dreh den ganzen Würfel so in deinen Händen, dass das Zuhause der Ecke **vorne rechts unten** liegt (die wartende Ecke also vorne rechts oben). Und jetzt: **ROAR fahren** – R U R' U' – und schau auf die Ecke. Sitzt sie unten, mit Weiß nach unten? Fertig. Wenn nicht: nochmal ROAR. Und nochmal.
@@ -179,6 +208,15 @@ Das Schöne daran: Solange du die vier Züge immer **komplett** ausführst, fass
 **Die Ecke steckt schon unten, aber falsch oder verdreht?** Dann blockiert sie den Aufzugschacht. Die Lösung kennst du: Dreh den Würfel so, dass die Klemm-Ecke vorne rechts unten sitzt, und fahr **einmal ROAR** – schon ist sie oben befreit. Ab da: normales Programm, parken, fahren.
 
 **Der weiße Sticker zeigt nach oben, flach auf der Oberseite?** Kein Sonderfall, nur eine längere Fahrt. Über ihr Zuhause parken, Aufzug fahren wie immer – sie braucht bloß ein, zwei Runden mehr.
+
+```cube
+. . .
+. . . . .
+. . . . .
+. . . w r
+. . g
+:Weiß zeigt flach nach oben – gleiche Routine, nur ein, zwei Fahrten mehr
+```
 
 ### Übung
 
@@ -422,6 +460,15 @@ Neun Züge, ungewohnter Rhythmus mit B2 (der Rückseite) drin – nimm sie langs
 
 **Schritt 2 – Ankerin nach hinten rechts.** Dreh den Würfel in der Hand, bis diese richtige Ecke **hinten rechts oben** sitzt. Sie ist jetzt der Anker und bleibt sitzen, während der Zug die anderen drei rotiert.
 
+```cube
+g o b
+o y y y r
+b y y y g
+r y y y o
+b g r
+:Die Ankerin sitzt hinten rechts – ihre Farben passen, die drei anderen rotieren
+```
+
 **Schritt 3 – Zug ausführen.** Einmal R' F R' B2 R F' R' B2 R2. Guck. Passt es? Wenn ja, weiter zu Teil B. Wenn nein: Der Zug hat rotiert, aber in die falsche Richtung – wiederhole ihn einmal (immer noch mit derselben Ankerin hinten rechts), dann passt es.
 
 **Der Sonderfall:** Keine einzige Ecke ist an ihrem richtigen Platz? Dann führ den Zug einmal blind aus – irgendeine Halterichtung – und danach ist garantiert mindestens eine Ecke am Platz. Ab da: Ankerin suchen, wie oben.
@@ -439,6 +486,15 @@ Elf Züge, aber alle aus R und U – wenn du bis hierhin gekommen bist, machen d
 **Schritt 1 – die richtige Kante finden.** Schau auf die vier Kanten der Oberseite. Idealerweise ist eine schon richtig: ihre obere Farbe ist gelb (klar, das ist das Kreuz), und ihre Seitenfarbe passt zum Center. Wenn du eine hast: super.
 
 **Schritt 2 – richtige Kante nach hinten.** Dreh den Würfel, bis diese richtige Kante die **hintere Kante** der Oberseite ist. Sie ist der Anker, die anderen drei rotieren.
+
+```cube
+b b b
+o y y y r
+r y y y g
+o y y y r
+g o g
+:Die richtige Kante ist hinten – die anderen drei rotieren
+```
 
 **Schritt 3 – Zug ausführen.** Einmal R U' R U R U R U' R' U' R2. Nach der letzten Drehung: der Würfel ist gelöst. Sollte er nicht sein, weil der Zug in die andere Richtung rotiert hat: Wiederhole ihn einmal, immer noch mit der richtigen Kante hinten. Passt.
 

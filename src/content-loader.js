@@ -170,7 +170,9 @@ function annotateNotation(html) {
 //   . . .        vordere Seitensticker (3 Zellen)
 //   :Beschriftung unter dem Diagramm (optional)
 //
-// Zeichen: y gelb, r rot, g grün, b blau, o orange, w weiß, . beliebige Farbe.
+// Für den 2x2 entsprechend eine Zeile weniger (2 Zellen hinten/vorn, zwei
+// Zeilen à 4 Zellen). Zeichen: y gelb, r rot, g grün, b blau, o orange,
+// w weiß, . beliebige Farbe.
 
 const CUBE_STICKER_CLASS = {
   y: 'cd-y', r: 'cd-r', g: 'cd-g', b: 'cd-b', o: 'cd-o', w: 'cd-w', '.': 'cd-n',
@@ -187,10 +189,11 @@ function buildCubeFigure(text) {
       label = lines.pop().slice(1).trim();
     }
     const grid = lines.map((l) => l.replace(/\s+/g, ''));
+    const n = grid.length - 2; // Kantenlänge der Oberseite (3x3 oder 2x2)
     const valid =
-      grid.length === 5 &&
-      grid[0].length === 3 && grid[4].length === 3 &&
-      grid.slice(1, 4).every((l) => l.length === 5);
+      (n === 2 || n === 3) &&
+      grid[0].length === n && grid[n + 1].length === n &&
+      grid.slice(1, n + 1).every((l) => l.length === n + 2);
     if (!valid) continue; // kaputtes Diagramm still überspringen
 
     const item = document.createElement('div');
@@ -213,11 +216,12 @@ function buildCubeFigure(text) {
 }
 
 function buildCubeSvg(grid, label) {
+  const n = grid.length - 2; // 3 (3x3) oder 2 (2x2)
   const CELL = 26; // Sticker der Oberseite
   const GAP = 3;
   const BAR = 9; // Dicke der Seitensticker-Balken
   const PAD = 4; // Abstand Balken <-> Oberseite
-  const face = 3 * CELL + 2 * GAP;
+  const face = n * CELL + (n - 1) * GAP;
   const size = face + 2 * (BAR + PAD);
   const off = BAR + PAD;
   const pos = (i) => off + i * (CELL + GAP);
@@ -242,13 +246,13 @@ function buildCubeSvg(grid, label) {
     svg.appendChild(r);
   };
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < n; i++) {
     sticker(pos(i), 0, CELL, BAR, grid[0][i]); // hinten
-    sticker(pos(i), off + face + PAD, CELL, BAR, grid[4][i]); // vorn
+    sticker(pos(i), off + face + PAD, CELL, BAR, grid[n + 1][i]); // vorn
     const line = grid[i + 1];
     sticker(0, pos(i), BAR, CELL, line[0]); // links
-    for (let c = 0; c < 3; c++) sticker(pos(c), pos(i), CELL, CELL, line[c + 1]);
-    sticker(off + face + PAD, pos(i), BAR, CELL, line[4]); // rechts
+    for (let c = 0; c < n; c++) sticker(pos(c), pos(i), CELL, CELL, line[c + 1]);
+    sticker(off + face + PAD, pos(i), BAR, CELL, line[n + 1]); // rechts
   }
   return svg;
 }
