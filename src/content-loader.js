@@ -102,14 +102,17 @@ function renderLessonHtml(md) {
 // (Roux), mit optionalem ' oder 2. Kleingeschriebene Wide-Moves wie r bleiben
 // bewusst draußen: Sie tauchen nie in Mehr-Zug-Sequenzen auf, würden aber im
 // deutschen Fließtext Fehltreffer erzeugen.
-const MOVE = /[RLUDFBM](?:['’2])?/;
-const MOVE_G = /[RLUDFBM](?:['’2])?/g;
+// Lookbehind/Lookahead verhindern, dass Buchstaben mitten im Wort als Zug
+// zählen (sonst würde z.B. "ROAR" in "F ROAR F'" als R-…-R-Sequenz anreißen).
+const MOVE = /(?<![A-Za-zÄÖÜäöü])[RLUDFBM](?:['’2])?(?![A-Za-zÄÖÜäöü])/;
+const MOVE_G = /(?<![A-Za-zÄÖÜäöü])[RLUDFBM](?:['’2])?(?![A-Za-zÄÖÜäöü])/g;
 // Eine Notations-Sequenz: mindestens zwei durch Leerraum getrennte Züge.
 const SEQUENCE_G = new RegExp(`${MOVE.source}(?:\\s+${MOVE.source})+`, 'g');
 // Eine "reine" Notations-Zeile besteht ausschließlich aus Zügen/Trennern.
 const PURE_LINE = /^[RLUDFBM2'’\s–—-]+$/;
 
 // Läuft nach dem Markdown-Parsing über das erzeugte DOM:
+//  0. ```cube-Codeblöcke werden zu Inline-SVG-Würfeldiagrammen (Draufsicht).
 //  1. Absätze, die NUR aus Notation bestehen, werden zum großen Algorithmus-Kasten.
 //  2. Inline-Notationssequenzen in normalem Text werden in <code class="alg"> gewickelt.
 //  3. Jedes Vorkommen von ROAR wird zum <span class="roar-badge">.
@@ -117,6 +120,12 @@ function annotateNotation(html) {
   const tpl = document.createElement('template');
   tpl.innerHTML = html;
   const root = tpl.content;
+
+  // 0) Würfeldiagramme
+  root.querySelectorAll('pre > code.language-cube').forEach((code) => {
+    const figure = buildCubeFigure(code.textContent);
+    if (figure) code.parentElement.replaceWith(figure);
+  });
 
   // 1) Reine-Notation-Absätze -> Algorithmus-Kasten
   root.querySelectorAll('p').forEach((p) => {
@@ -146,6 +155,102 @@ function annotateNotation(html) {
   const out = document.createElement('div');
   out.appendChild(root);
   return out.innerHTML;
+}
+
+// ---------------------------------------------------------------------------
+// Würfeldiagramme: ```cube-Blöcke -> Inline-SVG (Draufsicht auf die Oberseite)
+// ---------------------------------------------------------------------------
+//
+// Format eines Blocks (mehrere Diagramme durch Leerzeilen getrennt):
+//
+//   . . .        hintere Seitensticker der oberen Ebene (3 Zellen)
+//   y . y . y    linker Seitensticker, 3 Felder Oberseite, rechter Seitensticker
+//   . y y y .      "        (3 solcher Zeilen, oben = hinten)
+//   y . y . y
+//   . . .        vordere Seitensticker (3 Zellen)
+//   :Beschriftung unter dem Diagramm (optional)
+//
+// Zeichen: y gelb, r rot, g grün, b blau, o orange, w weiß, . beliebige Farbe.
+
+const CUBE_STICKER_CLASS = {
+  y: 'cd-y', r: 'cd-r', g: 'cd-g', b: 'cd-b', o: 'cd-o', w: 'cd-w', '.': 'cd-n',
+};
+
+function buildCubeFigure(text) {
+  const row = document.createElement('div');
+  row.className = 'cube-row';
+
+  for (const chunk of text.trim().split(/\n\s*\n/)) {
+    const lines = chunk.trim().split('\n').map((l) => l.trim());
+    let label = '';
+    if (lines.length && lines[lines.length - 1].startsWith(':')) {
+      label = lines.pop().slice(1).trim();
+    }
+    const grid = lines.map((l) => l.replace(/\s+/g, ''));
+    const valid =
+      grid.length === 5 &&
+      grid[0].length === 3 && grid[4].length === 3 &&
+      grid.slice(1, 4).every((l) => l.length === 5);
+    if (!valid) continue; // kaputtes Diagramm still überspringen
+
+    const item = document.createElement('div');
+    item.className = 'cube-item';
+    item.appendChild(buildCubeSvg(grid, label));
+    if (label) {
+      const span = document.createElement('span');
+      span.className = 'cube-label';
+      span.textContent = label;
+      item.appendChild(span);
+    }
+    row.appendChild(item);
+  }
+
+  if (!row.children.length) return null;
+  const figure = document.createElement('figure');
+  figure.className = 'cube-figure';
+  figure.appendChild(row);
+  return figure;
+}
+
+function buildCubeSvg(grid, label) {
+  const CELL = 26; // Sticker der Oberseite
+  const GAP = 3;
+  const BAR = 9; // Dicke der Seitensticker-Balken
+  const PAD = 4; // Abstand Balken <-> Oberseite
+  const face = 3 * CELL + 2 * GAP;
+  const size = face + 2 * (BAR + PAD);
+  const off = BAR + PAD;
+  const pos = (i) => off + i * (CELL + GAP);
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute(
+    'aria-label',
+    label ? `Würfel von oben: ${label}` : 'Würfel von oben'
+  );
+
+  const sticker = (x, y, w, h, ch) => {
+    const r = document.createElementNS(NS, 'rect');
+    r.setAttribute('x', x);
+    r.setAttribute('y', y);
+    r.setAttribute('width', w);
+    r.setAttribute('height', h);
+    r.setAttribute('rx', 2.5);
+    r.setAttribute('class', `cd ${CUBE_STICKER_CLASS[ch] || 'cd-n'}`);
+    svg.appendChild(r);
+  };
+
+  for (let i = 0; i < 3; i++) {
+    sticker(pos(i), 0, CELL, BAR, grid[0][i]); // hinten
+    sticker(pos(i), off + face + PAD, CELL, BAR, grid[4][i]); // vorn
+    const line = grid[i + 1];
+    sticker(0, pos(i), BAR, CELL, line[0]); // links
+    for (let c = 0; c < 3; c++) sticker(pos(c), pos(i), CELL, CELL, line[c + 1]);
+    sticker(off + face + PAD, pos(i), BAR, CELL, line[4]); // rechts
+  }
+  return svg;
 }
 
 function isPureNotation(text) {

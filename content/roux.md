@@ -104,7 +104,7 @@ Dein Werkzeug ist die **Sune** aus Beginner-Lektion 7:
 
 > **Sune** = **R U R' U R U2 R'**
 
-Gleiche Logik wie damals, nur dass „oben" jetzt nicht zwingend Gelb ist, sondern was auch immer deine obere Farbe geworden ist: Zeigt genau eine Ecke ihre obere Farbe nach oben, halte sie **vorne links** und mach eine Sune. Zeigt keine nach oben, halte den Würfel so, dass ein Sticker in der oberen Farbe dich **vorne links** anschaut, und mach eine Sune. Hinschauen, wiederholen – maximal zwei, drei Runden und alle vier zeigen nach oben.
+Gleiche Halteregeln wie damals (Beginner-Lektion 7), nur dass „oben" jetzt nicht zwingend Gelb ist, sondern was auch immer deine obere Farbe geworden ist: Zeigt genau eine Ecke ihre obere Farbe nach oben, halte sie **vorne links** und mach eine Sune – und wenn danach wieder nur eine Ecke stimmt, war es der Zwillingsfisch: neu halten, noch eine Sune. Zeigen zwei nach oben, halte den Würfel so, dass die Ecke vorne links ihren Sticker in der oberen Farbe **zu dir** zeigt. Zeigt keine nach oben, halte ihn so, dass dieser Sticker **nach links** zeigt. Hinschauen, wiederholen – maximal drei Sunes und alle vier zeigen nach oben.
 
 ### Runde 2: An die richtigen Plätze
 
