@@ -106,6 +106,38 @@ Dein Werkzeug ist die **Sune** aus Beginner-Lektion 7:
 
 Gleiche Halteregeln wie damals (Beginner-Lektion 7), nur dass „oben" jetzt nicht zwingend Gelb ist, sondern was auch immer deine obere Farbe geworden ist: Zeigt genau eine Ecke ihre obere Farbe nach oben, halte sie **vorne links** und mach eine Sune – und wenn danach wieder nur eine Ecke stimmt, war es der Zwillingsfisch: neu halten, noch eine Sune. Zeigen zwei nach oben, halte den Würfel so, dass die Ecke vorne links ihren Sticker in der oberen Farbe **zu dir** zeigt. Zeigt keine nach oben, halte ihn so, dass dieser Sticker **nach links** zeigt. Hinschauen, wiederholen – maximal drei Sunes und alle vier zeigen nach oben.
 
+In den Bildern steht Gelb stellvertretend für deine obere Farbe – Kanten und Mitte bleiben grau, die dürfen hier noch Chaos sein:
+
+```cube
+y . .
+. . . . y
+. . . . .
+. y . . .
+. . y
+:Der Fisch – eine Sune
+
+. . y
+y . . . .
+. . . . .
+. y . . y
+. . .
+:Der Zwillingsfisch – zwei Sunes
+
+. . .
+. y . y .
+. . . . .
+. . . . .
+y . y
+:Zwei Ecken oben – Farbe vorne links zeigt zu dir
+
+. . .
+y . . . y
+. . . . .
+y . . . y
+. . .
+:Null Ecken oben – Farbe vorne links zeigt nach links
+```
+
 ### Runde 2: An die richtigen Plätze
 
 Such zwei Ecken nebeneinander, deren Seitenfarben zusammenpassen, und halte sie nach **hinten**. Dann:
@@ -113,6 +145,15 @@ Such zwei Ecken nebeneinander, deren Seitenfarben zusammenpassen, und halte sie 
 > **Der Swap** = **R U R' U' R' F R2 U' R' U' R U R' F'**
 
 Der Zug tauscht die beiden **vorderen** Ecken. Kennst du ihn schon aus dem CFOP-Light- oder 2x2-Pfad? Dann sind es alte Freunde. Falls nicht: Das ist der einzige lange Zug dieses Pfades – mach ihn langsam, Buchstabe für Buchstabe, und beachte den Einstieg: R U R' U'. ROAR war die ganze Zeit da.
+
+```cube
+r . r
+. y . y .
+. . . . .
+. y . y .
+. . .
+:Das passende Paar hinten – der Swap tauscht die zwei vorderen Ecken
+```
 
 Nirgendwo ein passendes Paar? Mach die Folge trotzdem einmal, danach hast du eins.
 
@@ -139,6 +180,22 @@ Drei kleine Phasen:
 ### Phase A: Die schlechten Kanten kippen
 
 Eine Kante ist „gut", wenn ihre Ober-/Unterseitenfarbe (z. B. Weiß oder Gelb) nach oben oder unten zeigt. Zeigt sie zur Seite, ist die Kante „schlecht" und muss gekippt werden.
+
+```cube
+. . .
+. . . . .
+. . . . .
+. . w . .
+. . .
+:Gute Kante – Weiß oder Gelb zeigt nach oben
+
+. . .
+. . . . .
+. . . . .
+. . . . .
+. w .
+:Schlechte Kante – die Farbe zeigt zur Seite
+```
 
 Halte schlechte Kanten oben zu dir gerichtet und nutze Züge im Stil von **M' U M'**, um sie paarweise oder zu viert zu kippen. Spiel damit herum – du wirst schnell ein Gefühl dafür entwickeln, welche U-Drehung die nächste schlechte Kante in Position bringt.
 

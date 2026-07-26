@@ -88,8 +88,9 @@ Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
 0. **Würfeldiagramme** – Codeblöcke mit der Sprache `cube` werden zu
    Inline-SVGs (Draufsicht auf die Oberseite mit Seitensticker-Balken).
    Format: 5 Zeilen pro Diagramm (3 hintere Seitensticker / 3× „links +
-   3 Felder + rechts" / 3 vordere Seitensticker), Zeichen `y r g b o w .`
-   (`.` = beliebige Farbe), optional eine `:Beschriftung`-Zeile; mehrere
+   3 Felder + rechts" / 3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2,
+   Zeichen `y r g b o w .` (`.` = beliebige Farbe), optional eine
+   `:Beschriftung`-Zeile; mehrere
    Diagramme in einem Block werden durch Leerzeilen getrennt und nebeneinander
    gerendert.
 1. **Algorithmus-Kasten** – jede Zeile/jeder Absatz, der *nur* aus Notation
