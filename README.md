@@ -85,6 +85,13 @@ Server-Rewrites funktioniert:
 
 Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
 
+0. **Würfeldiagramme** – Codeblöcke mit der Sprache `cube` werden zu
+   Inline-SVGs (Draufsicht auf die Oberseite mit Seitensticker-Balken).
+   Format: 5 Zeilen pro Diagramm (3 hintere Seitensticker / 3× „links +
+   3 Felder + rechts" / 3 vordere Seitensticker), Zeichen `y r g b o w .`
+   (`.` = beliebige Farbe), optional eine `:Beschriftung`-Zeile; mehrere
+   Diagramme in einem Block werden durch Leerzeilen getrennt und nebeneinander
+   gerendert.
 1. **Algorithmus-Kasten** – jede Zeile/jeder Absatz, der *nur* aus Notation
    besteht (`R L U D F B M` mit optional `'`/`2`; `M` für Roux), wird zum großen
    Algorithmus-Kasten mit farbigem Leitfarben-Balken und Deko-Play-Icon
@@ -116,4 +123,5 @@ daumenerreichbare Fixed-Navigation in den Lektionen.
 - 3D-Würfel-Player – Algorithmen sind aktuell Text-Notation (Phase 3)
 - Scramble-Generator (Phase 4)
 - Web App Manifest (Phase 5)
-- echte SVG-Illustrationen – aktuell Ziel-Bild-Platzhalter
+- echte Ziel-Bild-Illustrationen – aktuell Platzhalter (Würfeldiagramme im
+  Fließtext gibt es bereits als generierte Inline-SVGs)

@@ -251,6 +251,36 @@ Halte den Würfel so, dass die (noch chaotische) Oberseite mit dem gelben Center
 - **Linie** – zwei gelbe Kanten oben, die sich gegenüberliegen (ergibt mit dem Center einen Strich).
 - **Kreuz** – alle vier gelben Kanten schon oben. Glückwunsch, überspring die Lektion.
 
+```cube
+. . .
+. . . . .
+. . y . .
+. . . . .
+. . .
+:Punkt
+
+. . .
+. . y . .
+. y y . .
+. . . . .
+. . .
+:L
+
+. . .
+. . . . .
+. y y y .
+. . . . .
+. . .
+:Linie
+
+. . .
+. . y . .
+. y y y .
+. . y . .
+. . .
+:Kreuz
+```
+
 Egal welches Muster: Es führt genau ein Weg raus.
 
 ### Der Zug: ROAR mit F-Rahmen
@@ -312,13 +342,45 @@ Nach dem gelben Kreuz gibt es genau vier Möglichkeiten, was die vier Ecken oben
 
 ### Die einfache Regel
 
-Es gibt eine sehr genaue Halteanleitung für jeden Fall. Wir nehmen die entspannte Version, die für Casuals völlig reicht:
+Für jeden Fall gibt es eine einfache Halteregel – und einen Blick, den viele Anleitungen unterschlagen:
 
-**Bei einer gelben Ecke oben (Fisch):** Halte den Würfel so, dass diese einzelne gelbe Ecke **vorne links** oben liegt. Einmal **Sune** – R U R' U R U2 R' – und alle vier Ecken sind gelb. Ein Zug, Feierabend.
+**Bei einer gelben Ecke oben (Fisch):** Halte den Würfel so, dass diese einzelne gelbe Ecke **vorne links** oben liegt. Jetzt der wichtige Blick: Es gibt **zwei** Fische, und von oben sehen sie gleich aus. Der Unterschied steckt in der Ecke **vorne rechts**. Zeigt ihr gelber Sticker **zu dir**, reicht einmal **Sune** – R U R' U R U2 R' – und alle vier Ecken sind gelb. Zeigt er **nach rechts**, hast du den Zwillingsfisch: Einmal Sune baut daraus erst einen neuen Fisch. Kein Drama – den neuen Fisch wieder vorne links halten, noch einmal Sune, fertig.
 
-**Bei null oder zwei gelben Ecken oben:** Halterichtung ist egal, aber ein Trick hilft: Wenn zwei Ecken oben gelb sind, halte den Würfel so, dass eine der beiden gelben Ecken **hinten links** oben liegt. Einmal Sune – R U R' U R U2 R' – und du hast garantiert einen Fisch (den Ein-Ecken-Fall). Und den kannst du.
+```cube
+y . .
+. . y . y
+. y y y .
+. y y . .
+. . y
+:Der Fisch – einmal Sune
 
-**Bei null gelben Ecken oben** ist die Halterichtung wirklich egal: Einmal Sune, du bekommst entweder einen Fisch oder den Zwei-Ecken-Fall, und dann kennst du den Weg schon.
+. . y
+y . y . .
+. y y y .
+. y y . y
+. . .
+:Der Zwillingsfisch – zweimal Sune
+```
+
+**Bei zwei gelben Ecken oben:** Halte den Würfel so, dass die Ecke **vorne links** ihr Gelb **zu dir** zeigt – egal, wo die beiden gelben Ecken oben liegen. Einmal Sune – und du hast garantiert einen Fisch. Und den kannst du.
+
+**Bei null gelben Ecken oben:** Halte den Würfel so, dass die Ecke **vorne links** ihr Gelb **nach links** zeigt. Einmal Sune – wieder ein Fisch.
+
+```cube
+. . .
+. y y y .
+. y y y .
+. . y . .
+y . y
+:Zwei gelbe Ecken – Gelb vorne links zeigt zu dir
+
+. . .
+y . y . y
+. y y y .
+y . y . y
+. . .
+:Null gelbe Ecken – Gelb vorne links zeigt nach links
+```
 
 Kurz: Maximal drei Sunes bringen dich von jedem Muster zur gelben Fläche. Meist reichen zwei.
 

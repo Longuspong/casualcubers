@@ -136,6 +136,38 @@ Klappe auf, ROAR, Klappe zu. So zielst du – exakt wie du es kennst:
 - **Gelbes L?** Die zwei gelben Kanten nach oben und links zeigen lassen, F-Rahmen – ergibt eine Linie, dann siehe oben.
 - **Nur ein Punkt?** Einfach loslegen, F-Rahmen – ergibt ein L oder eine Linie. Weiter wie oben.
 
+So sehen die vier Stationen von oben aus (was die Ecken machen, ist weiter egal):
+
+```cube
+. . .
+. . . . .
+. . y . .
+. . . . .
+. . .
+:Punkt
+
+. . .
+. . y . .
+. y y . .
+. . . . .
+. . .
+:L – so herum halten
+
+. . .
+. . . . .
+. y y y .
+. . . . .
+. . .
+:Linie – waagerecht
+
+. . .
+. . y . .
+. y y y .
+. . y . .
+. . .
+:Kreuz
+```
+
 Schlimmstenfalls machst du es dreimal. Zählt keiner mit.
 
 ### Blick 2: Die Ecken – die Sune
@@ -144,15 +176,53 @@ Das gelbe Kreuz steht, die Ecken zeigen noch nicht gelb nach oben. Das hast du b
 
 > **Sune** = **R U R' U R U2 R'**
 
-Gleiche Halteregeln wie damals: Bei genau einer gelben Ecke oben (dem Fisch) diese Ecke **vorne links** halten, einmal Sune, fertig. Bei zwei gelben Ecken eine davon **hinten links** halten, Sune – ergibt den Fisch. Bei null gelben Ecken: Halterichtung egal, Sune, weiter nach Muster.
+Gleiche Halteregeln wie damals:
 
-Zwei, drei Runden und die Oberseite ist komplett gelb. Neue Algorithmen in dieser Lektion: null.
+**Genau eine gelbe Ecke oben – der Fisch:** Halte diese Ecke **vorne links**. Und jetzt der Blick, den viele Anleitungen unterschlagen: Es gibt **zwei** Fische, und von oben sehen sie gleich aus. Der Unterschied steckt in der Ecke **vorne rechts**. Zeigt ihr gelber Sticker **zu dir**, reicht einmal Sune, fertig. Zeigt er **nach rechts**, ist es der Zwillingsfisch – einmal Sune baut daraus erst einen neuen Fisch. Kein Drama: den neuen Fisch wieder vorne links halten, noch einmal Sune, fertig.
+
+```cube
+y . .
+. . y . y
+. y y y .
+. y y . .
+. . y
+:Der Fisch – einmal Sune
+
+. . y
+y . y . .
+. y y y .
+. y y . y
+. . .
+:Der Zwillingsfisch – zweimal Sune
+```
+
+**Zwei gelbe Ecken oben:** Halte den Würfel so, dass die Ecke **vorne links** ihr Gelb **zu dir** zeigt – egal, wo die beiden gelben Ecken liegen. Einmal Sune ergibt garantiert einen Fisch, und den kannst du jetzt.
+
+**Null gelbe Ecken oben:** Halte den Würfel so, dass die Ecke **vorne links** ihr Gelb **nach links** zeigt. Einmal Sune – wieder ein Fisch.
+
+```cube
+. . .
+. y y y .
+. y y y .
+. . y . .
+y . y
+:Zwei gelbe Ecken – Gelb vorne links zeigt zu dir
+
+. . .
+y . y . y
+. y y y .
+y . y . y
+. . .
+:Null gelbe Ecken – Gelb vorne links zeigt nach links
+```
+
+Maximal drei Sunes, und die Oberseite ist komplett gelb. Neue Algorithmen in dieser Lektion: null.
 
 ### Übung
 
 1. Verdrehe die letzte Ebene, dann: F-Rahmen bis zum Kreuz, Sune bis zur gelben Fläche. Dreimal.
 2. Kompletter Durchlauf: Kreuz, F2L, OLL. Zweimal, mit Ruhe.
-3. Sprich beim Lösen einmal laut mit, welches Muster du siehst (Punkt, L, Linie – dann Fisch, zwei, null). Das Benennen macht das Erkennen schneller.
+3. Sprich beim Lösen einmal laut mit, welches Muster du siehst (Punkt, L, Linie – dann Fisch, Zwillingsfisch, zwei, null). Das Benennen macht das Erkennen schneller.
 
 **Abhaken, wenn:** Du nach F2L die komplette Oberseite gelb bekommst, ohne einen einzigen Zug abzulesen.
 
@@ -176,6 +246,15 @@ Vierzehn Züge – aber schau dir mal an, womit er *anfängt*: R U R' U'. Das is
 
 **So setzt du ihn ein:** Such zwei Ecken nebeneinander, deren Seitenfarben zusammenpassen – die Cubing-Welt nennt das „Scheinwerfer". Halte sie nach **hinten**, mach den Swap: Er tauscht die beiden **vorderen** Ecken. Nirgendwo Scheinwerfer? Einmal blind ausführen, danach hast du welche.
 
+```cube
+r g r
+. y y y .
+. y y y .
+. y y y .
+. . .
+:Scheinwerfer hinten – der Swap tauscht die zwei vorderen Ecken
+```
+
 (Und jetzt darfst du kurz stolz sein: Dieser Zug ist ein echter PLL-Algorithmus, den Speedcuber verwenden. Er heißt T-Perm. Du bist ab sofort offiziell fancy.)
 
 ### Blick 2: Die Kanten – der Kanten-Zyklus
@@ -185,6 +264,15 @@ Die Ecken sitzen, bis zu drei Kanten sind falsch. Und hier greift das Recycling 
 > **Kanten-Zyklus** = **R U' R U R U R U' R' U' R2**
 
 Gleiche Routine wie damals: Die eine richtige Kante nach **hinten** halten, Zyklus ausführen. Falsch herum rotiert? Nochmal, gleiche Haltung, dann passt es. Keine Kante richtig? Einmal blind, dann hast du eine Ankerin.
+
+```cube
+b b b
+o y y y r
+r y y y g
+o y y y r
+g o g
+:Die richtige Kante nach hinten – die anderen drei rotieren
+```
 
 Obere Ebene drehen, bis alles einrastet. Würfel gelöst. CFOP gelöst.
 
