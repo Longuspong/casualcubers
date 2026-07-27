@@ -8,6 +8,52 @@
 
 **Ziel-Bild:** Eine Recycling-Tonne, aus der drei beschriftete Zugfolgen ragen: ROAR, Sune, Kanten-Zyklus. Daneben die vier Buchstaben C-F-O-P als Bauplan. Bildunterschrift: „78 Algorithmen? Wir nehmen einen. Einen neuen."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+.o. .g. .r. .b.
+.o. .g. .r. .b.
+.w.
+www
+.w.
+:C – Cross
+
+...
+...
+...
+... ... ... ...
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+www
+www
+www
+:F2L – zwei Ebenen
+
+yyy
+yyy
+yyy
+ooo grg rbr bgb
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+www
+www
+www
+:OLL – oben eine Farbe
+
+yyy
+yyy
+yyy
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+www
+www
+www
+:PLL – alles an seinem Platz
+```
+
 ### Das Geheimnis, das niemand Anfängern verrät
 
 CFOP ist *die* Speedcubing-Methode. Die Vollversion hat 78 Algorithmen. Wir lernen **einen**.
@@ -52,6 +98,19 @@ Schritt 1 und 2 sind pure Intuition. Schritt 3 und 4 sind recycelt. Jede der fol
 
 **Ziel-Bild:** Würfel von schräg unten, weißes Kreuz auf der Unterseite, Rest chaotisch. Ein stilisiertes Augenpaar schaut konzentriert auf den Würfel. Bildunterschrift: „Kein Algorithmus. Nur du und vier Kanten."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+.o. .g. .r. .b.
+.o. .g. .r. .b.
+.w.
+www
+.w.
+:Weißes Kreuz unten – und drüber passt jede Kante zu ihrem Center
+```
+
 ### Nichts Neues – nur zwei Upgrades
 
 Ein Kreuz baust du aus dem Beginner-Pfad sowieso schon (Lektion 3, die Blume). Hier ist nichts neu, nur zwei entspannte Upgrades:
@@ -61,6 +120,34 @@ Ein Kreuz baust du aus dem Beginner-Pfad sowieso schon (Lektion 3, die Blume). H
 **Upgrade 2 – lass die Blume weg.** Der Umweg über die Blume war Stützräder. Ziel irgendwann: das Kreuz in „so um die 8 Züge" – nicht durch Auswendiglernen, sondern indem du **vor dem ersten Zug etwas länger auf den Würfel schaust**. Starren ist eine legitime Technik. Die besten Cuber der Welt planen ihr komplettes Kreuz, bevor sie den ersten Zug machen.
 
 Kein Algorithmus. Nur du und vier Kanten.
+
+### Der eine Fehler, der beim Blindbauen passiert
+
+Wenn du das Kreuz unten baust, ohne draufzuschauen, geht fast nie eine Kante verloren – aber gern mal die **Ausrichtung**. Vier weiße Sticker unten und trotzdem falsch: Jede Kante hängt unter dem Center des Nachbarn. Der Kontrollblick geht deshalb nie auf die Unterseite, sondern **auf die Seiten**:
+
+```cube-net
+...
+...
+...
+... ... ... ...
+.o. .g. .r. .b.
+.g. .r. .b. .o.
+.w.
+www
+.w.
+:Falsch: unten stimmt Weiß, aber jede Kante steht unter dem falschen Center
+
+...
+...
+...
+... ... ... ...
+.o. .g. .r. .b.
+.o. .g. .r. .b.
+.w.
+www
+.w.
+:Richtig: über jeder Kante steht ihre eigene Farbe
+```
 
 ### Übung
 
@@ -76,6 +163,19 @@ Kein Algorithmus. Nur du und vier Kanten.
 
 **Ziel-Bild:** Würfel zu zwei Dritteln gelöst, daneben schwebend ein Paar aus Ecke und Kante, das wie ein Puzzleteil in seinen Slot fällt. Bildunterschrift: „Vier Paare, und zwei Drittel des Würfels sind fertig."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+ooo ggg rrr bbb
+ooo ggg rrr bbb
+www
+www
+www
+:Zwei Ebenen am Stück – gebaut aus vier Paaren, nicht aus zwei Etagen
+```
+
 ### Die große Kopf-Umstellung
 
 Das ist das Herz von CFOP: Statt „erste Ebene, dann zweite Ebene" löst du **beide gleichzeitig** – indem du *Paare* aus Ecke und Kante baust und sie zusammen in ihre Slots fallen lässt. Vier Paare, fertig.
@@ -85,6 +185,19 @@ Und jetzt kommt's: **F2L ist keine Algorithmus-Liste.** Es ist ein Skill. Du fin
 ### Idee 1: Der einfache Einwurf
 
 Eine Ecke und ihre passende Kante sitzen als fertiges Paar nebeneinander in der oberen Ebene und schweben über ihrem leeren Slot vorne rechts? Dann ist es nur:
+
+```cube-net
+...
+...
+...
+... ... ... ...
+ooo gg. .rr bbb
+ooo gg. .rr bbb
+ww.
+www
+www
+:Drei Paare sitzen, vorne rechts steht der Slot offen – da soll das vierte hinein
+```
 
 > **Der Einwurf** = **R U R'**
 
@@ -119,6 +232,22 @@ Es gibt 41 „offizielle" F2L-Fälle mit optimalen Algorithmen. Du brauchst davo
 ## Lektion 4: OLL – oben eine Farbe, in zwei Blicken
 
 **Ziel-Bild:** Blick von oben: komplett gelbe Oberseite, die Seitenfarben passen noch nicht. Daneben klein: die Zwischenstation mit gelbem Kreuz. Bildunterschrift: „57 Algorithmen im Original. Bei uns: null neue."
+
+```cube
+. . .
+. . y . .
+. y y y .
+. . y . .
+. . .
+:Zwischenstation: erst das gelbe Kreuz
+
+b g b
+o y y y r
+o y y y b
+o y y y r
+g r g
+:Ziel: die ganze Oberseite gelb – der Rand ringsum ist noch egal
+```
 
 ### Zwei Blicke statt 57 Algorithmen
 
@@ -231,6 +360,22 @@ Maximal drei Sunes, und die Oberseite ist komplett gelb. Neue Algorithmen in die
 ## Lektion 5: PLL – alles an seinen Platz
 
 **Ziel-Bild:** Zwei Würfel nebeneinander. Links: gelbe Fläche oben, Seitenfarben chaotisch, zwei Ecken hinten als „Scheinwerfer" markiert. Rechts: komplett gelöst. Bildunterschrift: „21 Algorithmen im Original. Bei uns: einer neu – und einen kennst du schon."
+
+```cube
+b g b
+o y y y r
+o y y y b
+o y y y r
+g r g
+:Vorher: oben gelb, der Rand ringsum springt
+
+b b b
+o y y y r
+o y y y r
+o y y y r
+g g g
+:Nachher: jede Seite einfarbig
+```
 
 ### Der eine neue Algorithmus
 

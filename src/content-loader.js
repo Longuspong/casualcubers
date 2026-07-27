@@ -40,13 +40,17 @@ function parseLessons(raw) {
     const title = headMatch[2].trim();
     let body = nl === -1 ? '' : section.slice(nl + 1);
 
-    // Ziel-Bild-Zeile herausziehen (wird separat als Platzhalter gerendert).
+    // Ziel-Bild-Zeile herausziehen (wird separat über dem Text gerendert).
+    // Folgt direkt darunter ein ```cube- oder ```cube-net-Block, wird daraus
+    // das echte Bild; ohne Block bleibt der gestrichelte Platzhalter.
     let goalImageDesc = '';
     let goalImageCaption = '';
-    body = body.replace(/^\*\*Ziel-Bild:\*\*\s*(.+)$/m, (_full, rest) => {
+    let goalImageHtml = '';
+    body = body.replace(GOAL_IMAGE_RE, (_full, rest, kind, block) => {
       const parsed = parseGoalImage(rest.trim());
       goalImageDesc = parsed.desc;
       goalImageCaption = parsed.caption;
+      if (kind) goalImageHtml = buildCubeFigureHtml(kind, block, goalImageDesc);
       return '';
     });
 
@@ -65,6 +69,7 @@ function parseLessons(raw) {
       title,
       goalImageDesc,
       goalImageCaption,
+      goalImageHtml,
       content: renderLessonHtml(body),
       abhakenWenn,
     });
@@ -73,6 +78,12 @@ function parseLessons(raw) {
   lessons.sort((a, b) => a.number - b.number);
   return lessons;
 }
+
+// Die Ziel-Bild-Zeile plus optional direkt darunter (nur Leerzeilen dazwischen)
+// ein Diagramm-Block. `\n+` statt `\s*` sorgt dafür, dass ein Block hinter
+// einem normalen Absatz nicht mehr eingesammelt wird.
+const GOAL_IMAGE_RE =
+  /^\*\*Ziel-Bild:\*\*[ \t]*(.+)(?:\n+```(cube-net|cube)[ \t]*\n([\s\S]*?)\n```)?/m;
 
 // "Beschreibung. Bildunterschrift: „Text"" -> { desc, caption }
 function parseGoalImage(text) {
@@ -122,8 +133,9 @@ function annotateNotation(html) {
   const root = tpl.content;
 
   // 0) Würfeldiagramme
-  root.querySelectorAll('pre > code.language-cube').forEach((code) => {
-    const figure = buildCubeFigure(code.textContent);
+  root.querySelectorAll('pre > code.language-cube, pre > code.language-cube-net').forEach((code) => {
+    const kind = code.classList.contains('language-cube-net') ? 'cube-net' : 'cube';
+    const figure = buildCubeFigure(kind, code.textContent);
     if (figure) code.parentElement.replaceWith(figure);
   });
 
@@ -158,10 +170,11 @@ function annotateNotation(html) {
 }
 
 // ---------------------------------------------------------------------------
-// Würfeldiagramme: ```cube-Blöcke -> Inline-SVG (Draufsicht auf die Oberseite)
+// Würfeldiagramme: ```cube- und ```cube-net-Blöcke -> Inline-SVG
 // ---------------------------------------------------------------------------
 //
-// Format eines Blocks (mehrere Diagramme durch Leerzeilen getrennt):
+// ```cube ist die Draufsicht auf die Oberseite – der Blick, den man bei den
+// Last-Layer-Schritten wirklich hat:
 //
 //   . . .        hintere Seitensticker der oberen Ebene (3 Zellen)
 //   y . y . y    linker Seitensticker, 3 Felder Oberseite, rechter Seitensticker
@@ -170,35 +183,56 @@ function annotateNotation(html) {
 //   . . .        vordere Seitensticker (3 Zellen)
 //   :Beschriftung unter dem Diagramm (optional)
 //
-// Für den 2x2 entsprechend eine Zeile weniger (2 Zellen hinten/vorn, zwei
-// Zeilen à 4 Zellen). Zeichen: y gelb, r rot, g grün, b blau, o orange,
-// w weiß, . beliebige Farbe.
+// ```cube-net ist der aufgeklappte Würfel – der Blick für „so sieht der ganze
+// Würfel gerade aus". Oben die U-Seite, in der Mitte L F R B nebeneinander,
+// unten D:
+//
+//       yyy
+//       yyy
+//       yyy
+//   ooo ggg rrr bbb
+//   ooo ggg rrr bbb
+//   ooo ggg rrr bbb
+//       www
+//       www
+//       www
+//   !letters     blendet die Seitenbuchstaben U/L/F/R/B/D ein (optional)
+//   :Beschriftung unter dem Diagramm (optional)
+//
+// Beide Formate gibt es auch für den 2x2 (eine Reihe weniger). Mehrere
+// Diagramme in einem Block werden durch Leerzeilen getrennt und stehen dann
+// nebeneinander. Zeichen: y gelb, r rot, g grün, b blau, o orange, w weiß,
+// . beliebige Farbe (grau – „egal, was hier steht").
 
 const CUBE_STICKER_CLASS = {
   y: 'cd-y', r: 'cd-r', g: 'cd-g', b: 'cd-b', o: 'cd-o', w: 'cd-w', '.': 'cd-n',
 };
 
-function buildCubeFigure(text) {
+const NET_FACES = ['U', 'L', 'F', 'R', 'B', 'D'];
+
+function buildCubeFigure(kind, text, ariaLabel = '') {
   const row = document.createElement('div');
   row.className = 'cube-row';
 
   for (const chunk of text.trim().split(/\n\s*\n/)) {
-    const lines = chunk.trim().split('\n').map((l) => l.trim());
+    const lines = chunk.trim().split('\n').map((l) => l.trim()).filter(Boolean);
+
+    // Optionen (!…) und Beschriftung (:…) von den Farbzeilen trennen.
     let label = '';
-    if (lines.length && lines[lines.length - 1].startsWith(':')) {
-      label = lines.pop().slice(1).trim();
+    const options = new Set();
+    const body = [];
+    for (const line of lines) {
+      if (line.startsWith(':')) label = line.slice(1).trim();
+      else if (line.startsWith('!')) options.add(line.slice(1).trim());
+      else body.push(line);
     }
-    const grid = lines.map((l) => l.replace(/\s+/g, ''));
-    const n = grid.length - 2; // Kantenlänge der Oberseite (3x3 oder 2x2)
-    const valid =
-      (n === 2 || n === 3) &&
-      grid[0].length === n && grid[n + 1].length === n &&
-      grid.slice(1, n + 1).every((l) => l.length === n + 2);
-    if (!valid) continue; // kaputtes Diagramm still überspringen
+
+    const svg = kind === 'cube-net' ? buildNetSvg(body, label, options) : buildTopSvg(body, label);
+    if (!svg) continue; // kaputtes Diagramm still überspringen
 
     const item = document.createElement('div');
-    item.className = 'cube-item';
-    item.appendChild(buildCubeSvg(grid, label));
+    item.className = kind === 'cube-net' ? 'cube-item cube-item--net' : 'cube-item';
+    item.appendChild(svg);
     if (label) {
       const span = document.createElement('span');
       span.className = 'cube-label';
@@ -209,10 +243,70 @@ function buildCubeFigure(text) {
   }
 
   if (!row.children.length) return null;
+  // Ab drei Diagrammen nebeneinander wird es sonst eine sehr lange Kolonne –
+  // dann kleiner rendern, damit auf dem Handy zwei pro Zeile passen.
+  if (row.children.length >= 3) row.classList.add('cube-row--many');
+
   const figure = document.createElement('figure');
   figure.className = 'cube-figure';
   figure.appendChild(row);
+  if (ariaLabel) {
+    // Beim Ziel-Bild beschreibt die Prosa aus dem Content das Bild besser als
+    // jede generierte Zusammenfassung – die einzelnen SVGs sind dann stumm.
+    figure.setAttribute('role', 'img');
+    figure.setAttribute('aria-label', ariaLabel);
+    figure.querySelectorAll('svg').forEach((s) => {
+      s.removeAttribute('role');
+      s.removeAttribute('aria-label');
+      s.setAttribute('aria-hidden', 'true');
+    });
+  }
   return figure;
+}
+
+function buildCubeFigureHtml(kind, text, ariaLabel) {
+  const figure = buildCubeFigure(kind, text, ariaLabel);
+  return figure ? figure.outerHTML : '';
+}
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+// Sticker-Rechteck. Wird von beiden Diagrammarten benutzt.
+function appendSticker(svg, x, y, w, h, ch) {
+  const r = document.createElementNS(SVG_NS, 'rect');
+  r.setAttribute('x', x);
+  r.setAttribute('y', y);
+  r.setAttribute('width', w);
+  r.setAttribute('height', h);
+  r.setAttribute('rx', 2.5);
+  r.setAttribute('class', `cd ${CUBE_STICKER_CLASS[ch] || 'cd-n'}`);
+  svg.appendChild(r);
+}
+
+// SVG mit fester Größe: width/height als Attribut, damit auch Browser ohne
+// „intrinsisches Seitenverhältnis aus der viewBox" (ältere iOS-Safaris) die
+// Grafik nicht auf Höhe 0 zusammenfallen lassen. Die CSS-Breite skaliert sie.
+function createSvg(w, h, label) {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width', w);
+  svg.setAttribute('height', h);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', label);
+  return svg;
+}
+
+// --- Draufsicht ------------------------------------------------------------
+
+function buildTopSvg(lines, label) {
+  const grid = lines.map((l) => l.replace(/\s+/g, ''));
+  const n = grid.length - 2; // Kantenlänge der Oberseite (3x3 oder 2x2)
+  const valid =
+    (n === 2 || n === 3) &&
+    grid[0].length === n && grid[n + 1].length === n &&
+    grid.slice(1, n + 1).every((l) => l.length === n + 2);
+  if (!valid) return null;
+  return buildCubeSvg(grid, label);
 }
 
 function buildCubeSvg(grid, label) {
@@ -226,25 +320,8 @@ function buildCubeSvg(grid, label) {
   const off = BAR + PAD;
   const pos = (i) => off + i * (CELL + GAP);
 
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
-  svg.setAttribute('role', 'img');
-  svg.setAttribute(
-    'aria-label',
-    label ? `Würfel von oben: ${label}` : 'Würfel von oben'
-  );
-
-  const sticker = (x, y, w, h, ch) => {
-    const r = document.createElementNS(NS, 'rect');
-    r.setAttribute('x', x);
-    r.setAttribute('y', y);
-    r.setAttribute('width', w);
-    r.setAttribute('height', h);
-    r.setAttribute('rx', 2.5);
-    r.setAttribute('class', `cd ${CUBE_STICKER_CLASS[ch] || 'cd-n'}`);
-    svg.appendChild(r);
-  };
+  const svg = createSvg(size, size, label ? `Würfel von oben: ${label}` : 'Würfel von oben');
+  const sticker = (x, y, w, h, ch) => appendSticker(svg, x, y, w, h, ch);
 
   for (let i = 0; i < n; i++) {
     sticker(pos(i), 0, CELL, BAR, grid[0][i]); // hinten
@@ -253,6 +330,86 @@ function buildCubeSvg(grid, label) {
     sticker(0, pos(i), BAR, CELL, line[0]); // links
     for (let c = 0; c < n; c++) sticker(pos(c), pos(i), CELL, CELL, line[c + 1]);
     sticker(off + face + PAD, pos(i), BAR, CELL, line[n + 1]); // rechts
+  }
+  return svg;
+}
+
+// --- Aufgeklappter Würfel (Netz) -------------------------------------------
+
+// Zeilen -> { n, faces } oder null. Erwartet 3n Zeilen: n Zeilen mit einem
+// Block (U), n Zeilen mit vier Blöcken (L F R B), n Zeilen mit einem (D).
+function parseNet(lines) {
+  const rows = lines.map((l) => l.trim().split(/\s+/).filter(Boolean));
+  const n = rows.length / 3;
+  if (n !== 2 && n !== 3) return null;
+
+  for (let i = 0; i < rows.length; i++) {
+    const expected = i >= n && i < 2 * n ? 4 : 1;
+    if (rows[i].length !== expected) return null;
+    if (rows[i].some((token) => token.length !== n)) return null;
+  }
+
+  const faces = { U: [], L: [], F: [], R: [], B: [], D: [] };
+  for (let i = 0; i < n; i++) {
+    faces.U.push(rows[i][0]);
+    const [l, f, r, b] = rows[n + i];
+    faces.L.push(l);
+    faces.F.push(f);
+    faces.R.push(r);
+    faces.B.push(b);
+    faces.D.push(rows[2 * n + i][0]);
+  }
+  return { n, faces };
+}
+
+function buildNetSvg(lines, label, options) {
+  const net = parseNet(lines);
+  if (!net) return null;
+  const { n, faces } = net;
+
+  const CELL = 20;
+  const GAP = 2;
+  const FACE_GAP = 7;
+  const face = n * CELL + (n - 1) * GAP;
+  const step = face + FACE_GAP;
+  const width = 4 * face + 3 * FACE_GAP;
+  const height = 3 * face + 2 * FACE_GAP;
+
+  // Kreuz-Layout: U oben über F, darunter D; L F R B als Gürtel.
+  const origin = {
+    U: [step, 0], L: [0, step], F: [step, step], R: [2 * step, step],
+    B: [3 * step, step], D: [step, 2 * step],
+  };
+
+  const svg = createSvg(
+    width, height,
+    label ? `Aufgeklappter Würfel: ${label}` : 'Aufgeklappter Würfel'
+  );
+
+  for (const name of NET_FACES) {
+    const [ox, oy] = origin[name];
+    const rows = faces[name];
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        appendSticker(
+          svg,
+          ox + c * (CELL + GAP), oy + r * (CELL + GAP),
+          CELL, CELL, rows[r][c]
+        );
+      }
+    }
+    if (options.has('letters')) {
+      const text = document.createElementNS(SVG_NS, 'text');
+      text.setAttribute('x', ox + face / 2);
+      text.setAttribute('y', oy + face / 2);
+      text.setAttribute('class', 'cd-letter');
+      text.setAttribute('text-anchor', 'middle');
+      // Vertikal per dy statt dominant-baseline zentriert: dominant-baseline
+      // wird auf <text> nicht überall gleich umgesetzt, dy überall.
+      text.setAttribute('dy', '0.35em');
+      text.textContent = name;
+      svg.appendChild(text);
+    }
   }
   return svg;
 }

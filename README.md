@@ -81,18 +81,28 @@ Server-Rewrites funktioniert:
 `content-loader.js` lädt `<pfad>.md` per `fetch` (portabel über
 `import.meta.env.BASE_URL`, Ergebnis pro Pfad gecacht), splittet an den
 `## Lektion N:`-Überschriften und extrahiert je Lektion `number`, `title`,
-`goalImageCaption`, `content` (als HTML via `marked`) und `abhakenWenn`.
+`goalImageDesc`, `goalImageCaption`, `goalImageHtml`, `content` (als HTML via
+`marked`) und `abhakenWenn`.
+
+Steht direkt unter der `**Ziel-Bild:**`-Zeile ein `cube`- oder
+`cube-net`-Block (nur Leerzeilen dazwischen), wird daraus das Ziel-Bild der
+Lektion gerendert – die Prosa der Zeile dient dann als `aria-label`. Ohne
+Block bleibt der gestrichelte Platzhalter stehen.
 
 Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
 
-0. **Würfeldiagramme** – Codeblöcke mit der Sprache `cube` werden zu
-   Inline-SVGs (Draufsicht auf die Oberseite mit Seitensticker-Balken).
-   Format: 5 Zeilen pro Diagramm (3 hintere Seitensticker / 3× „links +
-   3 Felder + rechts" / 3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2,
-   Zeichen `y r g b o w .` (`.` = beliebige Farbe), optional eine
-   `:Beschriftung`-Zeile; mehrere
-   Diagramme in einem Block werden durch Leerzeilen getrennt und nebeneinander
-   gerendert.
+0. **Würfeldiagramme** – Codeblöcke mit der Sprache `cube` oder `cube-net`
+   werden zu Inline-SVGs. Zeichen in beiden Formaten: `y r g b o w .`
+   (`.` = beliebige Farbe, wird grau gerendert). Pro Diagramm optional eine
+   `:Beschriftung`-Zeile; mehrere Diagramme in einem Block werden durch
+   Leerzeilen getrennt und nebeneinander gerendert (ab drei Stück kleiner).
+   - `cube` = **Draufsicht** auf die Oberseite mit Seitensticker-Balken.
+     5 Zeilen pro Diagramm (3 hintere Seitensticker / 3× „links + 3 Felder +
+     rechts" / 3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2.
+   - `cube-net` = **aufgeklappter Würfel** im Kreuz-Layout. 9 Zeilen pro
+     Diagramm (3× U / 3× „L F R B" / 3× D) bzw. 6 Zeilen für den 2x2; die
+     Blöcke einer Zeile werden durch Leerzeichen getrennt. Eine Zeile
+     `!letters` blendet zusätzlich die Seitenbuchstaben U/L/F/R/B/D ein.
 1. **Algorithmus-Kasten** – jede Zeile/jeder Absatz, der *nur* aus Notation
    besteht (`R L U D F B M` mit optional `'`/`2`; `M` für Roux), wird zum großen
    Algorithmus-Kasten mit farbigem Leitfarben-Balken und Deko-Play-Icon
@@ -124,5 +134,6 @@ daumenerreichbare Fixed-Navigation in den Lektionen.
 - 3D-Würfel-Player – Algorithmen sind aktuell Text-Notation (Phase 3)
 - Scramble-Generator (Phase 4)
 - Web App Manifest (Phase 5)
-- echte Ziel-Bild-Illustrationen – aktuell Platzhalter (Würfeldiagramme im
-  Fließtext gibt es bereits als generierte Inline-SVGs)
+- gezeichnete Ziel-Bild-Illustrationen – aktuell trägt jede Lektion ein
+  generiertes Würfeldiagramm als Ziel-Bild; der gestrichelte Platzhalter
+  greift nur noch, wenn eine Lektion keins mitbringt

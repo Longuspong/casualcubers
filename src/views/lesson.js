@@ -13,11 +13,17 @@ export function renderLesson(container, { path, lessons, lesson }) {
   const next = idx < lessons.length - 1 ? lessons[idx + 1] : null;
   const done = isDone(path, lesson.number);
 
+  // Mit Würfeldiagramm im Content wird daraus ein echtes Bild; ohne Diagramm
+  // bleibt der gestrichelte Platzhalter als Fallback stehen.
+  const goalVisual = lesson.goalImageHtml
+    ? lesson.goalImageHtml
+    : `<div class="goal-image-frame" role="img" aria-label="${esc(lesson.goalImageDesc)}">
+         <span class="goal-image-tag" aria-hidden="true">Ziel-Bild</span>
+       </div>`;
+
   const goalImage = lesson.goalImageCaption || lesson.goalImageDesc
-    ? `<figure class="goal-image">
-         <div class="goal-image-frame" role="img" aria-label="${esc(lesson.goalImageDesc)}">
-           <span class="goal-image-tag" aria-hidden="true">Ziel-Bild</span>
-         </div>
+    ? `<figure class="goal-image ${lesson.goalImageHtml ? 'goal-image--diagram' : ''}">
+         ${goalVisual}
          ${lesson.goalImageCaption ? `<figcaption>„${esc(lesson.goalImageCaption)}“</figcaption>` : ''}
        </figure>`
     : '';

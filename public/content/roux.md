@@ -8,6 +8,19 @@
 
 **Ziel-Bild:** Würfel von schräg vorn, die linke und rechte 1x2x3-Säule farbig hervorgehoben, der mittlere Streifen (oben plus Mittelscheibe) ausgegraut. Bildunterschrift: „Zwei Blöcke bauen, dann aufräumen, was in der Mitte übrig bleibt."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+bbb r.r ggg o.o
+bbb r.r ggg o.o
+w.w
+w.w
+w.w
+:Links und rechts je ein 1x2x3-Block – der graue Streifen dazwischen bleibt erst mal, wie er ist
+```
+
 ### Warum überhaupt anders?
 
 Die Ebene-für-Ebene-Methode kennst du. Roux (sprich „Ruh", ist Französisch) macht etwas anderes: Statt Ebenen baust du **Blöcke** auf der linken und rechten Seite und räumst dann auf, was in der Mitte übrig bleibt.
@@ -23,7 +36,20 @@ Die Notation kennst du aus dem Beginner-Pfad – R, U, F, D, L, Apostroph, Zwei,
 - **M** – die mittlere senkrechte Scheibe zwischen L und R. Gedreht wird sie in dieselbe Richtung wie ein **L**-Zug: Die Oberseite der Scheibe kommt auf dich zu.
 - **r** – kleingeschrieben heißt: die rechte Seite **plus** die mittlere Scheibe zusammen.
 
-M-Züge sind das Herz von Roux. Am Anfang fühlen sie sich sperrig an – dein Handgelenk kriegt das hin.
+M-Züge sind das Herz von Roux. Am Anfang fühlen sie sich sperrig an – dein Handgelenk kriegt das hin. Und genau das ist die Scheibe, um die es geht – die Spalte, die zwischen deinen beiden Blöcken frei bleibt:
+
+```cube-net
+.y.
+.y.
+.y.
+... .r. ... .o.
+... .r. ... .o.
+... .r. ... .o.
+.w.
+.w.
+.w.
+:Die M-Scheibe: oben herum, vorn herunter, unten herum, hinten wieder hoch
+```
 
 ### Übung
 
@@ -39,6 +65,19 @@ M-Züge sind das Herz von Roux. Am Anfang fühlen sie sich sperrig an – dein H
 
 **Ziel-Bild:** Würfel mit fertigem 1x2x3-Block links (Center, zwei Kanten, unten die Ecken-Kanten-Reihe), Rest chaotisch. Bildunterschrift: „Das linke Drittel, minus Oberseite. Null Algorithmen."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+bbb r.. ... ..o
+bbb r.. ... ..o
+w..
+w..
+w..
+:Der linke Block steht – der ganze Rest darf noch Chaos sein
+```
+
 ### Was gebaut wird
 
 Bau einen **1x2x3-Block auf der linken Seite** – also das linke Center, die zwei linken Kanten (vorne und hinten), plus die Kanten und Ecken unten links. Kurz gesagt: das komplette linke Drittel des Würfels, minus die oberste Ebene.
@@ -50,6 +89,20 @@ Klassischer Startpunkt: blaues Center links, Weiß unten. Aber ehrlich – nimm,
 Hierfür gibt es **keinen Algorithmus**. Null. Du baust einfach – und das Denken in Teilen aus Beginner-Lektion 1 ist genau das Werkzeug dafür:
 
 - Fang mit dem „Quadrat" an: Center + eine Kante + das Ecke/Kante-Paar darunter. Von da erweiterst du.
+
+```cube-net
+...
+...
+...
+... ... ... ...
+.bb r.. ... ...
+.bb r.. ... ...
+w..
+w..
+...
+:Das Quadrat: Center, die Kante nach vorn und das Ecke/Kante-Paar darunter
+```
+
 - Halte den fertigen Teil links und **aus dem Weg** – dir bleibt der ganze Rest des Würfels (R-, r-, M- und U-Züge), ohne ihn zu zerstören.
 - Langsam ist okay. Zehn Sekunden auf den Würfel starren, bevor du ziehst, ist okay. Das *ist* die Methode.
 
@@ -67,9 +120,35 @@ Hierfür gibt es **keinen Algorithmus**. Null. Du baust einfach – und das Denk
 
 **Ziel-Bild:** Würfel mit beiden Seitenblöcken fertig, in der Mitte und oben ein chaotischer Streifen. Bildunterschrift: „Sieht falsch aus. Ist richtig."
 
+```cube-net
+...
+...
+...
+... ... ... ...
+bbb r.r ggg o.o
+bbb r.r ggg o.o
+w.w
+w.w
+w.w
+:Beide Blöcke stehen – oben und in der Mitte bleibt ein grauer Streifen übrig
+```
+
 ### Dasselbe, gespiegelt – mit Handschellen
 
 Jetzt dasselbe auf der **rechten Seite**: ein 1x2x3-Block, mit derselben Farbe unten, logisch (wenn Weiß deine Unterseite ist, bleibt Weiß unten).
+
+```cube-net
+...
+...
+...
+... ... ... ...
+... ..r ggg o..
+... ..r ggg o..
+..w
+..w
+..w
+:Derselbe Block, gespiegelt – und der linke bleibt dabei unangetastet
+```
 
 Der Haken: Ab jetzt darfst du die linke Seite **nicht mehr anfassen**. Deine Werkzeuge sind **R, r, M und U** – das reicht wirklich, und nach einer Weile fühlt es sich richtig bequem an.
 
@@ -93,6 +172,19 @@ Wenn du fertig bist, sieht der Würfel halb gelöst aus, mit einem chaotischen S
 ## Lektion 4: Die oberen Ecken – alte Bekannte
 
 **Ziel-Bild:** Würfel mit beiden Blöcken und gelösten oberen Ecken; die Kanten der Oberseite und die Mittelscheibe sind bewusst chaotisch. Bildunterschrift: „Die Mitte darf tanzen. Nur die vier Ecken zählen jetzt."
+
+```cube-net
+y.y
+...
+y.y
+b.b r.r g.g o.o
+bbb r.r ggg o.o
+bbb r.r ggg o.o
+w.w
+w.w
+w.w
+:Die vier oberen Ecken sitzen – die Kanten und die ganze M-Scheibe sind noch grau
+```
 
 ### Zwei Runden, null neue Züge
 
@@ -170,6 +262,30 @@ Nirgendwo ein passendes Paar? Mach die Folge trotzdem einmal, danach hast du ein
 ## Lektion 5: Die letzten sechs Kanten – das Finale
 
 **Ziel-Bild:** Zwei Würfel nebeneinander. Links: alles gelöst außer sechs Kanten (vier oben, zwei in der Mittelscheibe). Rechts: komplett gelöst. Bildunterschrift: „Nur noch M und U. Nichts kann mehr kaputtgehen."
+
+```cube-net
+y.y
+...
+y.y
+b.b r.r g.g o.o
+bbb r.r ggg o.o
+bbb r.r ggg o.o
+w.w
+w.w
+w.w
+:Vorher: alles steht, außer sechs Kanten und der Mitte
+
+yyy
+yyy
+yyy
+bbb rrr ggg ooo
+bbb rrr ggg ooo
+bbb rrr ggg ooo
+www
+www
+www
+:Nachher: gelöst
+```
 
 ### Der rouxigste Teil überhaupt
 
