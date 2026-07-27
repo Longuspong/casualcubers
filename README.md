@@ -96,13 +96,21 @@ Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
    (`.` = beliebige Farbe, wird grau gerendert). Pro Diagramm optional eine
    `:Beschriftung`-Zeile; mehrere Diagramme in einem Block werden durch
    Leerzeilen getrennt und nebeneinander gerendert (ab drei Stück kleiner).
-   - `cube` = **Draufsicht** auf die Oberseite mit Seitensticker-Balken.
-     5 Zeilen pro Diagramm (3 hintere Seitensticker / 3× „links + 3 Felder +
-     rechts" / 3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2.
-   - `cube-net` = **aufgeklappter Würfel** im Kreuz-Layout. 9 Zeilen pro
-     Diagramm (3× U / 3× „L F R B" / 3× D) bzw. 6 Zeilen für den 2x2; die
-     Blöcke einer Zeile werden durch Leerzeichen getrennt. Eine Zeile
+   Die Quellformate sind flach und zeilenbasiert, gerendert wird daraus ein
+   räumlicher Würfel.
+   - `cube` = **Blick von schräg oben** auf die Oberseite. 5 Zeilen pro
+     Diagramm (3 hintere Seitensticker / 3× „links + 3 Felder + rechts" /
+     3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2. Gerendert als
+     Zentralprojektion von oben: die Oberseite bleibt ein Quadrat, die vier
+     Seitenbänder kippen als Trapeze nach außen. Anders als eine Eckansicht
+     zeigt das alle vier Seitenreihen gleichzeitig.
+   - `cube-net` = **ganzer Würfel**, im Quelltext als Kreuz-Layout notiert.
+     9 Zeilen pro Diagramm (3× U / 3× „L F R B" / 3× D) bzw. 6 Zeilen für den
+     2x2; die Blöcke einer Zeile werden durch Leerzeichen getrennt. Eine Zeile
      `!letters` blendet zusätzlich die Seitenbuchstaben U/L/F/R/B/D ein.
+     Gerendert als isometrischer Würfel (U F R). Steht auf D, B oder L etwas
+     anderes als `.`, kommt eine zweite Ansicht von der Gegenecke dazu – ein
+     Würfel zeigt nun mal nur drei Seiten.
 1. **Algorithmus-Kasten** – jede Zeile/jeder Absatz, der *nur* aus Notation
    besteht (`R L U D F B M` mit optional `'`/`2`; `M` für Roux), wird zum großen
    Algorithmus-Kasten mit farbigem Leitfarben-Balken und Deko-Play-Icon

@@ -29,7 +29,7 @@ In Wahrheit besteht der Würfel aus nur **26 Teilen**, und die spielen drei völ
 
 ### So liest du die Bilder hier
 
-Zwei Sorten Diagramme begleiten dich durch alle Lektionen. Die erste ist der **aufgeklappte Würfel** – so wie oben: In der Mitte liegen die vier Seiten nebeneinander, darüber die Oberseite, darunter die Unterseite. Die zweite ist die **Draufsicht** von oben auf die Oberseite, mit einem schmalen Rand ringsum für das, was man von den Seiten mitsieht. Die kommt ab Lektion 3 dazu.
+Zwei Sorten Diagramme begleiten dich durch alle Lektionen. Die erste ist der **ganze Würfel** – so wie oben: ein Würfel schräg von vorne. Weil man von einem Würfel immer nur drei Seiten gleichzeitig sieht, steht bei Bedarf ein zweiter daneben, der von hinten unten draufschaut. Zusammen zeigen die beiden alle sechs Seiten. Die zweite Sorte ist die **Draufsicht** von schräg oben auf die Oberseite, bei der die vier Seitenflächen der obersten Ebene nach außen wegkippen. Die kommt ab Lektion 3 dazu.
 
 Wichtig in beiden: **Graue Felder heißen „egal"**. Sie sagen dir nicht, dass da nichts ist – sie sagen, dass dieser Sticker für den gerade besprochenen Schritt keine Rolle spielt.
 
