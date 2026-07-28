@@ -2,13 +2,18 @@ name: Deploy to GitHub Pages
 
 # Baut das statische Vite-Bundle und veröffentlicht es auf GitHub Pages.
 #
-# configure-pages mit enablement: true schaltet Pages nötigenfalls selbst ein
-# und stellt die Quelle auf "GitHub Actions". Ohne diesen Schritt lief der
-# Build zwar durch, aber deploy-pages brach mit "Not Found" ab – die Seite hat
-# dann nie eine neue Version bekommen, egal was auf main gemergt wurde.
-# Klappt das Einschalten per API nicht (fehlende Rechte), muss die Quelle
-# einmalig unter Settings -> Pages von Hand auf "GitHub Actions" gestellt
-# werden; der Rest des Workflows bleibt derselbe.
+# Pages muss dafür EINMALIG von Hand eingeschaltet werden: Settings -> Pages,
+# Source auf "GitHub Actions". Solange das nicht passiert ist, bricht
+# deploy-pages mit "Not Found" ab und die Seite bekommt keine neue Version,
+# egal was auf main gemergt wird.
+#
+# configure-pages versucht das automatisch, scheitert hier aber am Token:
+#   Create Pages site failed. Error: Resource not accessible by integration
+# Die Pages-Create-API akzeptiert den GITHUB_TOKEN eines Workflows nicht.
+# Der Schritt bleibt trotzdem drin – falls die Berechtigungen sich mal ändern,
+# erledigt er es von selbst – aber mit continue-on-error, damit sein
+# Scheitern nicht den Build verhindert: der soll auf main durchlaufen und das
+# Artefakt hochladen, damit ein kaputter Build weiterhin auffällt.
 
 on:
   push:
@@ -31,6 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        continue-on-error: true
         with:
           enablement: true
       - uses: actions/setup-node@v4
