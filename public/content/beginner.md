@@ -407,7 +407,7 @@ Eine Kante steckt schon in der mittleren Ebene, aber am falschen Platz oder verd
 
 ### Ein Trick, mehrere Anläufe
 
-Die letzte Ebene ist bekannt dafür, dass hier viele Anleitungen anfangen, mit Algorithmen um sich zu werfen. Wir bleiben entspannt: **Ein einziger Zug erledigt die nächsten zwei Lektionen** – wir wenden ihn nur unterschiedlich oft und aus unterschiedlichen Blickwinkeln an.
+Die letzte Ebene ist bekannt dafür, dass hier viele Anleitungen anfangen, mit Algorithmen um sich zu werfen. Wir bleiben entspannt: **Wir zerlegen sie in vier kleine Schritte** – einen pro Lektion, jeder mit genau einer Zugfolge. Und eine davon ist schlicht der Aufzug aus Lektion 4, nur andersherum gefahren.
 
 Erste Etappe: das **gelbe Kreuz**. Und zwar wirklich nur das Kreuz – Center plus vier Kanten mit gelbem Sticker nach oben. Was die Ecken gerade tun (falsche Farbe, verdreht, tanzen), interessiert uns in dieser Lektion **null**. Guck einfach an ihnen vorbei.
 
@@ -486,107 +486,170 @@ Kleine Merkhilfe: „L wie Links" – die eine gelbe Kante zeigt nach links, die
 
 ---
 
-## Lektion 7: Die gelbe Fläche – Sune und der freundliche Fisch
+## Lektion 7: Das Karussell – die Ecken ziehen um
 
-**Ziel-Bild:** Blick von oben: komplett gelbe Oberseite. Die Farben an den Seiten der Ecken passen noch nicht zu den Centern – das ist Absicht. Bildunterschrift: „Oben stimmt alles. Was seitlich passiert, ist Lektion 8."
+**Ziel-Bild:** Blick von oben: Die vier Ecken der Oberseite sitzen an ihren richtigen Plätzen, gelb ist oben trotzdem noch nicht alles. Bildunterschrift: „Richtige Adresse, falsche Haltung. Die Haltung ist Lektion 8."
 
 ```cube
-b g b
+b b y
+o y y r b
 o y y y r
-o y y y b
-o y y y r
-g r g
-:Oberseite komplett gelb – der bunte Rand ringsum wird erst in Lektion 8 sortiert
+g o y g y
+y g r
+:Jede Ecke steht an ihrem Platz – wie sie dabei gedreht ist, ist hier völlig egal
 ```
 
-### Ein Zug, ein Name, ein Fisch
+### Andersherum als die meisten Anleitungen
 
-Nach dem gelben Kreuz sind vier gelbe Sticker oben. Uns fehlen noch die Ecken – die zeigen ihre gelbe Fläche irgendwohin, nur nicht nach oben. Das ändern wir jetzt.
+Nach dem gelben Kreuz sind noch zwei Sorten Teile offen: die vier Ecken und die vier Kanten der Oberseite. Und bei den Ecken gibt es gleich zwei Baustellen – sie stehen an falschen **Plätzen**, und sie sind falsch **gedreht**.
 
-Der Zug dafür heißt **Sune** (gesprochen „Suh-neh", benannt nach einem schwedischen Cuber – der Rest der Cubing-Welt hat den Namen einfach übernommen). Und ja, er klingt viel besser als er tut. Er ist sieben Züge lang, aber der Anfang klingt wie ein alter Freund:
+Die meisten Anleitungen drehen zuerst und schieben danach. Wir machen es umgekehrt: **erst der Platz, dann die Drehung.** Das ist kein Detail, das ist der ganze Trick. Wenn die Drehung noch egal ist, darf der Umzugs-Zug die Ecken ruhig verdrehen – und ein Zug, der verdrehen darf, ist viel kürzer als einer, der aufpassen muss.
 
-> **Sune** = **R U R' U R U2 R'**
+### Der Zug: das Karussell
 
-Schau genau hin: **R U R'** – die ersten drei Züge sind das halbe ROAR. Dann kommt ein **U** statt des gewohnten U', und zum Schluss **R U2 R'**. Es ist kein ROAR in Verkleidung, aber der Einstieg fühlt sich vertraut an. Deine Finger sind vorbereitet.
+> **Das Karussell** = **U R U' L' U R' U' L**
 
-### Die Muster oben
+Acht Züge, und der Rhythmus schenkt dir die Hälfte: **U R U' L'** – und dann noch einmal derselbe Takt, nur mit gestrichenem R und ungestrichenem L: **U R' U' L**. Einmal hin, einmal her, fertig.
 
-Nach dem gelben Kreuz gibt es genau vier Möglichkeiten, was die vier Ecken oben tun:
+Der Name kommt von dem, was passiert: Drei Ecken fahren im Kreis, eine steht still. Die stillstehende ist deine **Ankerin**, und sie gehört nach **vorne rechts** oben.
 
-- **Kein Gelb oben** – alle vier Ecken zeigen ihr Gelb zur Seite.
-- **Ein Gelb oben** – eine Ecke ist schon orientiert, drei nicht. Das nennt die Cubing-Welt „der Fisch", weil das entstehende Muster an der Seite so aussieht.
-- **Zwei Gelb oben** – zwei Ecken passen, zwei nicht. Kann diagonal oder nebeneinander sein.
-- **Vier Gelb oben** – fertig, weiter zu Lektion 8.
+(In der Cubing-Welt heißt der Zug „Niklas" – schlicht nach einem Cuber benannt, der ihn populär gemacht hat. Sowas machen die dort gern.)
 
-### Die einfache Regel
+### Die Ankerin finden
 
-Für jeden Fall gibt es eine einfache Halteregel – und einen Blick, den viele Anleitungen unterschlagen:
-
-**Bei einer gelben Ecke oben (Fisch):** Halte den Würfel so, dass diese einzelne gelbe Ecke **vorne links** oben liegt. Jetzt der wichtige Blick: Es gibt **zwei** Fische, und von oben sehen sie gleich aus. Der Unterschied steckt in der Ecke **vorne rechts**. Zeigt ihr gelber Sticker **zu dir**, reicht einmal **Sune** – R U R' U R U2 R' – und alle vier Ecken sind gelb. Zeigt er **nach rechts**, hast du den Zwillingsfisch: Einmal Sune baut daraus erst einen neuen Fisch. Kein Drama – den neuen Fisch wieder vorne links halten, noch einmal Sune, fertig.
-
-```cube
-y . .
-. . y . y
-. y y y .
-. y y . .
-. . y
-:Der Fisch – einmal Sune
-
-. . y
-y . y . .
-. y y y .
-. y y . y
-. . .
-:Der Zwillingsfisch – zweimal Sune
-```
-
-**Bei zwei gelben Ecken oben:** Halte den Würfel so, dass die Ecke **vorne links** ihr Gelb **zu dir** zeigt – egal, wo die beiden gelben Ecken oben liegen. Einmal Sune – und du hast garantiert einen Fisch. Und den kannst du.
-
-**Bei null gelben Ecken oben:** Halte den Würfel so, dass die Ecke **vorne links** ihr Gelb **nach links** zeigt. Einmal Sune – wieder ein Fisch.
+„An ihrem Platz" heißt: Alle drei Farben der Ecke passen zu den drei Centern, zwischen denen sie sitzt. **Wie sie gedreht ist, spielt keine Rolle** – sie muss nur am richtigen Ort sein.
 
 ```cube
 . . .
-. y y y .
-. y y y .
-. . y . .
-y . y
-:Zwei gelbe Ecken – Gelb vorne links zeigt zu dir
-
-. . .
-y . y . y
-. y y y .
-y . y . y
-. . .
-:Null gelbe Ecken – Gelb vorne links zeigt nach links
+. . . . .
+. . . . .
+. . . g y
+. . r
+:Vorne rechts sitzt die gelb-grün-rote Ecke zwischen Grün und Rot – also zu Hause. Dass Gelb zur Seite zeigt, stört hier niemanden.
 ```
 
-Kurz: Maximal drei Sunes bringen dich von jedem Muster zur gelben Fläche. Meist reichen zwei.
+Dreh jetzt **nur die Oberseite** (U) und zähl bei jeder der vier Stellungen, wie viele Ecken zu Hause sind:
+
+- **Genau eine Ecke zu Hause** – das ist deine Stellung. Ankerin nach vorne rechts, Karussell fahren.
+- **Vier Ecken zu Hause** – nichts zu tun, weiter zu Lektion 8.
+- **Zwei Ecken zu Hause** – falsche Stellung, dreh U weiter. Es gibt immer eine Stellung mit einer oder mit gar keiner. (Zwei richtige heißt nämlich: Die anderen beiden müssten nur die Plätze tauschen – und Plätze tauschen kann ein Karussell nicht. Es fährt im Kreis.)
+- **Keine Ecke zu Hause** – einmal Karussell in irgendeiner Halterichtung. Danach ist garantiert eine zu Hause, ab da normales Programm.
+
+### Fahren und gucken
+
+Ankerin vorne rechts oben, dann einmal **U R U' L' U R' U' L**. Danach hinschauen:
+
+- Alle vier Ecken zu Hause? Fertig.
+- Immer noch nur eine? Dann sind die drei anderen in die falsche Richtung gefahren – **noch einmal dasselbe Karussell, gleiche Ankerin, gleiche Haltung.** Jetzt passt es.
+
+Mehr als drei Fahrten braucht kein Würfel, meistens sind es ein oder zwei.
 
 ### Der Kontrollblick
 
-Nach der letzten Anwendung sollte die Oberseite komplett gelb sein. Die vier gelben Ecken sitzen jetzt an ihren Plätzen – aber die Farben rundherum passen wahrscheinlich noch nicht zu den Centern. Das ist völlig richtig so. Sune hat oben aufgeräumt, den Rest macht Lektion 8.
+Alle vier oberen Ecken stehen zwischen den richtigen Centern. Die Oberseite sieht dabei vermutlich bunter aus als vorher, Gelb zeigt kreuz und quer. **Das ist Absicht und ein gutes Zeichen** – das Karussell verdreht die Ecken beim Umziehen, und genau das darf es. Aufgeräumt wird in Lektion 8.
+
+Was noch stehen muss: das gelbe Kreuz aus Lektion 6 und die zwei fertigen Ebenen darunter. Falls da etwas fehlt, ist unterwegs ein Zug verrutscht – zurück auf Anfang der Lektion, das passiert allen.
 
 ### Übung
 
-1. Verdrehe die letzte Ebene absichtlich. Baue Kreuz (Lektion 6), dann gelbe Fläche (diese hier). Drei Durchläufe.
-2. Kompletter Durchlauf: Würfel scramblen, bis hierher lösen. Zweimal, mit Ruhe.
-3. Achte beim Sune mal auf einen Anfangszug, den unser Aufzug in Lektion 4 auch schon hatte: **U R' U'**. Sune und Aufzug sprechen dieselbe Familie – nur mit anderem Wortschatz.
+1. Verdrehe die letzte Ebene absichtlich, bau das gelbe Kreuz und dann die Ecken an ihre Plätze. Dreimal, in Ruhe.
+2. Fahr das Karussell auf dem **gelösten** Würfel dreimal hintereinander, ohne umzugreifen. Er ist danach wieder gelöst – eingebaute Erfolgskontrolle, und ein gutes Gefühl dafür, dass der Zug nichts kaputt macht.
+3. Übe nur den Blick: Oberseite drehen und jedes Mal laut sagen, wie viele Ecken zu Hause sind. Das Zählen ist die eigentliche Arbeit dieser Lektion, nicht der Zug.
 
-**Abhaken, wenn:** Du aus jedem Ausgangsmuster mit höchstens drei Sunes zur gelben Fläche kommst und den Zug flüssig und ohne Ablesen ausführen kannst.
+**Abhaken, wenn:** Du aus jeder Ausgangslage die vier oberen Ecken an ihre Plätze bringst – und ruhig bleibst, wenn die Oberseite danach bunter aussieht als vorher.
 
 ---
 
-## Lektion 8: Das Finale – zwei Züge, ein gelöster Würfel
+## Lektion 8: Der Aufzug fährt in den Keller
 
-**Ziel-Bild:** Zwei Würfel nebeneinander. Links: gelbe Fläche oben, Seitenfarben noch chaotisch. Rechts: komplett gelöst. Bildunterschrift: „Von hier nach da, in zwei Sequenzen."
+**Ziel-Bild:** Blick von oben: komplett gelbe Oberseite, und die Ecken passen jetzt auch seitlich zu den Centern. Bildunterschrift: „Oben fertig. Es fehlen nur noch vier Kanten."
 
 ```cube
-b g b
+b . b
 o y y y r
-o y y y b
+. y y y .
 o y y y r
-g r g
-:Vorher: oben gelb, der Rand ringsum springt
+g . g
+:Oben komplett gelb, die Ecken passen ringsum – nur die vier Kanten (grau) tanzen noch
+```
+
+### Der Aufzug kommt zurück
+
+Erinnerst du dich an Lektion 4? Da hat ROAR als **Aufzug** die weißen Ecken nach unten geholt: R U R' U'. Hoch, drehen, runter, zu.
+
+Jetzt fährt derselbe Aufzug in die andere Richtung – in den Keller:
+
+> **Aufzug in den Keller** = **R' D' R D**
+
+Schau dir die Form an: dasselbe Muster wie ROAR, nur eine Ebene tiefer und andersherum. Rechts runter, Keller auf, rechts hoch, Keller zu. Deine Finger brauchen zwei, drei Versuche, dann fühlt es sich an wie ROAR im Spiegel. **Neue Algorithmen in dieser Lektion: keiner.**
+
+### Die eine Regel, die alles trägt
+
+Für diesen ganzen Schritt gilt: **Der Würfel wird nicht mehr in den Händen gedreht.** Gelb bleibt oben, Weiß unten, dieselbe Seite bleibt vorne – egal, was zwischendurch passiert. Bewegt wird nur mit U und mit dem Aufzug selbst.
+
+### So geht's
+
+**Schritt 1 – Ecke anfahren.** Dreh U, bis eine Ecke, deren Gelb noch **nicht** nach oben zeigt, **vorne rechts oben** steht.
+
+**Schritt 2 – Doppelpack fahren.** Fahr den Aufzug **zweimal hintereinander**: R' D' R D R' D' R D. Dann guck auf die Ecke. Gelb oben? Weiter zu Schritt 3. Noch nicht? Noch ein Doppelpack – mehr als zwei braucht keine Ecke.
+
+Für Ungeduldige die Abkürzung: Zeigt das Gelb der Ecke **nach rechts**, reicht ein Doppelpack. Zeigt es **nach vorne, zu dir**, sind es zwei.
+
+```cube
+. . .
+. . . . .
+. . . . .
+. . . g y
+. . r
+:Gelb zeigt nach rechts – ein Doppelpack
+
+. . .
+. . . . .
+. . . . .
+. . . r g
+. . y
+:Gelb zeigt nach vorne – zwei Doppelpacks
+```
+
+**Schritt 3 – weiter zur nächsten.** Dreh **nur U**, bis die nächste Ecke mit falsch zeigendem Gelb vorne rechts steht. Ecken, die schon gelb nach oben zeigen, fährst du einfach vorbei. Dann wieder Schritt 2.
+
+**Schritt 4 – Deckel ausrichten.** Zeigen alle vier Ecken ihr Gelb nach oben, dreh U, bis die Ecken seitlich wieder zu den Centern passen. Sie rasten alle gleichzeitig ein – Lektion 7 hat sie ja an ihre Plätze gestellt.
+
+### Der Moment, in dem es aussieht, als wäre alles kaputt
+
+Das muss man ehrlich dazusagen: Zwischen den Aufzugfahrten sieht dein Würfel furchtbar aus. Die schöne weiße Seite unten ist zerlegt, die mittlere Ebene auch. Fast alle brechen hier beim ersten Mal ab und drehen zurück.
+
+Tu's nicht. Der Aufzug räumt selbst auf. Solange du
+
+- jeden Aufzug **komplett** fährst (alle vier Züge),
+- immer im **Doppelpack**,
+- und den Würfel **nicht drehst**,
+
+ist unten in dem Moment alles wieder da, in dem die letzte Ecke ihr Gelb nach oben dreht. Das ist keine Hoffnung, das ist Mathematik.
+
+Und noch ein Trost: **Oben passiert währenddessen gar nichts.** Das gelbe Kreuz bleibt stehen, die anderen drei Ecken bleiben, wo sie sind. Du kannst beim Fahren also einfach nur auf die eine Ecke vorne rechts gucken und den Rest ignorieren.
+
+### Übung
+
+1. Nimm einen **gelösten** Würfel und fahr den Doppelpack dreimal hintereinander – sechs Aufzüge, ohne umzugreifen. Zwischendrin sieht er zerstört aus, am Ende ist er wieder gelöst. Genau diesem Zurückkommen vertraust du gleich.
+2. Verdrehen, dann die volle Kette: Kreuz (Lektion 6), Ecken an den Platz (Lektion 7), Ecken drehen (diese hier). Zwei Durchläufe.
+3. Beobachte beim Fahren bewusst die Oberseite: Sie steht still. Nur die eine Ecke vorne rechts arbeitet.
+
+**Abhaken, wenn:** Du die Oberseite komplett gelb bekommst, ohne den Würfel zwischendurch zu drehen – und ohne beim Anblick des Chaos unten nervös zu werden.
+
+---
+
+## Lektion 9: Die letzten vier Kanten – ein Zug, ein gelöster Würfel
+
+**Ziel-Bild:** Zwei Würfel nebeneinander. Links: gelbe Fläche oben, Ecken passend, die Kanten dazwischen noch quer. Rechts: komplett gelöst. Bildunterschrift: „Ein Zug. Nur noch dieser eine."
+
+```cube
+b . b
+o y y y r
+. y y y .
+o y y y r
+g . g
+:Vorher: die Ecken sitzen, die vier Kanten (grau) noch nicht
 
 b b b
 o y y y r
@@ -596,52 +659,21 @@ g g g
 :Nachher: jede Seite einfarbig
 ```
 
-### Was noch fehlt
+### Eine Baustelle, ein Zug
 
-Blick auf die Seiten: Die Ecken der oberen Ebene sitzen wahrscheinlich an falschen Plätzen (die weiß-rot-blaue Ecke steht neben Grün, sowas), und die Kanten dazwischen auch. Zwei Baustellen, zwei Züge – und dann ist der Würfel gelöst. Versprochen.
+Blick auf die Seiten: Oben ist alles gelb, die Ecken passen ringsum – aber die Kanten dazwischen tanzen noch. Mehr fehlt nicht. Eine Baustelle, ein Zug, und dann liegt ein gelöster Würfel in deiner Hand.
 
-Diese beiden Züge sind länger als alles, was du bisher kennst. Kein ROAR mehr, keine Familie. Das ist der Preis für die letzten paar Teile – und die gute Nachricht: Es sind die **letzten** Züge dieser Methode. Nach ihnen bist du durch.
+Wir tauschen drei Kanten zyklisch: Eine bleibt in Ruhe, die anderen drei rutschen im Kreis. Wie beim Karussell, nur eben mit Kanten.
 
-### Teil A: Die Ecken an ihre Plätze
+> **Der Kanten-Zyklus** = **R U' R U R U R U' R' U' R2**
 
-Wir tauschen jetzt drei Ecken zyklisch – eine bleibt in Ruhe, die anderen drei rutschen im Kreis. Erst der Zug, dann wie du ihn richtig einsetzt:
+Elf Züge, aber alle aus R und U – wenn du bis hierher gekommen bist, machen deine Finger das im Halbschlaf. Der Zug klingt fast wie ein Rap-Refrain: einmal einstudieren, dann sitzt er.
 
-> **Der Ecken-Zyklus:** R' F R' B2 R F' R' B2 R2
+### So setzt du ihn ein
 
-Neun Züge, ungewohnter Rhythmus mit B2 (der Rückseite) drin – nimm sie langsam beim ersten Mal, deine Finger finden das Muster schneller, als du denkst.
+**Schritt 1 – die Ankerin finden.** Schau auf die vier Kanten der Oberseite. Oben sind sie alle gelb (das ist ja das Kreuz), entscheidend ist die **Seitenfarbe**: Passt sie zum Center darunter, ist die Kante zu Hause.
 
-**So setzt du ihn ein:**
-
-**Schritt 1 – die Ankerin suchen.** Dreh die Oberseite (U), bis eine der vier oberen Ecken an ihrem richtigen Platz sitzt. „Richtig" heißt: Alle drei Farben der Ecke passen zu den drei Nachbar-Centern – egal, ob sie verdreht ist. Sie muss nur am richtigen Ort sein.
-
-**Schritt 2 – Ankerin nach hinten rechts.** Dreh den Würfel in der Hand, bis diese richtige Ecke **hinten rechts oben** sitzt. Sie ist jetzt der Anker und bleibt sitzen, während der Zug die anderen drei rotiert.
-
-```cube
-g o b
-o y y y r
-b y y y g
-r y y y o
-b g r
-:Die Ankerin sitzt hinten rechts – ihre Farben passen, die drei anderen rotieren
-```
-
-**Schritt 3 – Zug ausführen.** Einmal R' F R' B2 R F' R' B2 R2. Guck. Passt es? Wenn ja, weiter zu Teil B. Wenn nein: Der Zug hat rotiert, aber in die falsche Richtung – wiederhole ihn einmal (immer noch mit derselben Ankerin hinten rechts), dann passt es.
-
-**Der Sonderfall:** Keine einzige Ecke ist an ihrem richtigen Platz? Dann führ den Zug einmal blind aus – irgendeine Halterichtung – und danach ist garantiert mindestens eine Ecke am Platz. Ab da: Ankerin suchen, wie oben.
-
-### Teil B: Die Kanten an ihre Plätze
-
-Jetzt sitzen die Ecken, aber die Kanten der Oberseite dazwischen können noch tanzen. Auch hier: drei Kanten zyklisch tauschen, eine bleibt.
-
-> **Der Kanten-Zyklus:** R U' R U R U R U' R' U' R2
-
-Elf Züge, aber alle aus R und U – wenn du bis hierhin gekommen bist, machen deine Finger das im Halbschlaf. Der Zug klingt fast wie ein Rap-Refrain: einmal einstudieren, dann sitzt er.
-
-**So setzt du ihn ein:**
-
-**Schritt 1 – die richtige Kante finden.** Schau auf die vier Kanten der Oberseite. Idealerweise ist eine schon richtig: ihre obere Farbe ist gelb (klar, das ist das Kreuz), und ihre Seitenfarbe passt zum Center. Wenn du eine hast: super.
-
-**Schritt 2 – richtige Kante nach hinten.** Dreh den Würfel, bis diese richtige Kante die **hintere Kante** der Oberseite ist. Sie ist der Anker, die anderen drei rotieren.
+**Schritt 2 – Ankerin nach hinten.** Und jetzt aufgepasst, das ist der einzige neue Handgriff dieser Lektion: **Dreh nicht mehr die Oberseite, dreh den ganzen Würfel.** Der Deckel sitzt seit Lektion 8 richtig, ein U-Zug würde die fertigen Ecken wieder verschieben. Nimm den Würfel also in die Hand und dreh ihn so, dass die richtige Kante **hinten** liegt. Sie ist der Anker, die anderen drei rotieren.
 
 ```cube
 b b b
@@ -649,16 +681,16 @@ o y y y r
 r y y y g
 o y y y r
 g o g
-:Die richtige Kante ist hinten – die anderen drei rotieren
+:Die richtige Kante liegt hinten – die anderen drei rotieren
 ```
 
-**Schritt 3 – Zug ausführen.** Einmal R U' R U R U R U' R' U' R2. Nach der letzten Drehung: der Würfel ist gelöst. Sollte er nicht sein, weil der Zug in die andere Richtung rotiert hat: Wiederhole ihn einmal, immer noch mit der richtigen Kante hinten. Passt.
+**Schritt 3 – Zug ausführen.** Einmal R U' R U R U R U' R' U' R2. Nach der letzten Drehung ist der Würfel gelöst. Falls nicht, hat der Zyklus in die andere Richtung rotiert: noch einmal derselbe Zug, gleiche Haltung, gleicher Anker. Passt.
 
-**Der Sonderfall:** Keine Kante passt? Wie bei den Ecken: einmal blind ausführen, dann hast du eine Ankerin und machst weiter.
+**Der Sonderfall:** Keine einzige Kante passt? Dann führ den Zug einmal blind aus – irgendeine Halterichtung – und danach hast du eine Ankerin. Ab da wie oben.
 
 ### Der Moment
 
-Nach dem letzten R2 in Teil B liegt ein komplett gelöster Würfel in deinen Händen. Nimm dir zwei Sekunden. Guck ihn dir an. Das hast **du** gemacht. Nicht abgeschrieben, nicht auswendig gelernt – jeden Zug verstanden.
+Nach dem letzten R2 liegt ein komplett gelöster Würfel in deinen Händen. Nimm dir zwei Sekunden. Guck ihn dir an. Das hast **du** gemacht. Nicht abgeschrieben, nicht auswendig gelernt – jeden Zug verstanden.
 
 Wenn das dein erster selbst gelöster Würfel ist: Foto, Chat an eine Person deines Vertrauens, kurz feiern. Wir warten hier.
 
