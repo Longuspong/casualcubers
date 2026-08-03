@@ -23,9 +23,18 @@ npm run build    # produziert ein statisches Bundle in dist/
 npm run preview  # baut nichts neu, serviert dist/ lokal zum Prüfen
 ```
 
-Das `dist/`-Verzeichnis ist ein rein statisches Bundle und lässt sich direkt
-auf GitHub Pages deployen. `vite.config.js` nutzt `base: './'`, damit alle
-Asset-Pfade relativ und portabel bleiben (Projekt-Unterpfad-freundlich).
+Das `dist/`-Verzeichnis ist ein rein statisches Bundle.
+`vite.config.js` nutzt `base: './'`, damit alle Asset-Pfade relativ und
+portabel bleiben (Projekt-Unterpfad-freundlich).
+
+## Deploy
+
+Vercel deployt automatisch aus dem Repository – ein CI-Workflow liegt hier
+nicht mehr, das übernimmt die Git-Integration von Vercel. Vite wird erkannt,
+Build-Kommando `npm run build`, Output-Verzeichnis `dist/`. Production-Branch
+ist `main`; jeder andere Branch bekommt ein Preview-Deployment. Der Branch
+lässt sich nur im Vercel-Dashboard umstellen (Project → Settings →
+Environments → Production → Branch Tracking), nicht über eine Datei im Repo.
 
 ## Architektur-Grundidee
 
@@ -67,7 +76,7 @@ Router, Loader und Views sind pfad-agnostisch – mehr braucht es nicht.
 
 ### Routing
 
-Hash-basiert (kein History-API), damit GitHub-Pages-Hosting ohne
+Hash-basiert (kein History-API), damit statisches Hosting ohne
 Server-Rewrites funktioniert:
 
 - `#/` – Startseite
