@@ -117,7 +117,7 @@ Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
 
 `storage.js` legt den Zustand unter `cubechill:progress` in `localStorage` ab
 (`{ beginner: { 1: true, … } }`). Pro Lektion ein Abhaken-Button; die Übersicht
-zeigt „X / 8 Lektionen"; im Footer der Übersicht setzt ein Link den Fortschritt
+zeigt „X / 9 Lektionen"; im Footer der Übersicht setzt ein Link den Fortschritt
 nach Bestätigung zurück.
 
 ### Design
