@@ -1,5 +1,6 @@
 import { getPath } from '../paths.js';
 import { isDone, toggleDone } from '../storage.js';
+import { initAlgPlayers } from '../alg-player.js';
 import { mount, appBar, esc } from './layout.js';
 
 // Die aufwendigste Ansicht: eine einzelne Lektion. Ziel-Bild-Platzhalter,
@@ -85,6 +86,10 @@ export function renderLesson(container, { path, lessons, lesson }) {
       </nav>
     `,
   });
+
+  // Die Algorithmus-Kästen kommen als fertiges HTML aus dem Content-Loader –
+  // ihre Bedienung hängt sich hier an, nachdem sie im DOM stehen.
+  initAlgPlayers(container);
 
   const btn = container.querySelector('#done-toggle');
   btn?.addEventListener('click', () => {
