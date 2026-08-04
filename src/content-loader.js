@@ -186,9 +186,11 @@ function annotateNotation(html) {
 //   . . .        vordere Seitensticker (3 Zellen)
 //   :Beschriftung unter dem Diagramm (optional)
 //
-// Gerendert als Zentralprojektion von oben: die Oberseite liegt als Quadrat in
-// der Mitte, die vier Seitenbänder kippen als Trapeze nach außen weg. Dadurch
-// bleiben – anders als bei einer Eckansicht – alle vier Seitenreihen sichtbar.
+// Gerendert wird das als ganzer Würfel, schräg von oben auf eine Ecke gesehen –
+// so, wie er in der Hand liegt. Die unteren Ebenen bleiben neutral grau: sie
+// sind für den Schritt egal, geben der Ebene aber einen Körper zum Draufstehen.
+// Aus dieser Ecke sind zwei der vier Seitenbänder abgewandt; stehen dort
+// Farben, kommt der Blick von der Gegenecke daneben.
 //
 // ```cube-net beschreibt den ganzen Würfel – der Blick für „so sieht der Würfel
 // gerade aus". Oben die U-Seite, in der Mitte L F R B nebeneinander, unten D:
@@ -205,9 +207,10 @@ function annotateNotation(html) {
 //   !letters     blendet die Seitenbuchstaben U/L/F/R/B/D ein (optional)
 //   :Beschriftung unter dem Diagramm (optional)
 //
-// Gerendert als isometrischer Würfel. Ein Körper zeigt nur drei Seiten, deshalb
-// kommt bei Bedarf eine zweite Ansicht von der Gegenecke dazu (D B L). Sind die
-// drei Rückseiten ohnehin komplett grau, bleibt es bei einer Ansicht.
+// Dieselbe Eckansicht, nur etwas flacher – der Winkel, in dem man den Würfel
+// vor sich hält. Auch hier zeigt ein Körper nur drei Seiten, deshalb kommt bei
+// Bedarf der Blick von unten hinten (D B L) dazu. Sind die abgewandten Seiten
+// ohnehin komplett grau, bleibt es bei einer Ansicht.
 //
 // Beide Formate gibt es auch für den 2x2 (eine Reihe weniger). Mehrere
 // Diagramme in einem Block werden durch Leerzeilen getrennt und stehen dann
@@ -235,7 +238,7 @@ function buildCubeFigure(kind, text, ariaLabel = '') {
       else body.push(line);
     }
 
-    const visual = kind === 'cube-net' ? buildNetView(body, label, options) : buildTopSvg(body, label);
+    const visual = kind === 'cube-net' ? buildNetView(body, label, options) : buildTopView(body, label, options);
     if (!visual) continue; // kaputtes Diagramm still überspringen
 
     const item = document.createElement('div');
@@ -279,29 +282,44 @@ function buildCubeFigureHtml(kind, text, ariaLabel) {
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
-// Sticker-Rechteck (Oberseite der Draufsicht – die schaut man frontal an).
-function appendSticker(svg, x, y, w, h, ch) {
-  const r = document.createElementNS(SVG_NS, 'rect');
-  r.setAttribute('x', x);
-  r.setAttribute('y', y);
-  r.setAttribute('width', w);
-  r.setAttribute('height', h);
-  r.setAttribute('rx', 2.5);
-  r.setAttribute('class', `cd ${CUBE_STICKER_CLASS[ch] || 'cd-n'}`);
-  svg.appendChild(r);
-}
-
-// Alle schräg stehenden Sticker sind Vierecke – Rechtecke gibt es dort nicht
-// mehr, sobald projiziert wird.
-function appendPoly(svg, points, className) {
-  const p = document.createElementNS(SVG_NS, 'polygon');
-  p.setAttribute('points', points.map(([x, y]) => `${round(x)},${round(y)}`).join(' '));
+// Projiziert ist kein Sticker mehr ein Rechteck – gezeichnet wird durchweg das
+// Viereck, das die Kamera liefert.
+function appendShape(target, points, className, radius = 0) {
+  const p = document.createElementNS(SVG_NS, 'path');
+  p.setAttribute('d', shapePath(points, radius));
   p.setAttribute('class', className);
-  svg.appendChild(p);
+  target.appendChild(p);
+  return p;
 }
 
-function appendPolySticker(svg, points, ch) {
-  appendPoly(svg, points, `cd ${CUBE_STICKER_CLASS[ch] || 'cd-n'}`);
+function appendSticker(target, points, ch, radius) {
+  appendShape(target, points, `cd ${CUBE_STICKER_CLASS[ch] || 'cd-n'}`, radius);
+}
+
+// Ecken überschleifen: echte Würfel sind gespritztes Plastik, keine
+// ausgeschnittenen Papierquadrate. Jede Ecke wird ein Stück vor dem Eckpunkt
+// verlassen und ein Stück dahinter wieder aufgenommen, dazwischen zieht eine
+// quadratische Kurve durch. radius = 0 liefert wieder das reine Polygon.
+function shapePath(points, radius) {
+  const fmt = ([x, y]) => `${round(x)} ${round(y)}`;
+  if (!radius) return `M${points.map(fmt).join('L')}Z`;
+
+  const towards = (from, to) => {
+    const dx = to[0] - from[0];
+    const dy = to[1] - from[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const t = Math.min(radius, len / 2) / len;
+    return [from[0] + dx * t, from[1] + dy * t];
+  };
+
+  let d = '';
+  points.forEach((corner, i) => {
+    const prev = points[(i - 1 + points.length) % points.length];
+    const next = points[(i + 1) % points.length];
+    d += `${i === 0 ? 'M' : 'L'}${fmt(towards(corner, prev))}`;
+    d += `Q${fmt(corner)} ${fmt(towards(corner, next))}`;
+  });
+  return `${d}Z`;
 }
 
 // Punkte auf den eigenen Schwerpunkt zusammenziehen: erzeugt die Fuge zwischen
@@ -329,9 +347,33 @@ function createSvg(w, h, label) {
   return svg;
 }
 
-// --- Blick von schräg oben --------------------------------------------------
+// --- Blick von schräg oben (```cube```) -------------------------------------
 
-function buildTopSvg(lines, label) {
+// Die Draufsicht beschreibt nur die oberste Ebene. Für die Kamera ist das
+// trotzdem ein ganzer Würfel – die Ebene bekommt so einen Körper, auf dem sie
+// sitzt, statt frei im Raum zu schweben. Alles Unbeschriebene ist neutral.
+//
+// Die Bänder liegen im Quelltext so, wie man von oben draufschaut. Auf den
+// Seitenflächen zählt dagegen die Leserichtung der jeweiligen Fläche (siehe
+// faceQuad): bei B und R läuft sie andersherum, deshalb werden die beiden
+// Bänder umgedreht.
+function topFaces(grid, n) {
+  const dots = '.'.repeat(n);
+  const reverse = (s) => s.split('').reverse().join('');
+  const column = (i) => grid.slice(1, n + 1).map((row) => row[i]).join('');
+  const layer = (top) => [top, ...Array(n - 1).fill(dots)];
+
+  return {
+    U: grid.slice(1, n + 1).map((row) => row.slice(1, n + 1)),
+    F: layer(grid[n + 1]),
+    B: layer(reverse(grid[0])),
+    L: layer(column(0)),
+    R: layer(reverse(column(n + 1))),
+    D: Array(n).fill(dots),
+  };
+}
+
+function buildTopView(lines, label, options) {
   const grid = lines.map((l) => l.replace(/\s+/g, ''));
   const n = grid.length - 2; // Kantenlänge der Oberseite (3x3 oder 2x2)
   const valid =
@@ -339,85 +381,15 @@ function buildTopSvg(lines, label) {
     grid[0].length === n && grid[n + 1].length === n &&
     grid.slice(1, n + 1).every((l) => l.length === n + 2);
   if (!valid) return null;
-  return buildCubeSvg(grid, label);
+
+  const faces = topFaces(grid, n);
+  // Die abgewandten Bänder (hinten, links) sind aus dieser Ecke nicht zu
+  // sehen. Stehen dort Farben, kommt der Blick von der Gegenecke dazu.
+  const views = /[^.]/.test(faces.B[0] + faces.L[0]) ? ['topFront', 'topBack'] : ['topFront'];
+  return buildViews(faces, n, views, label, options.has('letters'));
 }
 
-// Zentralprojektion mit der Kamera senkrecht über der Würfelmitte: die
-// Oberseite bleibt ein unverzerrtes Quadrat, die vier Seitenflächen der oberen
-// Ebene klappen als Trapeze nach außen. Alle Kanten liegen dadurch auf Strahlen
-// durch die Bildmitte – genau das macht den räumlichen Eindruck.
-function buildCubeSvg(grid, label) {
-  const n = grid.length - 2; // 3 (3x3) oder 2 (2x2)
-  const CELL = 26; // Sticker der Oberseite
-  const GAP = 3;
-  const PAD = 3.5; // Fuge zwischen Oberseite und Seitenband
-  const SPREAD = 1.5; // wie weit die Seiten nach außen kippen (1 = flach)
-  const face = n * CELL + (n - 1) * GAP;
-  const a = face / 2; // halbe Oberseite
-  const inner = a + PAD; // obere Kante der Seitenbänder
-  const outer = a * SPREAD; // untere Kante der Seitenbänder
-  const size = round(2 * outer);
-  const mid = size / 2;
-  const pos = (i) => mid - a + i * (CELL + GAP);
-
-  const svg = createSvg(
-    size, size,
-    label ? `Würfel von schräg oben: ${label}` : 'Würfel von schräg oben'
-  );
-
-  // Würfelkörper: dunkles Quadrat unter allem, aus dem die Fugen zwischen den
-  // Stickern entstehen. Die Seitenbänder decken es bis zum Rand ab.
-  const body = document.createElementNS(SVG_NS, 'rect');
-  body.setAttribute('x', 0);
-  body.setAttribute('y', 0);
-  body.setAttribute('width', size);
-  body.setAttribute('height', size);
-  body.setAttribute('rx', 4);
-  body.setAttribute('class', 'cd-body');
-  svg.appendChild(body);
-
-  // Ein Seitensticker: u1/u2 sind die Kanten entlang der Bandrichtung, gemessen
-  // in der Ebene der Oberseite. Nach außen werden sie mit dem Strahlensatz
-  // aufgeweitet, side dreht das Band auf die jeweilige Würfelseite.
-  const bandPoly = (side, i) => {
-    const u1 = -a + i * (CELL + GAP);
-    const u2 = u1 + CELL;
-    const si = inner / a;
-    const so = outer / a;
-    return [
-      [u1 * si, inner], [u2 * si, inner], [u2 * so, outer], [u1 * so, outer],
-    ].map(([u, v]) => {
-      if (side === 'front') return [mid + u, mid + v];
-      if (side === 'back') return [mid + u, mid - v];
-      if (side === 'right') return [mid + v, mid + u];
-      return [mid - v, mid + u]; // left
-    });
-  };
-
-  // Reihenfolge: erst alle Seitenbänder, dann die Oberseite obendrauf.
-  const bands = [
-    ['back', 'cd-shade-deep', (i) => grid[0][i]],
-    ['front', 'cd-shade-soft', (i) => grid[n + 1][i]],
-    ['left', 'cd-shade-mid', (i) => grid[i + 1][0]],
-    ['right', 'cd-shade-mid', (i) => grid[i + 1][n + 1]],
-  ];
-  for (const [side, shade, charAt] of bands) {
-    for (let i = 0; i < n; i++) {
-      const poly = bandPoly(side, i);
-      appendPolySticker(svg, poly, charAt(i));
-      appendPoly(svg, poly, `cd-shade ${shade}`); // Tiefe: Seiten liegen im Schatten
-    }
-  }
-
-  for (let r = 0; r < n; r++) {
-    for (let c = 0; c < n; c++) {
-      appendSticker(svg, pos(c), pos(r), CELL, CELL, grid[r + 1][c + 1]);
-    }
-  }
-  return svg;
-}
-
-// --- Ganzer Würfel, isometrisch (Quelltext: Netz) ---------------------------
+// --- Ganzer Würfel (Quelltext: Netz) ----------------------------------------
 
 // Zeilen -> { n, faces } oder null. Erwartet 3n Zeilen: n Zeilen mit einem
 // Block (U), n Zeilen mit vier Blöcken (L F R B), n Zeilen mit einem (D).
@@ -480,118 +452,239 @@ function faceOutline(name, S) {
   }
 }
 
-const ISO_COS = Math.cos(Math.PI / 6); // waagerechte Komponente der Achsen
+// --- Kamera -----------------------------------------------------------------
 
-// Isometrie: die drei Würfelachsen zeigen auf dem Bildschirm in Richtungen, die
-// je 120° auseinanderliegen. `back` schaut von der Gegenecke – das ist exakt
-// dieselbe Projektion auf den gespiegelten Koordinaten (x,y,z -> S-x,S-y,S-z).
-function isoProjector(S, cell, back) {
-  const width = 2 * S * cell * ISO_COS;
-  const height = 2 * S * cell;
-  const cx = width / 2;
-  const cy = height / 2;
-  const project = back
-    ? (x, y, z) => [cx + (z - x) * cell * ISO_COS, cy + (y - (x + z) / 2) * cell]
-    : (x, y, z) => [cx + (x - z) * cell * ISO_COS, cy + ((x + z) / 2 - y) * cell];
-  return { width, height, project };
-}
+const FACE_NORMAL = {
+  U: [0, 1, 0], D: [0, -1, 0], F: [0, 0, 1], B: [0, 0, -1], R: [1, 0, 0], L: [-1, 0, 0],
+};
+const FACE_ORDER = ['U', 'D', 'F', 'B', 'L', 'R'];
 
-// Sichtbar sind immer genau drei Seiten. Vorderansicht: oben U, vorn F,
-// rechts R. Gegenansicht: oben D, vorn B, rechts L – das ist dieselbe
-// Konstellation, nur am Würfelmittelpunkt gespiegelt.
-//
-// text ist die Leserichtung auf der Fläche: [rechts, unten] als Raumvektoren.
-// Damit legt sich ein Seitenbuchstabe in die Fläche, statt davorzuschweben.
-// Die Deckfläche bekommt bewusst keine – dort steht der Buchstabe in beiden
-// möglichen Kantenrichtungen so schräg, dass er kaum noch zu lesen ist; er
-// bleibt deshalb aufrecht.
-const ISO_VIEWS = {
-  front: {
-    faces: ['U', 'F', 'R'],
-    shades: ['', 'cd-shade-soft', 'cd-shade-mid'],
-    text: {
-      F: [[1, 0, 0], [0, -1, 0]],
-      R: [[0, 0, -1], [0, -1, 0]],
-    },
-  },
-  back: {
-    faces: ['D', 'B', 'L'],
-    shades: ['', 'cd-shade-soft', 'cd-shade-mid'],
-    text: {
-      B: [[-1, 0, 0], [0, 1, 0]],
-      L: [[0, 0, 1], [0, 1, 0]],
-    },
-  },
+// Licht von schräg oben: die Deckfläche bleibt hell, die Seiten stehen
+// unterschiedlich tief im Schatten. Erst das macht aus drei aneinandergelegten
+// Vierecken einen Körper. Die Unterseite bleibt trotzdem hell genug, dass ein
+// weißer Sticker in der Gegenansicht noch weiß aussieht.
+const FACE_SHADE = {
+  U: '', D: 'cd-shade-soft', F: 'cd-shade-soft', B: 'cd-shade-soft',
+  R: 'cd-shade-mid', L: 'cd-shade-mid',
 };
 
-function buildIsoSvg(faces, n, view, label, showLetters) {
-  const CELL = 21;
-  const { width, height, project } = isoProjector(n, CELL, view === 'back');
-  const { faces: visible, shades, text: textAxes } = ISO_VIEWS[view];
-  const seen = visible.join(' ');
+const DEG = Math.PI / 180;
+const CAM_DISTANCE = 6; // Kameraabstand in Kantenlängen – Perspektive, aber dezent
+
+function dot3(a, b) {
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+// Der Blick auf eine Würfelecke, schräg von oben – so, wie der Würfel in der
+// Hand liegt. Zentralprojektion statt Isometrie: erst die leicht
+// zusammenlaufenden Kanten machen aus dem Muster einen Gegenstand.
+//
+// azimuth dreht die Kamera um die Hochachse (0° = frontal auf F, 90° = auf R),
+// elevation hebt sie an (positiv = von oben, negativ = von unten).
+function makeCamera(S, cell, azimuth, elevation) {
+  const st = Math.sin(azimuth * DEG);
+  const ct = Math.cos(azimuth * DEG);
+  const sp = Math.sin(elevation * DEG);
+  const cp = Math.cos(elevation * DEG);
+
+  const eye = [st * cp, sp, ct * cp]; // Richtung vom Würfelmittelpunkt zur Kamera
+  const right = [ct, 0, -st]; // zeigt im Bild nach rechts
+  const up = [-st * sp, cp, -ct * sp]; // zeigt im Bild nach oben
+  const dist = CAM_DISTANCE * S;
+  const c = S / 2;
+  const camPos = [c + eye[0] * dist, c + eye[1] * dist, c + eye[2] * dist];
+
+  // Zentralprojektion: was näher an der Kamera liegt, wird größer abgebildet.
+  const raw = (x, y, z) => {
+    const q = [x - c, y - c, z - c];
+    const k = dist / (dist - dot3(q, eye));
+    return [dot3(q, right) * k * cell, -dot3(q, up) * k * cell];
+  };
+
+  // Bildausschnitt aus den acht Würfelecken – die Silhouette passt dann immer
+  // genau in die viewBox, egal aus welcher Richtung geschaut wird.
+  const corners = [];
+  for (const x of [0, S]) for (const y of [0, S]) for (const z of [0, S]) corners.push(raw(x, y, z));
+  const pad = cell * 0.12;
+  const minX = Math.min(...corners.map((p) => p[0])) - pad;
+  const minY = Math.min(...corners.map((p) => p[1])) - pad;
+  const maxX = Math.max(...corners.map((p) => p[0])) + pad;
+  const maxY = Math.max(...corners.map((p) => p[1])) + pad;
+
+  const project = (x, y, z) => {
+    const p = raw(x, y, z);
+    return [p[0] - minX, p[1] - minY];
+  };
+
+  // Sichtbar ist eine Seite, wenn ihre Normale zur Kamera zeigt.
+  const visible = (name) => {
+    const nrm = FACE_NORMAL[name];
+    const center = [c + nrm[0] * c, c + nrm[1] * c, c + nrm[2] * c];
+    const toCam = [camPos[0] - center[0], camPos[1] - center[1], camPos[2] - center[2]];
+    return dot3(nrm, toCam) > 0;
+  };
+
+  // Linearteil der Projektion: wohin zeigt ein Einheitsvektor im Bild?
+  const direction = (v) => {
+    const o = raw(c, c, c);
+    const p = raw(c + v[0], c + v[1], c + v[2]);
+    return [p[0] - o[0], p[1] - o[1]];
+  };
+
+  return { width: maxX - minX, height: maxY - minY, project, visible, direction };
+}
+
+// Konvexe Hülle (Andrew) der acht projizierten Ecken: das ist die Silhouette
+// des Würfels. Sie liegt als ein einziger Körper unter den Stickern – daraus
+// entstehen die Fugen, und ihre abgerundeten Ecken sind die Kanten des Würfels.
+function convexHull(points) {
+  const sorted = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const chain = (list) => {
+    const out = [];
+    for (const p of list) {
+      while (out.length >= 2 && cross(out[out.length - 2], out[out.length - 1], p) <= 0) out.pop();
+      out.push(p);
+    }
+    out.pop();
+    return out;
+  };
+  return [...chain(sorted), ...chain(sorted.reverse())];
+}
+
+// --- Ansichten --------------------------------------------------------------
+
+// Ein Körper zeigt nur drei Seiten. Deshalb gibt es zu jeder Ansicht die
+// Gegenecke; welche Seiten dabei sichtbar sind, rechnet die Kamera aus.
+//
+// Die Draufsicht schaut steiler von oben – dort trägt die Oberseite die
+// Information. Die Netz-Ansicht bleibt flacher, das ist der Winkel, in dem man
+// den Würfel vor sich hält; ihre Gegenansicht schaut von unten auf die
+// Unterseite, statt den Würfel im Bild auf den Kopf zu stellen.
+const CUBE_VIEWS = {
+  topFront: { azimuth: 42, elevation: 40, caption: 'von vorn' },
+  topBack: { azimuth: 222, elevation: 40, caption: 'von hinten' },
+  netFront: { azimuth: 42, elevation: 28, caption: 'von vorn' },
+  netBack: { azimuth: 222, elevation: -28, caption: 'von hinten' },
+};
+
+const CELL = 21; // Kantenlänge eines Stickers in viewBox-Einheiten
+const STICKER_INSET = 0.86; // Fuge zwischen den Stickern
+const STICKER_RADIUS = CELL * 0.22;
+const BODY_RADIUS = CELL * 0.3;
+
+let clipUid = 0;
+
+function buildCubeSvg(faces, n, viewName, label, showLetters) {
+  const view = CUBE_VIEWS[viewName];
+  const cam = makeCamera(n, CELL, view.azimuth, view.elevation);
+  const visible = FACE_ORDER.filter(cam.visible);
   const suffix = label ? `: ${label}` : '';
   const svg = createSvg(
-    round(width), round(height),
-    view === 'back'
-      ? `Würfel von hinten unten, Seiten ${seen}${suffix}`
-      : `Würfel von vorn oben, Seiten ${seen}${suffix}`
+    round(cam.width), round(cam.height),
+    `Würfel von schräg ${view.elevation >= 0 ? 'oben' : 'unten'}, ` +
+      `Seiten ${visible.join(' ')}${suffix}`
   );
-  const to2d = (pts) => pts.map(([x, y, z]) => project(x, y, z));
+  const to2d = (pts) => pts.map(([x, y, z]) => cam.project(x, y, z));
 
-  // 1) Körper: die vollen Seitenflächen dunkel – daraus werden die Fugen.
-  for (const name of visible) {
-    appendPoly(svg, to2d(faceOutline(name, n)), 'cd-body');
-  }
-  // 2) Sticker, leicht eingezogen.
+  // 1) Der Würfelkörper als eine Silhouette – mit abgerundeten Kanten.
+  const outline = convexHull(
+    [0, n].flatMap((x) => [0, n].flatMap((y) => [0, n].map((z) => cam.project(x, y, z))))
+  );
+  const body = appendShape(svg, outline, 'cd-body', BODY_RADIUS);
+
+  // 2) Sticker, leicht eingezogen und mit weichen Ecken – wie gespritztes
+  //    Plastik, nicht wie ausgeschnittenes Papier.
   for (const name of visible) {
     const rows = faces[name];
     for (let r = 0; r < n; r++) {
       for (let c = 0; c < n; c++) {
-        appendPolySticker(svg, shrink(to2d(faceQuad(name, r, c, n)), 0.88), rows[r][c]);
+        const quad = shrink(to2d(faceQuad(name, r, c, n)), STICKER_INSET);
+        appendSticker(svg, quad, rows[r][c], STICKER_RADIUS);
       }
     }
   }
-  // 3) Schattierung pro Seite: erst dadurch liest man die drei Flächen als
-  //    Raumrichtungen und nicht als flaches Muster.
-  visible.forEach((name, i) => {
-    if (!shades[i]) return;
-    appendPoly(svg, to2d(faceOutline(name, n)), `cd-shade ${shades[i]}`);
-  });
+
+  // 3) Schattierung pro Seite. Geklammert auf die Silhouette, damit sie an den
+  //    abgerundeten Kanten nicht übersteht.
+  const shaded = visible.filter((name) => FACE_SHADE[name]);
+  if (shaded.length) {
+    const id = `cd-clip-${(clipUid += 1)}`;
+    const defs = document.createElementNS(SVG_NS, 'defs');
+    const clip = document.createElementNS(SVG_NS, 'clipPath');
+    clip.setAttribute('id', id);
+    clip.appendChild(body.cloneNode());
+    defs.appendChild(clip);
+    svg.appendChild(defs);
+
+    const group = document.createElementNS(SVG_NS, 'g');
+    group.setAttribute('clip-path', `url(#${id})`);
+    for (const name of shaded) {
+      appendShape(group, to2d(faceOutline(name, n)), `cd-shade ${FACE_SHADE[name]}`);
+    }
+    svg.appendChild(group);
+  }
+
   // 4) Seitenbuchstaben, in die jeweilige Fläche gelegt.
   if (showLetters) {
-    // Linearteil der Projektion: wohin zeigt ein Einheitsvektor auf dem Schirm?
-    const o = project(0, 0, 0);
-    const screenDir = ([dx, dy, dz]) => {
-      const p = project(dx, dy, dz);
-      return [(p[0] - o[0]) / CELL, (p[1] - o[1]) / CELL];
-    };
-    for (const name of visible) {
-      const pts = to2d(faceOutline(name, n));
-      const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
-      const cy = pts.reduce((s, p) => s + p[1], 0) / pts.length;
-      const axes = textAxes[name];
-      const text = document.createElementNS(SVG_NS, 'text');
-      if (axes) {
-        const [right, down] = axes.map(screenDir);
-        text.setAttribute(
-          'transform',
-          `matrix(${round(right[0])} ${round(right[1])} ${round(down[0])} ${round(down[1])} ` +
-            `${round(cx)} ${round(cy)})`
-        );
-      } else {
-        text.setAttribute('x', round(cx));
-        text.setAttribute('y', round(cy));
-      }
-      text.setAttribute('class', 'cd-letter');
-      text.setAttribute('text-anchor', 'middle');
-      // Vertikal per dy statt dominant-baseline zentriert: dominant-baseline
-      // wird auf <text> nicht überall gleich umgesetzt, dy überall.
-      text.setAttribute('dy', '0.35em');
-      text.textContent = name;
-      svg.appendChild(text);
-    }
+    for (const name of visible) appendFaceLetter(svg, cam, name, n);
   }
   return svg;
+}
+
+// Der Buchstabe liegt in der Fläche, statt davorzuschweben. Auf einer
+// Seitenfläche zeigt sein „unten" immer zum Würfelboden; sein „rechts" ist das
+// Kreuzprodukt daraus – so steht er nie auf dem Kopf und nie spiegelverkehrt,
+// egal von welcher Ecke die Kamera schaut. Die waagerechten Deckflächen
+// bekommen keins: dort stünde er in jeder Kantenrichtung so schräg, dass er
+// kaum noch zu lesen wäre, er bleibt deshalb aufrecht.
+function appendFaceLetter(svg, cam, name, n) {
+  const pts = faceOutline(name, n).map(([x, y, z]) => cam.project(x, y, z));
+  const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+  const cy = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+
+  const text = document.createElementNS(SVG_NS, 'text');
+  const normal = FACE_NORMAL[name];
+  if (!normal[1]) {
+    const down = [0, -1, 0];
+    const right = [normal[2], 0, -normal[0]]; // (0,1,0) x normal
+    const [rx, ry] = cam.direction(right).map((v) => v / CELL);
+    const [dx, dy] = cam.direction(down).map((v) => v / CELL);
+    text.setAttribute(
+      'transform',
+      `matrix(${round(rx)} ${round(ry)} ${round(dx)} ${round(dy)} ${round(cx)} ${round(cy)})`
+    );
+  } else {
+    text.setAttribute('x', round(cx));
+    text.setAttribute('y', round(cy));
+  }
+  text.setAttribute('class', 'cd-letter');
+  text.setAttribute('text-anchor', 'middle');
+  // Vertikal per dy statt dominant-baseline zentriert: dominant-baseline wird
+  // auf <text> nicht überall gleich umgesetzt, dy überall.
+  text.setAttribute('dy', '0.35em');
+  text.textContent = name;
+  svg.appendChild(text);
+}
+
+// Eine oder zwei Ansichten nebeneinander, beschriftet nur wenn es zwei sind.
+function buildViews(faces, n, viewNames, label, showLetters) {
+  const wrap = document.createElement('div');
+  wrap.className = 'cube-views';
+
+  for (const viewName of viewNames) {
+    const cell = document.createElement('div');
+    cell.className = 'cube-view';
+    cell.appendChild(buildCubeSvg(faces, n, viewName, label, showLetters));
+    if (viewNames.length > 1) {
+      const caption = document.createElement('span');
+      caption.className = 'cube-view-label';
+      caption.textContent = CUBE_VIEWS[viewName].caption;
+      cell.appendChild(caption);
+    }
+    wrap.appendChild(cell);
+  }
+  return wrap;
 }
 
 function buildNetView(lines, label, options) {
@@ -599,30 +692,15 @@ function buildNetView(lines, label, options) {
   if (!net) return null;
   const { n, faces } = net;
 
-  // Ein Würfel zeigt nur drei Seiten. Die Gegenansicht kommt dazu, sobald auf
-  // D, B oder L etwas Konkretes steht – bei rein grauen Rückseiten wäre sie
-  // nur ein zweiter grauer Klotz. Bei !letters gehören ohnehin alle sechs dazu.
+  // Die Gegenansicht kommt dazu, sobald auf D, B oder L etwas Konkretes steht –
+  // bei rein grauen Rückseiten wäre sie nur ein zweiter grauer Klotz. Bei
+  // !letters gehören ohnehin alle sechs Seiten dazu.
   const backMatters =
     options.has('letters') ||
-    ISO_VIEWS.back.faces.some((name) => faces[name].some((row) => /[^.]/.test(row)));
+    ['D', 'B', 'L'].some((name) => faces[name].some((row) => /[^.]/.test(row)));
 
-  const wrap = document.createElement('div');
-  wrap.className = 'cube-views';
-
-  const views = backMatters ? ['front', 'back'] : ['front'];
-  for (const view of views) {
-    const cell = document.createElement('div');
-    cell.className = 'cube-view';
-    cell.appendChild(buildIsoSvg(faces, n, view, label, options.has('letters')));
-    if (views.length > 1) {
-      const caption = document.createElement('span');
-      caption.className = 'cube-view-label';
-      caption.textContent = view === 'back' ? 'von hinten' : 'von vorn';
-      cell.appendChild(caption);
-    }
-    wrap.appendChild(cell);
-  }
-  return wrap;
+  const views = backMatters ? ['netFront', 'netBack'] : ['netFront'];
+  return buildViews(faces, n, views, label, options.has('letters'));
 }
 
 function isPureNotation(text) {
