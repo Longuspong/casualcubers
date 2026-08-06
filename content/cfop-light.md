@@ -6,7 +6,7 @@
 
 ## Lektion 1: Die Recycling-Tonne – was du schon kannst
 
-**Ziel-Bild:** Eine Recycling-Tonne, aus der drei beschriftete Zugfolgen ragen: ROAR, F-Rahmen, Kanten-Zyklus. Daneben die vier Buchstaben C-F-O-P als Bauplan. Bildunterschrift: „78 Algorithmen? Wir nehmen zwei. Zwei neue."
+**Ziel-Bild:** Eine Recycling-Tonne, aus der drei beschriftete Zugfolgen ragen: ROAR, F-Rahmen, Sune. Daneben die vier Buchstaben C-F-O-P als Bauplan. Bildunterschrift: „78 Algorithmen? Wir nehmen zwei. Zwei neue."
 
 ```cube-net
 ...
@@ -68,7 +68,7 @@ Aus dem Beginner-Pfad hast du bereits:
 
 - **ROAR** – R U R' U' – den Vier-Züge-Herzschlag aus Lektion 2, deinen Aufzug aus Lektion 4. Hast du schon tausendmal gemacht. Gut. Ab jetzt ist er dein Schweizer Taschenmesser.
 - **Den F-Rahmen** – F R U R' U' F' – ROAR mit Klappe auf, Klappe zu, aus Lektion 6.
-- **Den Kanten-Zyklus** – R U' R U R U R U' R' U' R2 – das Finale aus Lektion 9.
+- **Die Sune** – R U R' U R U2 R' – aus Lektion 7, wo sie mit einem U hintendran deine gelben Kanten sortiert hat. Hier bekommt sie einen ganz anderen Job.
 
 Das ist die ganze Tonne. Bauen wir eine Methode daraus.
 
@@ -81,13 +81,13 @@ Das ist die ganze Tonne. Bauen wir eine Methode daraus.
 3. Die ganze Oberseite einfarbig machen
 4. Die oberen Teile an ihre richtigen Plätze schieben
 
-Schritt 1 und 2 sind pure Intuition. Schritt 3 und 4 sind größtenteils recycelt – je eine neue Zugfolge kommt dazu. Jede der folgenden Lektionen nimmt sich einen Buchstaben vor.
+Schritt 1, 2 und 3 baust du komplett aus Intuition und deiner Recycling-Tonne. Erst in Schritt 4 kommen die zwei neuen Zugfolgen dazu. Jede der folgenden Lektionen nimmt sich einen Buchstaben vor.
 
 ### Übung
 
 1. Führe alle drei Zugfolgen aus der Inventur einmal auf dem gelösten Würfel aus und wieder zurück. Sitzen sie noch?
 2. Sag die vier CFOP-Schritte in eigenen Worten auf – ohne die Buchstaben.
-3. Schau dir den Kanten-Zyklus in Zeitlupe an: nur R und U. Merk dir das Gefühl, wir sehen ihn in Lektion 5 wieder.
+3. Schau dir die Sune in Zeitlupe an: nur R und U. Merk dir das Gefühl, wir sehen sie in Lektion 4 wieder – dann ohne das angehängte U.
 
 **Abhaken, wenn:** Du die drei Zugfolgen aus dem Beginner-Pfad flüssig ausführen kannst und weißt, wofür C, F, O und P stehen.
 
@@ -250,7 +250,7 @@ g r g
 
 ### Zwei Blicke statt 57 Algorithmen
 
-Kreuz fertig, zwei Ebenen fertig, oben herrscht gelbliches Chaos. Das volle CFOP löst das mit einem von 57 Algorithmen – auf einen Blick. Wir machen es in zwei entspannten Blicken: Der erste gehört dir schon, für den zweiten kommt der erste neue Zug dieses Pfades.
+Kreuz fertig, zwei Ebenen fertig, oben herrscht gelbliches Chaos. Das volle CFOP löst das mit einem von 57 Algorithmen – auf einen Blick. Wir machen es in zwei entspannten Blicken – und für beide brauchst du nichts Neues. Diese Lektion ist reines Recycling.
 
 ### Blick 1: Die Kanten – das gelbe Kreuz
 
@@ -300,11 +300,13 @@ Schlimmstenfalls machst du es dreimal. Zählt keiner mit.
 
 ### Blick 2: Die Ecken – die Sune
 
-Das gelbe Kreuz steht, die Ecken zeigen noch nicht gelb nach oben. Hier kommt dein erster neuer Zug – und er ist berühmt genug, um einen Namen zu haben: die **Sune** (gesprochen „Suh-neh", benannt nach einem schwedischen Cuber).
+Das gelbe Kreuz steht, die Ecken zeigen noch nicht gelb nach oben. Und jetzt kommt eine alte Bekannte zurück – die **Sune** aus Beginner-Lektion 7 (gesprochen „Suh-neh", benannt nach einem schwedischen Cuber). Diesmal ohne das angehängte U:
 
 > **Sune** = **R U R' U R U2 R'**
 
 Sieben Züge, und der Einstieg ist ein alter Freund: **R U R'** ist das halbe ROAR. Dann ein **U** statt des gewohnten U', und zum Schluss **R U2 R'**. Deine Finger sind vorbereitet.
+
+Im Beginner-Pfad hat die Sune mit dem U am Ende deine Kanten sortiert. Nimm das U weg, und derselbe Zug macht plötzlich etwas völlig anderes: Er **dreht die Ecken oben**. Ein Zug, zwei Jobs – so etwas passiert im Würfel ständig, und es ist einer der Gründe, warum Speedcuber mit so wenigen Algorithmen auskommen.
 
 Im Beginner-Pfad drehst du die Ecken mit dem Aufzug im Keller – schön stur, ohne Mustererkennung. Hier lohnt sich das Gucken: Die Sune erledigt dasselbe in einem Bruchteil der Züge, verlangt dafür aber einen Blick auf die Oberseite. Genau dieser Tausch – hinschauen statt kurbeln – ist der Sprung vom Beginner zu CFOP.
 
@@ -348,7 +350,7 @@ y . y . y
 :Null gelbe Ecken – Gelb vorne links zeigt nach links
 ```
 
-Maximal drei Sunes, und die Oberseite ist komplett gelb. Neue Algorithmen in dieser Lektion: einer.
+Maximal drei Sunes, und die Oberseite ist komplett gelb. Neue Algorithmen in dieser Lektion: **keiner.** Beide Werkzeuge – F-Rahmen und Sune – lagen schon in deiner Tonne.
 
 ### Übung
 
@@ -407,11 +409,15 @@ r g r
 
 ### Blick 2: Die Kanten – der Kanten-Zyklus
 
-Die Ecken sitzen, bis zu drei Kanten sind falsch. Und hier greift das Recycling ein letztes Mal – es ist der **Kanten-Zyklus** aus Beginner-Lektion 9:
+Die Ecken sitzen, bis zu drei Kanten sind falsch. Hier kommt der zweite und letzte neue Zug – der **Kanten-Zyklus**:
 
 > **Kanten-Zyklus** = **R U' R U R U R U' R' U' R2**
 
-Gleiche Routine wie damals: Die eine richtige Kante nach **hinten** halten, Zyklus ausführen. Falsch herum rotiert? Nochmal, gleiche Haltung, dann passt es. Keine Kante richtig? Einmal blind, dann hast du eine Ankerin.
+Elf Züge, aber alle aus R und U – wenn du bis hierher gekommen bist, machen deine Finger das im Halbschlaf. Der Zug klingt fast wie ein Rap-Refrain: einmal einstudieren, dann sitzt er.
+
+Er tauscht drei Kanten zyklisch: Eine bleibt in Ruhe, die anderen drei rutschen im Kreis. Die Routine kennst du aus dem Beginner-Pfad, nur mit Kanten statt Ecken: Die eine richtige Kante nach **hinten** halten, Zyklus ausführen. Falsch herum rotiert? Nochmal, gleiche Haltung, dann passt es. Keine Kante richtig? Einmal blind, dann hast du eine Ankerin.
+
+Und beachte, was du hier **nicht** mehr tust: die Oberseite drehen. Der Deckel sitzt seit dem Swap richtig – zum Ausrichten nimmst du den ganzen Würfel in die Hand. Genau die Regel aus Beginner-Lektion 7 und 8.
 
 ```cube
 b b b
@@ -430,8 +436,8 @@ Rechnen wir zusammen, was dich „CFOP lernen" gekostet hat:
 
 - Kreuz: **0 Algorithmen** (Intuition)
 - F2L: **0 Algorithmen** (Intuition + ROAR)
-- OLL: **1 neuer Algorithmus** (die Sune; der F-Rahmen gehörte dir schon)
-- PLL: **1 neuer Algorithmus** (der Swap; der Kanten-Zyklus gehörte dir schon)
+- OLL: **0 Algorithmen** (F-Rahmen und Sune gehörten dir beide schon)
+- PLL: **2 neue Algorithmen** (der Swap und der Kanten-Zyklus)
 
 **Gesamt: zwei.** Die gruselige 78-Algorithmen-Methode, neu gebaut aus deiner Recycling-Tonne plus zwei neuen Zugfolgen. Jeder Speedcuber der Welt benutzt genau diese Struktur – du jetzt auch, nur eben im Couch-Tempo.
 
