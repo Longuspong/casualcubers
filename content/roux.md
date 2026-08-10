@@ -188,15 +188,15 @@ w.w
 
 ### Zwei Runden, zwei Zugfolgen
 
-Nur noch vier Ecken oben sind ungelöst. Die fixen wir in zwei Runden – mit zwei Zugfolgen, die du aus dem CFOP-Light- oder 2x2-Pfad vielleicht schon mitbringst. Gute Nachricht vorweg: **Die mittlere Scheibe kannst du hier komplett ignorieren.** Die M-Kanten spielen noch keine Rolle, der Würfel darf chaotisch aussehen.
+Nur noch vier Ecken oben sind ungelöst. Die fixen wir in zwei Runden – mit zwei Zugfolgen, von denen du die erste garantiert schon mitbringst und die zweite vielleicht aus dem CFOP-Light- oder 2x2-Pfad kennst. Gute Nachricht vorweg: **Die mittlere Scheibe kannst du hier komplett ignorieren.** Die M-Kanten spielen noch keine Rolle, der Würfel darf chaotisch aussehen.
 
 ### Runde 1: Drehen, bis die obere Farbe oben ist
 
-Dein Werkzeug ist die **Sune** – sieben Züge, und der Einstieg **R U R'** ist das halbe ROAR:
+Dein Werkzeug ist die **Sune** aus Beginner-Lektion 7 – sieben Züge, und der Einstieg **R U R'** ist das halbe ROAR:
 
 > **Sune** = **R U R' U R U2 R'**
 
-Kennst du sie schon aus dem CFOP-Light-Pfad? Dann überspring den Rest dieses Absatzes. Falls nicht: Die Halteregeln sind schnell erzählt, nur dass „oben" jetzt nicht zwingend Gelb ist, sondern was auch immer deine obere Farbe geworden ist: Zeigt genau eine Ecke ihre obere Farbe nach oben, halte sie **vorne links** und mach eine Sune – und wenn danach wieder nur eine Ecke stimmt, war es der Zwillingsfisch: neu halten, noch eine Sune. Zeigen zwei nach oben, halte den Würfel so, dass die Ecke vorne links ihren Sticker in der oberen Farbe **zu dir** zeigt. Zeigt keine nach oben, halte ihn so, dass dieser Sticker **nach links** zeigt. Hinschauen, wiederholen – maximal drei Sunes und alle vier zeigen nach oben.
+Im Beginner-Pfad hing ein U hinten dran und sie hat deine Kanten sortiert; hier steht sie pur und dreht Ecken. Die Halteregeln sind schnell erzählt, nur dass „oben" jetzt nicht zwingend Gelb ist, sondern was auch immer deine obere Farbe geworden ist: Zeigt genau eine Ecke ihre obere Farbe nach oben, halte sie **vorne links** und mach eine Sune – und wenn danach wieder nur eine Ecke stimmt, war es der Zwillingsfisch: neu halten, noch eine Sune. Zeigen zwei nach oben, halte den Würfel so, dass die Ecke vorne links ihren Sticker in der oberen Farbe **zu dir** zeigt. Zeigt keine nach oben, halte ihn so, dass dieser Sticker **nach links** zeigt. Hinschauen, wiederholen – maximal drei Sunes und alle vier zeigen nach oben.
 
 In den Bildern steht Gelb stellvertretend für deine obere Farbe – Kanten und Mitte bleiben grau, die dürfen hier noch Chaos sein:
 
