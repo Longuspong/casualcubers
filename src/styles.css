@@ -442,16 +442,48 @@ code.alg {
 }
 
 .alg-box {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
   margin: 1.4rem 0;
-  padding: 1.05rem 1.15rem;
   background: var(--surface-sunk);
   border: 1px solid var(--border);
   border-left: 4px solid var(--accent);
   border-radius: var(--radius);
   box-shadow: var(--shadow-soft);
+}
+/* Der Kasten ist zugleich der Schalter für die Animation – deshalb ein Button,
+   der aber weiter aussieht wie der ruhige Kasten von vorher. */
+.alg-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.05rem 1.15rem;
+  background: none;
+  border: none;
+  border-radius: inherit;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.alg-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+.alg-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+/* Der Name, unter dem die Lektion den Algorithmus führt (ROAR, Sune, …). */
+.alg-name {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--text-muted);
 }
 .alg-box .alg {
   font-size: 1.3rem;
@@ -473,6 +505,131 @@ code.alg {
   color: var(--accent);
   font-size: 0.8rem;
   padding-left: 2px; /* optische Zentrierung des ▶ */
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.alg-box.is-open .alg-play {
+  background: var(--accent);
+  color: var(--bg-elevated);
+}
+/* Ohne diesen Hinweis rät niemand, dass der Kasten aufgeht. */
+.alg-toggle-hint {
+  margin-left: auto;
+  flex: none;
+  white-space: nowrap;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.alg-toggle-hint::after {
+  content: ' ⌄';
+  display: inline-block;
+  transition: transform 0.18s ease;
+}
+.alg-box.is-open .alg-toggle-hint::after { transform: rotate(180deg); }
+@media (hover: hover) {
+  .alg-toggle:hover .alg-toggle-hint { color: var(--accent); }
+}
+
+/* --------------------------------------------------------------------------
+   Signature: Algorithmus-Abspieler (siehe alg-player.js)
+   -------------------------------------------------------------------------- */
+.alg-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.2rem 1.15rem 1.15rem;
+  border-top: 1px solid var(--border);
+  margin-top: -1px;
+}
+.alg-box:not(.is-open) .alg-player { display: none; }
+.alg-stage { padding-top: 0.9rem; }
+.alg-stage svg { display: block; width: 200px; height: auto; max-width: 100%; }
+
+/* Die Zugliste ist zugleich die Sprungmarke: ein Tipp auf einen Zug führt in
+   die Stellung direkt danach. */
+.alg-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.alg-step {
+  min-width: 1.85rem;
+  padding: 0.2rem 0.32rem;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.alg-step.is-done { color: var(--text); }
+.alg-step.is-current {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: hsl(from var(--accent) h s l / 0.35);
+  font-weight: 600;
+}
+@media (hover: hover) {
+  .alg-step:hover { color: var(--text); background: var(--accent-soft); }
+}
+
+.alg-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.alg-ctl {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--text);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+.alg-ctl--play {
+  width: 2.9rem;
+  height: 2.9rem;
+  font-size: 0.95rem;
+  color: var(--accent);
+  border-color: hsl(from var(--accent) h s l / 0.45);
+  padding-left: 2px; /* optische Zentrierung des ▶ */
+}
+.alg-ctl--play.is-playing { padding-left: 0; }
+.alg-ctl:disabled { opacity: 0.35; cursor: default; }
+@media (hover: hover) {
+  .alg-ctl:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
+}
+
+.alg-status {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.alg-hint {
+  margin: 0;
+  max-width: 22rem;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-align: center;
 }
 
 /* Signature: ROAR-Badge */
