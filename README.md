@@ -149,11 +149,12 @@ Zugfolge unten            Merkfigur + ein Symbol pro Zug
 ```
 
 Ein Zug ist ein Blick von vorn auf den Würfel: die Scheibe, die sich dreht, ist
-eingefärbt, ein dicker Pfeil zeigt die Richtung (`R` = rechte Spalte hoch, `U` =
-obere Reihe nach links, `F` = Kreispfeil auf der ganzen Fläche). Eine doppelte
-Pfeilspitze heißt „zweimal", ein Kreispfeil „nochmal", ein Auge „jetzt gucken",
-ein durchgestrichener U-Zug „nicht die Oberseite drehen, sondern den ganzen
-Würfel".
+eingefärbt, ein einfacher Pfeil zeigt die Richtung (`R` = rechte Spalte hoch,
+`U` = obere Reihe nach links, `F` = Kreispfeil auf der ganzen Fläche). Ein Zug,
+der zweimal gedreht wird (`F2`), bekommt keine Sonderzeichnung – er steht
+schlicht **zweimal nebeneinander**. Ein Kreispfeil heißt „nochmal", ein Auge
+„jetzt gucken", ein durchgestrichener U-Zug „nicht die Oberseite drehen,
+sondern den ganzen Würfel".
 
 Vor den Zugfolgen steht keine Notation, sondern die Merkfigur, unter der das
 Kind den Algorithmus gelernt hat:

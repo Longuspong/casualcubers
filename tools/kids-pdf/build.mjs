@@ -232,14 +232,16 @@ function pageCross(doc) {
   A.ring(page, ...cube.centerOf('F', 0, 1), 21, { color: A.COLORS.accent, width: 4 });
   A.ring(page, ...cube.centerOf('F', 1, 1), 21, { color: A.COLORS.accent, width: 4 });
 
-  step2(page, 340, 210, 84);
+  step2(page, 336, 210, 74);
 
-  A.moveIcon(page, 462, 162, 96, 'F2');
+  // F2 – also zweimal dasselbe Bild, nicht ein Bild mit zwei Spitzen.
+  A.moveIcon(page, 434, 168, 84, 'F');
+  A.moveIcon(page, 532, 168, 84, 'F');
 
-  step2(page, 600, 210, 84);
+  step2(page, 632, 210, 62);
 
-  ic(page, 730, 195, 27, net([], KEEP.whiteCross), BELOW);
-  A.flipHint(page, 730, 320, 54);
+  ic(page, 762, 195, 27, net([], KEEP.whiteCross), BELOW);
+  A.flipHint(page, 762, 320, 54);
 
   // Viermal – für jedes Blütenblatt einmal.
   panel(page, M, 396, W - 2 * M, 158);
@@ -436,15 +438,15 @@ function pageEdges(doc) {
   step2(page, 340, 210, 84);
 
   tv(page, 560, 210, 26, SORTED_CROSS);
-  A.check(page, 730, 210, 44);
+  A.check(page, 700, 210, 44);
 
   // Erinnerung: nicht die Oberseite drehen, sondern den ganzen Würfel.
-  dontTurnU(page, 748, 452);
+  dontTurnU(page, 772, 300);
 
   algo(page, {
     x: M,
     y: 386,
-    w: 620,
+    w: W - 2 * M,
     h: 164,
     moves: ['R', 'U', "R'", 'U', 'R', 'U2', "R'", 'U'],
     badge: (pg, cx, cy, s) => A.walker(pg, cx, cy, s),
@@ -482,14 +484,14 @@ function pageCornerPlace(doc) {
   step2(page, 340, 210, 84);
 
   tv(page, 560, 210, 26, CORNERS_PLACED);
-  A.check(page, 730, 210, 44);
+  A.check(page, 700, 210, 44);
 
-  dontTurnU(page, 748, 452);
+  dontTurnU(page, 772, 300);
 
   algo(page, {
     x: M,
     y: 386,
-    w: 620,
+    w: W - 2 * M,
     h: 164,
     moves: ['U', 'R', "U'", "L'", 'U', "R'", "U'", 'L'],
     badge: (pg, cx, cy, s) => A.girls(pg, cx, cy, s),

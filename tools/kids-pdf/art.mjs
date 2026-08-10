@@ -47,38 +47,34 @@ const stickerColor = (ch) => COLORS[ch] || COLORS['.'];
 // Pfeile
 // ---------------------------------------------------------------------------
 
-// Gerader Pfeil. `head` ist die Größe der Spitze; `heads: 2` malt zwei
-// Winkel hintereinander – so heißt ein Zug „zweimal", ohne eine Ziffer zu
-// benutzen, die das Kind noch nicht lesen kann.
-export function arrow(page, x1, y1, x2, y2, { color = COLORS.ink, width = 4, head = 10, heads = 1 } = {}) {
+// Gerader Pfeil mit einer Spitze. Mehr braucht das Blatt nicht: Ein Zug, der
+// zweimal gedreht wird, steht zweimal da – siehe expandMoves().
+export function arrow(page, x1, y1, x2, y2, { color = COLORS.ink, width = 4, head = 10 } = {}) {
   const a = Math.atan2(y2 - y1, x2 - x1);
   const back = head * 0.72;
-  const tipX = x2;
-  const tipY = y2;
-  page.line(x1, y1, tipX - Math.cos(a) * back * 0.4, tipY - Math.sin(a) * back * 0.4, { stroke: color, width });
-  for (let i = 0; i < heads; i += 1) {
-    const bx = tipX - Math.cos(a) * back * i;
-    const by = tipY - Math.sin(a) * back * i;
-    arrowHead(page, bx, by, a, head, color);
-  }
+  page.line(x1, y1, x2 - Math.cos(a) * back * 0.6, y2 - Math.sin(a) * back * 0.6, { stroke: color, width });
+  arrowHead(page, x2, y2, a, head, color);
 }
 
+// Schlichtes Dreieck. Eine Spitze mit eingekerbtem Rücken sieht dort, wo ein
+// runder Bogen unter ihr endet, immer nach Knick aus – die gerade Kante deckt
+// den Strich sauber ab.
 function arrowHead(page, x, y, angle, size, color) {
-  const wing = size * 0.62;
+  const wing = size * 0.58;
   const p = (d, o) => [x - Math.cos(angle) * d - Math.sin(angle) * o, y - Math.sin(angle) * d + Math.cos(angle) * o];
-  page.polygon([[x, y], p(size, wing), p(size * 0.68, 0), p(size, -wing)], { fill: color });
+  page.polygon([[x, y], p(size, wing), p(size, -wing)], { fill: color });
 }
 
 // Kreisbogen mit Spitze. Winkel in Grad, im Seitensystem (y nach unten) läuft
 // ein wachsender Winkel im Uhrzeigersinn.
-export function curvedArrow(page, cx, cy, r, from, to, { color = COLORS.ink, width = 4, head = 11, heads = 1 } = {}) {
+export function curvedArrow(page, cx, cy, r, from, to, { color = COLORS.ink, width = 4, head = 11 } = {}) {
   const dir = Math.sign(to - from);
   const perHead = (head * 0.72 * 180) / (Math.PI * r); // Spitzenlänge in Grad
-  page.arc(cx, cy, r, from, to - dir * perHead * 0.5, { stroke: color, width });
-  for (let i = 0; i < heads; i += 1) {
-    const a = (to - dir * perHead * i) * DEG;
-    arrowHead(page, cx + r * Math.cos(a), cy + r * Math.sin(a), a + dir * (Math.PI / 2), head, color);
-  }
+  // Der Bogen endet fast am Ansatz der Spitze: eine gerade Spitze auf einem
+  // runden Bogen bekommt sonst einen sichtbaren Knick an der Flanke.
+  page.arc(cx, cy, r, from, to - dir * perHead * 0.6, { stroke: color, width });
+  const a = to * DEG;
+  arrowHead(page, cx + r * Math.cos(a), cy + r * Math.sin(a), a + dir * (Math.PI / 2), head, color);
 }
 
 // Gebogener Pfeil zwischen zwei Punkten im Bild – zeigt, welches Teil wohin
@@ -308,7 +304,11 @@ export function isoCube(page, x, y, cell, src, view = {}) {
 //   U  obere Reihe nach links  U'  obere Reihe nach rechts
 //   D  untere Reihe rechts     D'  untere Reihe links
 //   F  ganze Fläche im Uhrzeigersinn   F'  dagegen
-// Ein „2" wird zur doppelten Pfeilspitze.
+//
+// Jedes Symbol trägt genau einen einfachen Pfeil. Ein Zug, der zweimal
+// gedreht wird (`F2`), bekommt keine Sonderzeichnung – er steht schlicht
+// zweimal nebeneinander. Zweimal dasselbe Bild heißt zweimal dieselbe
+// Bewegung, und das versteht sich ohne jede Erklärung.
 
 const BAND = {
   R: { kind: 'col', index: 2, dir: 'up' },
@@ -317,20 +317,27 @@ const BAND = {
   D: { kind: 'row', index: 2, dir: 'right' },
 };
 
+// "F2" -> ["F", "F"]. Einzige Stelle, an der aus einem Doppelzug zwei Bilder
+// werden – Zeichnen und Breite rechnen damit garantiert dasselbe.
+export function expandMoves(moves) {
+  return moves.flatMap((m) => (m.includes('2') ? [m[0], m[0]] : [m]));
+}
+
 export function moveIcon(page, x, y, size, move) {
   const face = move[0];
-  const double = move.includes('2');
   const prime = move.includes("'");
   const cell = size / 3;
   const grid = (i) => x + i * cell;
 
-  page.roundRect(x, y, size, size, size * 0.1, { fill: COLORS.paper, stroke: COLORS.ink, width: size * 0.045 });
+  // Beim F dreht sich die ganze Fläche – dann ist auch die ganze Fläche
+  // eingefärbt, ohne zweiten Rahmen darin.
+  page.roundRect(x, y, size, size, size * 0.1, {
+    fill: face === 'F' ? COLORS.accentSoft : COLORS.paper,
+    stroke: COLORS.ink,
+    width: size * 0.045,
+  });
 
-  if (face === 'F') {
-    page.roundRect(x + cell * 0.16, y + cell * 0.16, size - cell * 0.32, size - cell * 0.32, size * 0.08, {
-      fill: COLORS.accentSoft,
-    });
-  } else {
+  if (face !== 'F') {
     const band = BAND[face];
     const [bx, by, bw, bh] = band.kind === 'col'
       ? [grid(band.index), y, cell, size]
@@ -345,14 +352,18 @@ export function moveIcon(page, x, y, size, move) {
   }
   page.roundRect(x, y, size, size, size * 0.1, { stroke: COLORS.ink, width: size * 0.055 });
 
-  const style = { color: COLORS.ink, width: size * 0.085, head: size * 0.2, heads: double ? 2 : 1 };
+  const style = { color: COLORS.ink, width: size * 0.085, head: size * 0.2 };
   if (face === 'F') {
-    const r = size * 0.29;
+    const r = size * 0.3;
     const [cx, cy] = [x + size / 2, y + size / 2];
     // Uhrzeigersinn heißt auf dem Papier: wachsender Winkel (y zeigt nach unten).
-    const turn = { ...style, head: size * 0.24 };
-    if (prime) curvedArrow(page, cx, cy, r, 150, -150, turn);
-    else curvedArrow(page, cx, cy, r, 30, 330, turn);
+    // 260° lassen eine deutliche Lücke zwischen Anfang und Spitze – ein fast
+    // geschlossener Kreis liest sich sonst wie ein O.
+    const [from, to] = prime ? [140, -120] : [40, 300];
+    // Der Bogen kreuzt die Gitterlinien: erst ein Rand in Flächenfarbe, dann
+    // der Pfeil. So bleibt die Drehrichtung die stärkste Linie im Bild.
+    page.arc(cx, cy, r, from, to, { stroke: COLORS.accentSoft, width: size * 0.13 });
+    curvedArrow(page, cx, cy, r, from, to, { ...style, width: size * 0.07, head: size * 0.16 });
     return;
   }
 
@@ -373,6 +384,7 @@ export function moveIcon(page, x, y, size, move) {
 
 // Eine Zugfolge als Reihe von Symbolen, links davor die Merkfigur.
 export function algStrip(page, x, y, { moves, size = 46, gap = 9, badge = null, badgeSize = 74, group = 0 }) {
+  const icons = expandMoves(moves);
   let cursor = x;
   if (badge) {
     const box = badgeSize;
@@ -384,19 +396,20 @@ export function algStrip(page, x, y, { moves, size = 46, gap = 9, badge = null, 
     badge(page, cursor + box * 0.5, y + size / 2, box * 0.78);
     cursor += box + gap * 2.2;
   }
-  moves.forEach((move, i) => {
+  icons.forEach((move, i) => {
     moveIcon(page, cursor, y, size, move);
     // Eine Lücke nach jeder Gruppe: „und jetzt dasselbe noch einmal".
-    const boundary = group && (i + 1) % group === 0 && i + 1 < moves.length;
+    const boundary = group && (i + 1) % group === 0 && i + 1 < icons.length;
     cursor += size + gap + (boundary ? size * 0.45 : 0);
   });
   return cursor - gap;
 }
 
 export function algStripWidth({ moves, size = 46, gap = 9, badge = null, badgeSize = 74, group = 0 }) {
+  const count = expandMoves(moves).length;
   const badgeWidth = badge ? badgeSize + gap * 2.2 : 0;
-  const groups = group ? Math.ceil(moves.length / group) - 1 : 0;
-  return badgeWidth + moves.length * (size + gap) - gap + groups * size * 0.45;
+  const groups = group ? Math.ceil(count / group) - 1 : 0;
+  return badgeWidth + count * (size + gap) - gap + groups * size * 0.45;
 }
 
 // ---------------------------------------------------------------------------

@@ -138,7 +138,10 @@ export class Page {
   // Kreisbogen als Polyline – für die runden Pfeile reicht das völlig und
   // spart die Bezier-Zerlegung.
   arc(cx, cy, r, fromDeg, toDeg, style) {
-    const steps = Math.max(6, Math.ceil(Math.abs(toDeg - fromDeg) / 8));
+    // Ein Segment je ~2 Punkt Bogenlänge – kleine Bögen bleiben billig, große
+    // sehen auch im Ausdruck rund aus.
+    const length = (Math.abs(toDeg - fromDeg) * Math.PI * r) / 180;
+    const steps = Math.max(8, Math.ceil(length / 2));
     for (let i = 0; i <= steps; i += 1) {
       const a = ((fromDeg + ((toDeg - fromDeg) * i) / steps) * Math.PI) / 180;
       const [x, y] = [cx + r * Math.cos(a), cy + r * Math.sin(a)];
