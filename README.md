@@ -48,6 +48,9 @@ content/<pfad>.md          Lektionstexte, zur Runtime gefetcht – einzige Quell
                            Dev-Server liefert sie direkt aus, der Build kopiert
                            sie über ein Plugin in vite.config.js nach dist/content/
 public/favicon.svg
+public/wuerfel-bilderanleitung.pdf
+                           Bilderanleitung zum Ausdrucken (generiert, siehe unten)
+tools/kids-pdf/            erzeugt genau dieses PDF (`npm run pdf`)
 src/
   main.js                  Einstieg: Router-Dispatch auf die Views
   router.js                Hash-Router (#/, #/<pfad>, #/<pfad>/1 …)
@@ -130,6 +133,61 @@ Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
 3. **ROAR-Badge** – jedes Vorkommen von `ROAR` wird zum
    `<span class="roar-badge">`, damit ROAR als wiederkehrender Charakter
    erlebbar wird.
+
+### Bilderanleitung zum Ausdrucken
+
+`public/wuerfel-bilderanleitung.pdf` ist der Beginner-Pfad auf neun Seiten A4
+quer – **ohne ein einziges Wort**. Sie ist für Kinder gedacht, die den Würfel
+schon gezeigt bekommen haben, aber noch nicht lesen können: Seite 1 ist die
+Landkarte mit allen acht Schritten, danach kommt pro Schritt eine Seite nach
+immer demselben Bauplan.
+
+```
+Punktleiste oben          der wievielte Schritt ist das? (statt einer Ziffer)
+Bild -> Pfeil -> Bild     so sieht es aus, so soll es aussehen
+Zugfolge unten            Merkfigur + ein Symbol pro Zug
+```
+
+Ein Zug ist ein Blick von vorn auf den Würfel: die Scheibe, die sich dreht, ist
+eingefärbt, ein dicker Pfeil zeigt die Richtung (`R` = rechte Spalte hoch, `U` =
+obere Reihe nach links, `F` = Kreispfeil auf der ganzen Fläche). Eine doppelte
+Pfeilspitze heißt „zweimal", ein Kreispfeil „nochmal", ein Auge „jetzt gucken",
+ein durchgestrichener U-Zug „nicht die Oberseite drehen, sondern den ganzen
+Würfel".
+
+Vor den Zugfolgen steht keine Notation, sondern die Merkfigur, unter der das
+Kind den Algorithmus gelernt hat:
+
+| Figur                    | Zugfolge              | auf der Website  |
+| ------------------------ | --------------------- | ---------------- |
+| Fahrstuhl                | `R U R' U'`           | ROAR / Aufzug    |
+| Spaziergänger            | `R U R' U R U2 R' U`  | Kantentausch (Sune + U) |
+| zwei Mädchen im Garten   | `U R U' L' U R' U' L` | Karussell (Niklas) |
+| Fahrstuhl in den Keller  | `R' D' R D`           | Aufzug in den Keller |
+
+Neu bauen:
+
+```bash
+npm run pdf      # schreibt public/wuerfel-bilderanleitung.pdf
+```
+
+Der Generator liegt in `tools/kids-pdf/` und braucht weder Browser noch
+Abhängigkeit:
+
+- `pdf.mjs` – ein kleiner PDF-Schreiber (Vektorformen, keine Fonts – das Blatt
+  hat ja keinen Text). Ursprung oben links, y nach unten, wie im SVG.
+- `art.mjs` – die Bildsprache: Sticker, Draufsicht, räumlicher Würfel,
+  Zug-Symbole, Pfeile, Merkfiguren. Die Würfelbilder lesen dieselben
+  Quellformate wie der Content (`cube` und `cube-net`).
+- `state.mjs` – Würfelstellungen aus echten Zügen: `src/cube-state.js` dreht
+  einen gelösten Würfel, danach werden die 54 Felder abgelesen. Eine Maske
+  gräut aus, was für den Schritt egal ist. Damit kann kein Bild eine Stellung
+  zeigen, die es nicht gibt.
+- `build.mjs` – die neun Seiten.
+
+Das PDF liegt fertig im Repo (es ist ein Ausdruck, kein Build-Artefakt) und wird
+vom Vite-Build wie jede andere Datei aus `public/` nach `dist/` kopiert. Wer die
+Schritte im Content ändert, baut es neu.
 
 ### Fortschritt
 

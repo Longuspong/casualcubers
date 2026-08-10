@@ -15,6 +15,14 @@ export const PATHS = [
     blurb: 'Neun ruhige Lektionen, so wenige Algorithmen wie möglich. Der Einstieg für alle, die den Würfel als Puzzle mögen.',
     lessonCount: 9,
     ready: true,
+    // Bilderanleitung zum Ausdrucken (liegt in public/, gebaut von
+    // tools/kids-pdf/). Nur dieser Pfad hat eine – sie zeigt genau diese
+    // Methode, ohne ein einziges Wort.
+    printable: {
+      file: 'wuerfel-bilderanleitung.pdf',
+      label: 'Bilderanleitung zum Ausdrucken',
+      note: 'A4 quer, 9 Seiten, ganz ohne Text – für Kinder, die noch nicht lesen.',
+    },
   },
   {
     id: '2x2',
