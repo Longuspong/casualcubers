@@ -43,9 +43,10 @@ Template-Strings. `marked` parst den Content, CSS-Variablen tragen das Theming.
 
 ```
 index.html                 App-Shell mit #app-Container
-content/<pfad>.md          Quelltexte der Lektionen (Arbeitskopien)
-public/content/<pfad>.md   ausgeliefert & zur Runtime gefetcht
+content/<pfad>.md          Lektionstexte, zur Runtime gefetcht – einzige Quelle
                            (beginner.md, 2x2.md, cfop-light.md, roux.md)
+                           Dev-Server liefert sie direkt aus, der Build kopiert
+                           sie über ein Plugin in vite.config.js nach dist/content/
 public/favicon.svg
 src/
   main.js                  Einstieg: Router-Dispatch auf die Views
@@ -64,7 +65,7 @@ src/
 
 ### Einen Pfad hinzufügen
 
-1. `content/<id>.md` und `public/content/<id>.md` anlegen (gleiches Format wie
+1. `content/<id>.md` anlegen (gleiches Format wie
    `beginner.md`: `## Lektion N: Titel`, `**Ziel-Bild:** … Bildunterschrift: „…"`,
    `### Übung`, `**Abhaken, wenn:** …`).
 2. In `src/paths.js` einen Eintrag mit `id`/`route`/`accent`/Texten/`lessonCount`
