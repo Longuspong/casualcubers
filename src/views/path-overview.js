@@ -26,6 +26,21 @@ export function renderPathOverview(container, { path, lessons }) {
     })
     .join('');
 
+  // Manche Pfade bringen ein Blatt zum Ausdrucken mit. Es liegt als fertiges
+  // PDF in public/ und wird deshalb – wie der Content – über BASE_URL
+  // adressiert, damit es auch unter einem Unterpfad gefunden wird.
+  const printable = meta && meta.printable;
+  const printableHtml = printable
+    ? `
+        <a class="print-card" href="${import.meta.env.BASE_URL}${printable.file}" download>
+          <span class="print-card-icon" aria-hidden="true">🖨️</span>
+          <span class="print-card-text">
+            <span class="print-card-title">${esc(printable.label)}</span>
+            <span class="print-card-note">${esc(printable.note)}</span>
+          </span>
+        </a>`
+    : '';
+
   mount(container, {
     accent: meta ? meta.accent : null,
     html: `
@@ -41,6 +56,7 @@ export function renderPathOverview(container, { path, lessons }) {
             </div>
             <span class="progress-label">${done} / ${total} Lektionen</span>
           </div>
+          ${printableHtml}
         </section>
 
         <ol class="lesson-list">${items}</ol>
