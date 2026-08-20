@@ -19,44 +19,34 @@
     font-family: "Segoe UI", system-ui, sans-serif;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-
-  /* Würfelfarben – identisch zur App (styles.css). */
-  .cd { stroke: hsl(0 0% 0% / 0.16); stroke-width: 0.5; }
-  .cd-body { fill: hsl(25 22% 17%); }
-  .cd-shade { fill: hsl(25 30% 6%); stroke: none; }
-  .cd-shade-soft { fill-opacity: 0.11; }
-  .cd-shade-mid { fill-opacity: 0.22; }
-  .cd-shade-deep { fill-opacity: 0.32; }
-  .cd-y { fill: var(--y); } .cd-r { fill: var(--r); } .cd-g { fill: var(--g); }
-  .cd-b { fill: var(--b); } .cd-o { fill: var(--o); } .cd-w { fill: var(--w); }
-  .cd-n { fill: hsl(35 14% 82%); }
-  .cd-letter { font-weight: 700; fill: hsl(25 20% 20% / 0.75); }
-
-  /* Zug-Pfeil. */
-  .arrow-halo { stroke: hsl(40 33% 98%); }
-  .arrow-halo-fill { fill: hsl(40 33% 98%); stroke: hsl(40 33% 98%); }
-  .arrow-body { stroke: hsl(25 32% 15%); }
-  .arrow-body-fill { fill: hsl(25 32% 15%); }
-
-  .cube-figure { margin: 0; }
-  .cube-row { display: flex; gap: 12px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
-  .cube-item { display: flex; flex-direction: column; align-items: center; }
-  .cube-views { display: flex; gap: 8px; }
-  .cube-view { display: flex; flex-direction: column; align-items: center; }
-  .cube-item svg { display: block; width: 92px; height: auto; }
-  .cube-item--net svg { width: 80px; }
-  .cube-view-label, .cube-label { display: none; }
+  svg { display: block; }
 
   /* Seiten (A4). */
-  @page { size: A4; margin: 14mm; }
+  @page { size: A4; margin: 15mm; }
   .cover, .legend, .lesson { break-inside: avoid; }
-  .cover { break-after: page; text-align: center; padding-top: 30mm; }
-  .cover .cube-item svg { width: 240px; }
-  .cover-title { font-size: 30px; font-weight: 800; letter-spacing: .5px; margin-top: 10mm; }
+
+  /* Deckblatt. */
+  .cover { break-after: page; text-align: center; padding-top: 34mm; }
+  .cover-faces { display: flex; gap: 10px; justify-content: center; }
+  .cover-faces svg { width: 150px; height: auto; }
+  .cover-title { font-size: 30px; font-weight: 800; letter-spacing: .5px; margin-top: 12mm; }
   .cover-sub { font-size: 15px; color: hsl(25 15% 45%); margin-top: 3mm; }
 
-  /* Lektionskopf: Nummer als Punkte. */
-  .lesson { padding: 6mm 0 8mm; border-top: 2px solid var(--tab, var(--line)); }
+  /* Legende. */
+  .legend { break-after: page; padding-top: 10mm; }
+  .legend-row { display: flex; gap: 18px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
+  .legend-item { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 110px; }
+  .legend-art { height: 82px; display: flex; align-items: center; justify-content: center; }
+  .legend-item svg { width: 72px; height: auto; }
+  .legend-cap { font-size: 14px; font-weight: 600; color: hsl(25 18% 40%); text-align: center; }
+  .legend-brk { font-size: 26px; font-weight: 800; color: hsl(25 25% 20%); }
+  .legend-swatches { display: flex; gap: 10px; justify-content: center; margin-top: 9mm; }
+  .sw { width: 26px; height: 26px; border-radius: 7px; border: 1px solid hsl(0 0% 0% / .12); }
+  .sw-y { background: var(--y); } .sw-w { background: var(--w); } .sw-g { background: var(--g); }
+  .sw-r { background: var(--r); } .sw-b { background: var(--b); } .sw-o { background: var(--o); }
+
+  /* Lektion. */
+  .lesson { padding: 7mm 0 8mm; border-top: 2px solid var(--tab, var(--line)); }
   .lesson[data-accent="y"] { --tab: var(--y); }
   .lesson[data-accent="w"] { --tab: hsl(35 20% 70%); }
   .lesson[data-accent="g"] { --tab: var(--g); }
@@ -67,55 +57,44 @@
   .lesson-no { display: inline-flex; gap: 5px; padding: 5px 10px; border-radius: 999px; background: var(--tab); }
   .lesson-no .dot { width: 9px; height: 9px; border-radius: 50%; background: hsl(0 0% 100% / .92); }
 
-  /* Zähl-Punkte (Zug-Nummer, Wiederholungen). */
   .dots, .count { display: inline-flex; gap: 3px; align-items: center; }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
-  .count { color: hsl(25 18% 55%); margin-top: 4px; }
+  .count { color: hsl(25 18% 50%); }
 
   .block { margin: 4mm 0; }
-  .figs { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
   /* Ziel-Block. */
-  .goal { display: flex; align-items: center; gap: 10px; justify-content: center;
-    background: hsl(120 30% 50% / .08); border: 1.5px solid hsl(120 30% 45% / .25);
+  .goal-block { display: flex; align-items: center; gap: 12px; justify-content: center;
+    background: hsl(120 30% 50% / .08); border: 1.5px solid hsl(120 30% 45% / .22);
     border-radius: 14px; padding: 5mm; }
-  .icon { font-size: 22px; line-height: 1; }
+  .figs { display: flex; gap: 12px; align-items: center; }
+  .figs svg { width: 74px; height: auto; }
+  .icon { font-size: 20px; line-height: 1; }
   .icon-goal { font-size: 26px; }
 
-  /* Zwischenstufen. */
-  .stages { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .stage { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  /* Fälle. */
+  .stages { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+  .stage { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .stage svg { width: 66px; height: auto; }
   .stage-rep { display: flex; align-items: center; gap: 6px; }
   .stage-rep .icon { font-size: 16px; }
 
-  /* Zugstreifen. */
-  .moves { display: flex; align-items: center; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .strip { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center; }
-  .move { display: flex; flex-direction: column; align-items: center; }
-  .move svg { width: 78px; height: auto; }
-  .chain { width: 12px; height: 2px; background: var(--line); border-radius: 2px; align-self: flex-start; margin-top: 34px; }
-  .flags { display: flex; gap: 8px; align-items: center; }
-  .flag { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; font-size: 18px;
-    background: hsl(38 65% 52% / .16); color: hsl(30 60% 35%); padding: 4px 10px; border-radius: 10px; }
+  /* Zugfolge als Klammer-Ausdruck. */
+  .moves { display: flex; justify-content: center; }
+  .expr { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;
+    background: #fff; border: 2px solid hsl(25 20% 88%); border-radius: 16px; padding: 12px 14px; }
+  .hint { font-size: 24px; font-weight: 800; margin-right: 2px; color: hsl(25 25% 25%); }
+  .brk { font-size: 46px; font-weight: 200; color: hsl(25 20% 35%); }
+  .rep { font-size: 19px; font-weight: 800; min-width: 24px; text-align: center; }
+  .rep .icon { font-size: 18px; }
+  .arrow { font-size: 26px; margin: 0 2px; }
+  .move svg { width: 52px; height: auto; }
+  .goal svg { width: 54px; height: auto; }
 
-  /* Vokabelblatt (Lektion 2). */
-  .vocab { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 6px; }
+  /* Vokabelblatt. */
+  .vocab { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px 8px; max-width: 520px; margin: 0 auto; }
   .vocab-card { display: flex; justify-content: center; }
-  .vocab-card svg { width: 92px; height: auto; }
-
-  /* Legende. */
-  .legend { break-after: page; padding-top: 8mm; }
-  .legend-row { display: flex; gap: 16px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
-  .legend-item { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 96px; }
-  .legend-art { height: 78px; display: flex; align-items: center; justify-content: center; }
-  .legend-item svg, .legend-item .cube-item svg { width: 74px; }
-  .legend-cap { font-size: 14px; font-weight: 600; color: hsl(25 18% 40%); text-align: center; }
-  .legend-rep { display: flex; align-items: center; gap: 6px; }
-  .legend-x2 { font-size: 30px; font-weight: 800; color: hsl(30 60% 38%); }
-  .legend-swatches { display: flex; gap: 10px; justify-content: center; margin-top: 8mm; }
-  .sw { width: 26px; height: 26px; border-radius: 7px; border: 1px solid hsl(0 0% 0% / .12); }
-  .sw-y { background: var(--y); } .sw-w { background: var(--w); } .sw-g { background: var(--g); }
-  .sw-r { background: var(--r); } .sw-b { background: var(--b); } .sw-o { background: var(--o); }
+  .vocab-card svg { width: 74px; height: auto; }
 </style>
 </head>
 <body>
