@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Zauberwürfel Bilder-Anleitung</title>
+<style>
+  :root {
+    --paper: hsl(40 33% 97%);
+    --ink: hsl(25 25% 18%);
+    --line: hsl(30 18% 82%);
+    --y: hsl(46 92% 56%); --r: hsl(4 66% 55%); --g: hsl(135 42% 45%);
+    --b: hsl(215 60% 52%); --o: hsl(27 86% 55%); --w: hsl(40 30% 92%);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, sans-serif;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  /* Würfelfarben – identisch zur App (styles.css). */
+  .cd { stroke: hsl(0 0% 0% / 0.16); stroke-width: 0.5; }
+  .cd-body { fill: hsl(25 22% 17%); }
+  .cd-shade { fill: hsl(25 30% 6%); stroke: none; }
+  .cd-shade-soft { fill-opacity: 0.11; }
+  .cd-shade-mid { fill-opacity: 0.22; }
+  .cd-shade-deep { fill-opacity: 0.32; }
+  .cd-y { fill: var(--y); } .cd-r { fill: var(--r); } .cd-g { fill: var(--g); }
+  .cd-b { fill: var(--b); } .cd-o { fill: var(--o); } .cd-w { fill: var(--w); }
+  .cd-n { fill: hsl(35 14% 82%); }
+  .cd-letter { font-weight: 700; fill: hsl(25 20% 20% / 0.75); }
+
+  /* Zug-Pfeil. */
+  .arrow-halo { stroke: hsl(40 33% 98%); }
+  .arrow-halo-fill { fill: hsl(40 33% 98%); stroke: hsl(40 33% 98%); }
+  .arrow-body { stroke: hsl(25 32% 15%); }
+  .arrow-body-fill { fill: hsl(25 32% 15%); }
+
+  .cube-figure { margin: 0; }
+  .cube-row { display: flex; gap: 12px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+  .cube-item { display: flex; flex-direction: column; align-items: center; }
+  .cube-views { display: flex; gap: 8px; }
+  .cube-view { display: flex; flex-direction: column; align-items: center; }
+  .cube-item svg { display: block; width: 92px; height: auto; }
+  .cube-item--net svg { width: 80px; }
+  .cube-view-label, .cube-label { display: none; }
+
+  /* Seiten (A4). */
+  @page { size: A4; margin: 14mm; }
+  .cover, .legend, .lesson { break-inside: avoid; }
+  .cover { break-after: page; text-align: center; padding-top: 30mm; }
+  .cover .cube-item svg { width: 240px; }
+  .cover-title { font-size: 30px; font-weight: 800; letter-spacing: .5px; margin-top: 10mm; }
+  .cover-sub { font-size: 15px; color: hsl(25 15% 45%); margin-top: 3mm; }
+
+  /* Lektionskopf: Nummer als Punkte. */
+  .lesson { padding: 6mm 0 8mm; border-top: 2px solid var(--tab, var(--line)); }
+  .lesson[data-accent="y"] { --tab: var(--y); }
+  .lesson[data-accent="w"] { --tab: hsl(35 20% 70%); }
+  .lesson[data-accent="g"] { --tab: var(--g); }
+  .lesson[data-accent="r"] { --tab: var(--r); }
+  .lesson[data-accent="b"] { --tab: var(--b); }
+  .lesson[data-accent="o"] { --tab: var(--o); }
+  .lesson-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5mm; }
+  .lesson-no { display: inline-flex; gap: 5px; padding: 5px 10px; border-radius: 999px; background: var(--tab); }
+  .lesson-no .dot { width: 9px; height: 9px; border-radius: 50%; background: hsl(0 0% 100% / .92); }
+
+  /* Zähl-Punkte (Zug-Nummer, Wiederholungen). */
+  .dots, .count { display: inline-flex; gap: 3px; align-items: center; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+  .count { color: hsl(25 18% 55%); margin-top: 4px; }
+
+  .block { margin: 4mm 0; }
+  .figs { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* Ziel-Block. */
+  .goal { display: flex; align-items: center; gap: 10px; justify-content: center;
+    background: hsl(120 30% 50% / .08); border: 1.5px solid hsl(120 30% 45% / .25);
+    border-radius: 14px; padding: 5mm; }
+  .icon { font-size: 22px; line-height: 1; }
+  .icon-goal { font-size: 26px; }
+
+  /* Zwischenstufen. */
+  .stages { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .stage { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .stage-rep { display: flex; align-items: center; gap: 6px; }
+  .stage-rep .icon { font-size: 16px; }
+
+  /* Zugstreifen. */
+  .moves { display: flex; align-items: center; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .strip { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .move { display: flex; flex-direction: column; align-items: center; }
+  .move svg { width: 78px; height: auto; }
+  .chain { width: 12px; height: 2px; background: var(--line); border-radius: 2px; align-self: flex-start; margin-top: 34px; }
+  .flags { display: flex; gap: 8px; align-items: center; }
+  .flag { display: inline-flex; align-items: center; gap: 4px; font-weight: 800; font-size: 18px;
+    background: hsl(38 65% 52% / .16); color: hsl(30 60% 35%); padding: 4px 10px; border-radius: 10px; }
+
+  /* Vokabelblatt (Lektion 2). */
+  .vocab { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 6px; }
+  .vocab-card { display: flex; justify-content: center; }
+  .vocab-card svg { width: 92px; height: auto; }
+
+  /* Legende. */
+  .legend { break-after: page; padding-top: 8mm; }
+  .legend-row { display: flex; gap: 16px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
+  .legend-item { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 96px; }
+  .legend-art { height: 78px; display: flex; align-items: center; justify-content: center; }
+  .legend-item svg, .legend-item .cube-item svg { width: 74px; }
+  .legend-cap { font-size: 14px; font-weight: 600; color: hsl(25 18% 40%); text-align: center; }
+  .legend-rep { display: flex; align-items: center; gap: 6px; }
+  .legend-x2 { font-size: 30px; font-weight: 800; color: hsl(30 60% 38%); }
+  .legend-swatches { display: flex; gap: 10px; justify-content: center; margin-top: 8mm; }
+  .sw { width: 26px; height: 26px; border-radius: 7px; border: 1px solid hsl(0 0% 0% / .12); }
+  .sw-y { background: var(--y); } .sw-w { background: var(--w); } .sw-g { background: var(--g); }
+  .sw-r { background: var(--r); } .sw-b { background: var(--b); } .sw-o { background: var(--o); }
+</style>
+</head>
+<body>
+<main id="doc"></main>
+<script type="module" src="./generate.js"></script>
+</body>
+</html>
