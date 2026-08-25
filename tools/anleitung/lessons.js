@@ -1,29 +1,22 @@
-// Die neun Lektionen der Anfänger-Methode als Bild-Bausteine.
+// Die neun Lektionen der Anfänger-Methode als flache Bild-Bausteine.
 //
-// Reihenfolge und Inhalte spiegeln content/beginner.md. Für das schriftlose PDF
-// zählt nur zweierlei pro Lektion: das Ziel-Bild (wohin) und die Zugfolgen
-// (wie) – beides rein grafisch. Die Ziel-Diagramme sind dieselbe ASCII-Notation
-// wie in der App (```cube / ```cube-net), gerendert über cube-diagram.js.
-
-// Farbtupfer als „das ist gemeint"-Symbol, wenn ein Schritt sich auf eine Farbe
-// bezieht (z. B. gelbes Kreuz).
-export const COLORS = { y: 'gelb', w: 'weiß', g: 'grün', r: 'rot', b: 'blau', o: 'orange' };
+// Reihenfolge und Inhalte wie in content/beginner.md. Alles ist flach gedacht:
+// Blick von vorn auf den Würfel. Ziel-/Fall-Bilder sind kleine Quadrate
+// (3×3-Gitter, Farbbuchstaben y/w/g/r/b/o, n = neutral/grau, . = leer, k =
+// schwarz), Zugfolgen sind Ketten aus flachen Zug-Quadraten mit Pfeil.
 
 export const LESSONS = [
   {
     n: 1,
     accent: 'y',
-    // Kennenlernen: der ganze, gelöste Würfel als Ziel aller Ziele.
-    goals: [
-      { kind: 'cube-net', art: 'yyy\nyyy\nyyy\nooo ggg rrr bbb\nooo ggg rrr bbb\nooo ggg rrr bbb\nwww\nwww\nwww' },
-    ],
+    // Kennenlernen: Ziel aller Ziele – jede Seite einfarbig.
+    goals: [['yyy', 'yyy', 'yyy'], ['ggg', 'ggg', 'ggg'], ['rrr', 'rrr', 'rrr']],
     algs: [],
   },
   {
     n: 2,
     accent: 'g',
-    // Notation als Vokabelblatt – alle sechs Grundzüge plus ' und 2.
-    // Wird gesondert als Zug-Galerie gerendert (siehe generate.js).
+    // Notation als Bild-Vokabelblatt (siehe generate.js).
     isVocab: true,
     goals: [],
     algs: [],
@@ -31,81 +24,62 @@ export const LESSONS = [
   {
     n: 3,
     accent: 'w',
-    // Weißes Kreuz: erst Blume (Draufsicht), dann Kreuz unten (ganzer Würfel).
-    goals: [
-      { kind: 'cube', art: '. b .\n. . w . .\no w y w r\n. . w . .\n. g .' },
-      { kind: 'cube-net', art: '...\n...\n...\n... ... ... ...\n.o. .g. .r. .b.\n.o. .g. .r. .b.\n.w.\nwww\n.w.' },
-    ],
+    // Weißes Kreuz: erst die Blume (Gelb-Mitte, weiße Blätter), dann das Kreuz.
+    goals: [['kwk', 'wyw', 'kwk'], ['kwk', 'www', 'kwk']],
     algs: [],
   },
   {
     n: 4,
     accent: 'w',
-    goals: [
-      { kind: 'cube-net', art: '...\n...\n...\n... ... ... ...\n.o. .g. .r. .b.\nooo ggg rrr bbb\nwww\nwww\nwww' },
-    ],
-    algs: [
-      { moves: "R U R' U'", repeat: true },
-    ],
+    // Erste Ebene: weiße Seite komplett.
+    goals: [['www', 'www', 'www']],
+    algs: [{ moves: "R U R' U'", bracket: 'repeat' }],
   },
   {
     n: 5,
     accent: 'g',
-    goals: [
-      { kind: 'cube-net', art: '...\n...\n...\n... ... ... ...\nooo ggg rrr bbb\nooo ggg rrr bbb\nwww\nwww\nwww' },
-    ],
+    // Zwei Ebenen: untere zwei Reihen der Vorderseite voll, oben noch offen.
+    goals: [['nnn', 'ggg', 'ggg']],
     algs: [
-      { moves: "U R U' R' U' F' U F", badge: 'right' },
-      { moves: "U' L' U L U F U' F'", badge: 'left' },
+      { moves: "U R U' R' U' F' U F", bracket: 1, hint: '→' },
+      { moves: "U' L' U L U F U' F'", bracket: 1, hint: '←' },
     ],
   },
   {
     n: 6,
     accent: 'y',
-    // Zielmuster: Punkt -> L -> Linie -> Kreuz. Zug F R U R' U' F'.
-    goals: [
-      { kind: 'cube', art: '. . .\n. . y . .\n. y y y .\n. . y . .\n. . .' },
-    ],
+    // Gelbes Kreuz. Fälle Punkt / L / Linie mit Wiederhol-Zahl.
+    goals: [['kyk', 'yyy', 'kyk']],
     stages: [
-      { kind: 'cube', art: '. . .\n. . . . .\n. . y . .\n. . . . .\n. . .', dots: 3 },
-      { kind: 'cube', art: '. . .\n. . y . .\n. y y . .\n. . . . .\n. . .', dots: 2 },
-      { kind: 'cube', art: '. . .\n. . . . .\n. y y y .\n. . . . .\n. . .', dots: 1 },
+      { flat: ['nnn', 'nyn', 'nnn'], times: 3 },
+      { flat: ['nyn', 'yyn', 'nnn'], times: 2 },
+      { flat: ['nnn', 'yyy', 'nnn'], times: 1 },
     ],
-    algs: [
-      { moves: "F R U R' U' F'", repeat: true },
-    ],
+    algs: [{ moves: "F R U R' U' F'", bracket: 'repeat' }],
   },
   {
     n: 7,
     accent: 'r',
-    goals: [
-      { kind: 'cube', art: '. b .\n. . y . .\no y y y r\n. . y . .\n. g .' },
-    ],
-    algs: [
-      { moves: "R U R' U R U2 R' U", repeat: true },
-    ],
+    // Kanten sortieren. Ziel: gelbes Kreuz, jede Kante an ihrem Platz.
+    goals: [['kyk', 'yyy', 'kyk']],
+    algs: [{ moves: "R U R' U R U2 R' U", bracket: 'repeat' }],
   },
   {
     n: 8,
     accent: 'b',
-    goals: [
-      { kind: 'cube', art: 'b b y\no y y r b\no y y y r\ng o y g y\ny g r' },
-    ],
-    algs: [
-      { moves: "U R U' L' U R' U' L", repeat: true },
-    ],
+    // Ecken an ihre Plätze (noch verdreht -> Ecken grau).
+    goals: [['nyn', 'yyy', 'nyn']],
+    algs: [{ moves: "U R U' L' U R' U' L", bracket: 'repeat' }],
   },
   {
     n: 9,
     accent: 'y',
-    goals: [
-      { kind: 'cube-net', art: 'yyy\nyyy\nyyy\nooo ggg rrr bbb\nooo ggg rrr bbb\nooo ggg rrr bbb\nwww\nwww\nwww' },
-    ],
-    algs: [
-      { moves: "R' D' R D", pack2: true, repeat: true },
-    ],
+    // Ecken drehen -> gelbe Seite komplett, Würfel fertig.
+    goals: [['yyy', 'yyy', 'yyy']],
+    algs: [{ moves: "R' D' R D", bracket: 2, repeat: true }],
   },
 ];
 
-// Die Grundzüge fürs Vokabelblatt (Lektion 2).
-export const VOCAB = ['R', "R'", 'L', "L'", 'U', "U'", 'D', "D'", 'F', "F'", 'B', "B'"];
+// Die Grundzüge fürs Vokabelblatt (Lektion 2). B fehlt bewusst – kein Anfänger-
+// Algorithmus braucht die Rückseite.
+export const VOCAB = ['F', "F'", 'R', "R'", 'L', "L'", 'U', "U'", 'D', "D'", 'R2', 'F2'];
