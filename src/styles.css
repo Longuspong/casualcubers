@@ -433,11 +433,12 @@ code.alg {
   color: var(--text);
   padding: 0.08em 0.42em;
   border-radius: 6px;
-  /* Umbruch nur an den Leerzeichen zwischen den Zügen: Ein einzelner Zug (R2,
-     U') enthält keins und bleibt darum immer zusammen. Mit `nowrap` schob ein
-     langer Algorithmus im Fließtext dagegen die ganze Seite in die Breite. */
-  white-space: normal;
-  overflow-wrap: normal;
+  /* Eine Sequenz bleibt als Ganzes zusammen und rutscht bei Platzmangel
+     komplett in die nächste Zeile – statt mitten in "R U R'" umzubrechen, was
+     wie zwei Chips aussah. Lange Algorithmen führt der Content bewusst als
+     eigenen alg-Kasten ein (Blockquote/Notationsabsatz), der weiterhin normal
+     umbricht; im Fließtext bleiben nur kurze Sequenzen, die in eine Zeile passen. */
+  white-space: nowrap;
   border: 1px solid var(--border);
 }
 
