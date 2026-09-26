@@ -46,7 +46,10 @@ import {
 // Bedarf der Blick von unten hinten (D B L) dazu. Sind die abgewandten Seiten
 // ohnehin komplett grau, bleibt es bei einer Ansicht.
 //
-// Beide Formate gibt es auch für den 2x2 (eine Reihe weniger). Mehrere
+// Beide Formate gibt es auch für den 2x2 (eine Reihe weniger) und den 4x4
+// (eine Reihe mehr) – bei 4x4-Diagrammen bleiben die inneren Center-/
+// Kanten-Sticker oft grau (`.`), gezeigt wird meist nur, was für den
+// jeweiligen Schritt zählt. Mehrere
 // Diagramme in einem Block werden durch Leerzeilen getrennt und stehen dann
 // nebeneinander. Zeichen: y gelb, r rot, g grün, b blau, o orange, w weiß,
 // . beliebige Farbe (grau – „egal, was hier steht").
@@ -138,9 +141,9 @@ function topFaces(grid, n) {
 
 function buildTopView(lines, label, options) {
   const grid = lines.map((l) => l.replace(/\s+/g, ''));
-  const n = grid.length - 2; // Kantenlänge der Oberseite (3x3 oder 2x2)
+  const n = grid.length - 2; // Kantenlänge der Oberseite (2x2, 3x3 oder 4x4)
   const valid =
-    (n === 2 || n === 3) &&
+    (n === 2 || n === 3 || n === 4) &&
     grid[0].length === n && grid[n + 1].length === n &&
     grid.slice(1, n + 1).every((l) => l.length === n + 2);
   if (!valid) return null;
@@ -159,7 +162,7 @@ function buildTopView(lines, label, options) {
 function parseNet(lines) {
   const rows = lines.map((l) => l.trim().split(/\s+/).filter(Boolean));
   const n = rows.length / 3;
-  if (n !== 2 && n !== 3) return null;
+  if (n !== 2 && n !== 3 && n !== 4) return null;
 
   for (let i = 0; i < rows.length; i++) {
     const expected = i >= n && i < 2 * n ? 4 : 1;

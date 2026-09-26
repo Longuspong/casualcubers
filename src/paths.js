@@ -3,7 +3,7 @@
 // Reihenfolge der Karten auf der Startseite.
 //
 // Gruppierung: zuerst die zwei Einstiegspfade (3x3-Beginner und 2x2),
-// darunter die zwei weiterführenden Pfade, die den Beginner voraussetzen.
+// darunter die drei weiterführenden Pfade, die den Beginner voraussetzen.
 
 export const PATHS = [
   {
@@ -43,6 +43,16 @@ export const PATHS = [
     name: 'Roux',
     tagline: 'Der Weg der Ruhe: zwei Blöcke, dann der Rest.',
     blurb: 'Quer gelöst statt Ebene für Ebene. Wenig auswendig lernen, viel verstehen. Setzt den Beginner-Pfad voraus.',
+    lessonCount: 5,
+    ready: true,
+  },
+  {
+    id: '4x4',
+    route: '#/4x4',
+    accent: '4x4',
+    name: '4x4',
+    tagline: 'Center bauen, Kanten paaren, dann ist es wieder dein 3x3.',
+    blurb: 'Zwei neue Fähigkeiten, ein vertrauter Rest: Center puzzeln, Kanten zu Paaren machen – und danach lösen wie einen 3x3. Setzt den Beginner-Pfad voraus.',
     lessonCount: 5,
     ready: true,
   },
