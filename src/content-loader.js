@@ -111,17 +111,18 @@ function renderLessonHtml(md) {
 }
 
 // Ein Zug ist ein Face-Buchstabe (R L U D F B) oder die mittlere Scheibe M
-// (Roux), mit optionalem ' oder 2. Kleingeschriebene Wide-Moves wie r bleiben
-// bewusst draußen: Sie tauchen nie in Mehr-Zug-Sequenzen auf, würden aber im
-// deutschen Fließtext Fehltreffer erzeugen.
+// (Roux), mit optionalem ' oder 2 – oder, für den 4x4, ein Wide-Move aus
+// Face-Buchstabe + w (Rw, Uw, …), ebenfalls mit optionalem ' oder 2.
+// Einzeln kleingeschriebene Wide-Moves wie r bleiben bewusst draußen: Sie
+// würden im deutschen Fließtext Fehltreffer erzeugen; "Rw" & Co. nicht.
 // Lookbehind/Lookahead verhindern, dass Buchstaben mitten im Wort als Zug
 // zählen (sonst würde z.B. "ROAR" in "F ROAR F'" als R-…-R-Sequenz anreißen).
-const MOVE = /(?<![A-Za-zÄÖÜäöü])[RLUDFBM](?:['’2])?(?![A-Za-zÄÖÜäöü])/;
-const MOVE_G = /(?<![A-Za-zÄÖÜäöü])[RLUDFBM](?:['’2])?(?![A-Za-zÄÖÜäöü])/g;
+const MOVE = /(?<![A-Za-zÄÖÜäöü])[RLUDFB]w(?:['’2])?(?![A-Za-zÄÖÜäöü])|(?<![A-Za-zÄÖÜäöü])[RLUDFBM](?:['’2])?(?![A-Za-zÄÖÜäöü])/;
+const MOVE_G = new RegExp(MOVE.source, 'g');
 // Eine Notations-Sequenz: mindestens zwei durch Leerraum getrennte Züge.
 const SEQUENCE_G = new RegExp(`${MOVE.source}(?:\\s+${MOVE.source})+`, 'g');
 // Eine "reine" Notations-Zeile besteht ausschließlich aus Zügen/Trennern.
-const PURE_LINE = /^[RLUDFBM2'’\s–—-]+$/;
+const PURE_LINE = /^[RLUDFBMw2'’\s–—-]+$/;
 
 // Läuft nach dem Markdown-Parsing über das erzeugte DOM:
 //  0. ```cube-Codeblöcke werden zu Inline-SVG-Würfeldiagrammen (Draufsicht).

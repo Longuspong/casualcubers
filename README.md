@@ -5,9 +5,10 @@ den Würfel als Puzzle und Fidget-Toy lieben und ihn mit möglichst wenigen
 Algorithmen flüssig lösen wollen. Kein eSport, kein Sub-X-Elitismus. Ein
 Puzzle-Abend im Wohnzimmer.
 
-Stand: **Phase 2**. Vier fertige Lernpfade – **Beginner** (3x3) und **2x2** als
-Einstieg, **CFOP light** und **Roux** als weiterführende Pfade (setzen den
-Beginner voraus). Alle vier werden aus dem gleichen Content-Format gerendert.
+Stand: **Phase 2**. Fünf fertige Lernpfade – **Beginner** (3x3) und **2x2** als
+Einstieg, **CFOP light**, **Roux** und **4x4** als weiterführende Pfade (setzen
+den Beginner voraus). Alle fünf werden aus dem gleichen Content-Format
+gerendert.
 
 ## Start
 
@@ -44,7 +45,7 @@ Template-Strings. `marked` parst den Content, CSS-Variablen tragen das Theming.
 ```
 index.html                 App-Shell mit #app-Container
 content/<pfad>.md          Lektionstexte, zur Runtime gefetcht – einzige Quelle
-                           (beginner.md, 2x2.md, cfop-light.md, roux.md)
+                           (beginner.md, 2x2.md, cfop-light.md, roux.md, 4x4.md)
                            Dev-Server liefert sie direkt aus, der Build kopiert
                            sie über ein Plugin in vite.config.js nach dist/content/
 public/favicon.svg
@@ -81,7 +82,7 @@ Hash-basiert (kein History-API), damit statisches Hosting ohne
 Server-Rewrites funktioniert:
 
 - `#/` – Startseite
-- `#/<pfad>` – Übersicht eines Pfades (`beginner`, `2x2`, `cfop-light`, `roux`)
+- `#/<pfad>` – Übersicht eines Pfades (`beginner`, `2x2`, `cfop-light`, `roux`, `4x4`)
 - `#/<pfad>/1` … `#/<pfad>/N` – einzelne Lektionen
 - Pfade mit `ready:false` → „Bald verfügbar"
 - unbekannte Routen → sanft zurück zu `#/`
@@ -110,21 +111,22 @@ Nach dem Markdown-Parsing läuft ein **Post-Processing** über das erzeugte DOM:
    räumlicher Würfel.
    - `cube` = **Blick von schräg oben** auf die Oberseite. 5 Zeilen pro
      Diagramm (3 hintere Seitensticker / 3× „links + 3 Felder + rechts" /
-     3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2. Gerendert als
-     Zentralprojektion von oben: die Oberseite bleibt ein Quadrat, die vier
-     Seitenbänder kippen als Trapeze nach außen. Anders als eine Eckansicht
-     zeigt das alle vier Seitenreihen gleichzeitig.
+     3 vordere Seitensticker) bzw. 4 Zeilen für den 2x2 oder 6 Zeilen für den
+     4x4. Gerendert als Zentralprojektion von oben: die Oberseite bleibt ein
+     Quadrat, die vier Seitenbänder kippen als Trapeze nach außen. Anders als
+     eine Eckansicht zeigt das alle vier Seitenreihen gleichzeitig.
    - `cube-net` = **ganzer Würfel**, im Quelltext als Kreuz-Layout notiert.
      9 Zeilen pro Diagramm (3× U / 3× „L F R B" / 3× D) bzw. 6 Zeilen für den
-     2x2; die Blöcke einer Zeile werden durch Leerzeichen getrennt. Eine Zeile
-     `!letters` blendet zusätzlich die Seitenbuchstaben U/L/F/R/B/D ein.
-     Gerendert als isometrischer Würfel (U F R). Steht auf D, B oder L etwas
-     anderes als `.`, kommt eine zweite Ansicht von der Gegenecke dazu – ein
-     Würfel zeigt nun mal nur drei Seiten.
+     2x2 oder 12 Zeilen für den 4x4; die Blöcke einer Zeile werden durch
+     Leerzeichen getrennt. Eine Zeile `!letters` blendet zusätzlich die
+     Seitenbuchstaben U/L/F/R/B/D ein. Gerendert als isometrischer Würfel
+     (U F R). Steht auf D, B oder L etwas anderes als `.`, kommt eine zweite
+     Ansicht von der Gegenecke dazu – ein Würfel zeigt nun mal nur drei
+     Seiten.
 1. **Algorithmus-Kasten** – jede Zeile/jeder Absatz, der *nur* aus Notation
-   besteht (`R L U D F B M` mit optional `'`/`2`; `M` für Roux), wird zum großen
-   Algorithmus-Kasten mit farbigem Leitfarben-Balken und Deko-Play-Icon
-   (in Phase 3 aktiv).
+   besteht (`R L U D F B M` mit optional `'`/`2`; `M` für Roux; `Rw`/`Uw`/…
+   als Wide-Move-Variante für den 4x4), wird zum großen Algorithmus-Kasten mit
+   farbigem Leitfarben-Balken und Deko-Play-Icon (in Phase 3 aktiv).
 2. **Inline-Notation** – Notationssequenzen mitten im Fließtext werden in
    `<code class="alg">` gewickelt.
 3. **ROAR-Badge** – jedes Vorkommen von `ROAR` wird zum
